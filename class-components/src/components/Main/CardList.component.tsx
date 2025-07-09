@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import axios, { AxiosError } from 'axios';
+import { AppContext } from '../../context';
 import type { ZeldaPlaceResponse, IPlace } from '../../types';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
@@ -10,12 +11,31 @@ interface CardListState {
   error: string;
 }
 
-export class CardList extends Component<unknown, CardListState> {
+interface CardListProps {
+  searchValue?: string;
+}
+
+export class CardList extends Component<CardListProps, CardListState> {
+  static contextType = AppContext;
+  declare context: React.ContextType<typeof AppContext>;
+
   state: CardListState = {
     places: [],
     isLoading: false,
     error: '',
   };
+
+  componentDidMount() {
+    this.fetchItems(this.context?.searchValue);
+  }
+
+  componentDidUpdate(prevProps: CardListProps): void {
+    if (prevProps.searchValue !== this.props.searchValue) {
+      const searchValue = this.props?.searchValue?.trim();
+
+      this.fetchItems(searchValue);
+    }
+  }
 
   render() {
     return (
@@ -28,16 +48,13 @@ export class CardList extends Component<unknown, CardListState> {
     );
   }
 
-  componentDidMount() {
-    this.fetchItems();
-  }
+  fetchItems = async (searchValue?: string) => {
+    const url = `https://zelda.fanapis.com/api/places${searchValue ? `?name=${searchValue}` : ''}`;
 
-  fetchItems = async () => {
     try {
       this.setState({ isLoading: true });
-      const response = await axios.get<ZeldaPlaceResponse>(
-        'https://zelda.fanapis.com/api/places'
-      );
+
+      const response = await axios.get<ZeldaPlaceResponse>(url);
 
       this.setState({ places: response.data.data });
     } catch (err) {
