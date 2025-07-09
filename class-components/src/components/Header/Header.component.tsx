@@ -7,7 +7,7 @@ interface HeaderState {
 }
 
 export class Header extends Component<unknown, HeaderState> {
-  state = {
+  state: HeaderState = {
     searchValue: '',
   };
 
