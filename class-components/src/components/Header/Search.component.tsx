@@ -28,12 +28,7 @@ export class Search extends Component<object, SearchState> {
           placeholder="Enter something..."
           className="w-full border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors"
         />
-        <Button
-          className="bg-blue-600 hover:bg-blue-500 focus:outline-blue-500 text-white font-medium rounded px-5 py-1 cursor-pointer transition-colors"
-          onClick={this.handleButtonClick}
-        >
-          Search
-        </Button>
+        <Button onClick={this.handleButtonClick}>Search</Button>
       </>
     );
   }
