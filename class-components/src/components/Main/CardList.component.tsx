@@ -37,7 +37,7 @@ export class CardList extends Component<CardListProps, CardListState> {
     const { error, isLoading, places } = this.state;
 
     return (
-      <div className="relative flex flex-col justify-center gap-5 min-h-18">
+      <section className="relative flex flex-col justify-center gap-5 min-h-18">
         {isLoading && <Spinner />}
         {error && (
           <div className="text-center font-medium text-red-500">{error}</div>
@@ -50,13 +50,13 @@ export class CardList extends Component<CardListProps, CardListState> {
         {places.map(({ id, name, description }) => (
           <Card key={id} name={name} description={description} />
         ))}
-      </div>
+      </section>
     );
   }
 
   fetchItems = async (searchValue?: string) => {
     try {
-      this.setState({ isLoading: true, error: '' });
+      this.setState({ isLoading: true, error: '', places: [] });
 
       const response = await axios.get<ZeldaPlaceResponse>(
         'https://zelda.fanapis.com/api/places',
