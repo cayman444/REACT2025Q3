@@ -9,7 +9,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['tests/setup.ts'],
+    setupFiles: ['src/tests/setup.ts'],
     coverage: {
       enabled: true,
       include: ['src/**/*.{js,jsx,ts,tsx}'],
@@ -19,6 +19,7 @@ export default defineConfig({
         'src/main.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',
         'src/**/*.d.ts',
+        'src/**/index.ts',
       ],
       thresholds: {
         statements: 80,
