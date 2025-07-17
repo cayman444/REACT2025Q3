@@ -43,7 +43,10 @@ export class CardList extends Component<CardListProps, CardListState> {
           <div className="text-center font-medium text-red-500">{error}</div>
         )}
         {!places.length && !isLoading && !error && (
-          <div className="text-center font-medium text-gray-800">
+          <div
+            data-testid="card-empty"
+            className="text-center font-medium text-gray-800"
+          >
             Nothing found for this request
           </div>
         )}
