@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { Search } from './Search.component';
 import { renderWithContext, localStorageMocks } from '../../tests/utils';
+import { AppProvider } from '../../context';
 
 const getElements = () => {
   return {
@@ -26,20 +27,25 @@ describe('Rendering tests', () => {
 
   it('should display a previously saved search query from localStorage when mounted', () => {
     localStorage.setItem(STORAGE_KEY, MOCK_VALUE);
-    renderWithContext(<Search />, {
-      searchValue: MOCK_VALUE,
-      setSearchValue: vi.fn(),
-    });
+
+    render(
+      <AppProvider>
+        <Search />
+      </AppProvider>
+    );
 
     const { input } = getElements();
     expect(input).toHaveValue(MOCK_VALUE);
   });
 
   it('should display an empty value if there is no saved query', () => {
-    renderWithContext(<Search />, {
-      searchValue: '',
-      setSearchValue: vi.fn(),
-    });
+    localStorage.setItem(STORAGE_KEY, '');
+
+    render(
+      <AppProvider>
+        <Search />
+      </AppProvider>
+    );
 
     const { input } = getElements();
     expect(input).toHaveValue('');
@@ -100,7 +106,6 @@ describe('LocalStorage Integration tests', () => {
   localStorageMocks();
 
   it('should retrieves saved search term on component mount', () => {
-    localStorage.setItem(STORAGE_KEY, MOCK_VALUE);
     const mockSetState = vi.fn();
     vi.spyOn(Search.prototype, 'setState').mockImplementation(mockSetState);
 
@@ -115,10 +120,16 @@ describe('LocalStorage Integration tests', () => {
   it('should overwrites existing localStorage value when new search is performed', async () => {
     localStorage.setItem(STORAGE_KEY, 'old-value');
 
-    render(<Search />);
+    render(
+      <AppProvider>
+        <Search />
+      </AppProvider>
+    );
+
     const { input, button } = getElements();
 
     expect(localStorage.getItem(STORAGE_KEY)).toBe('old-value');
+    await userEvent.clear(input);
     await userEvent.type(input, MOCK_VALUE);
     await userEvent.click(button);
     expect(localStorage.getItem(STORAGE_KEY)).toBe(MOCK_VALUE);

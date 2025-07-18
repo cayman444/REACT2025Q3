@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header.component';
 
-it('should render header component', () => {
-  render(<Header />);
+describe('Rendering tests', () => {
+  it('should render header component', () => {
+    render(<Header />);
 
-  expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+  });
 });
