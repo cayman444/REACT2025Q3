@@ -1,9 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { CardList } from './CardList.component';
-import axios from 'axios';
-
-vi.mock('axios');
-afterEach(() => vi.restoreAllMocks());
+import axios, { AxiosError } from 'axios';
 
 const MOCK_DATA = [
   {
@@ -23,14 +20,16 @@ const MOCK_DATA = [
   },
 ];
 
+beforeEach(() => {
+  vi.spyOn(axios, 'get').mockResolvedValue({ data: { data: MOCK_DATA } });
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe('Rendering Tests', () => {
   it('should renders correct number of items when data is provided', async () => {
-    vi.mocked(axios.get).mockResolvedValue({
-      data: {
-        data: MOCK_DATA,
-      },
-    });
-
     render(<CardList />);
 
     const cards = await screen.findAllByTestId('card');
@@ -52,12 +51,6 @@ describe('Rendering Tests', () => {
   });
 
   it('should shows loading state while fetching data', async () => {
-    vi.mocked(axios.get).mockResolvedValue({
-      data: {
-        data: MOCK_DATA,
-      },
-    });
-
     render(<CardList />);
 
     const spinner = screen.queryByTestId('spinner');
@@ -70,12 +63,6 @@ describe('Rendering Tests', () => {
 
 describe('Data Display Tests', () => {
   it('should correctly displays item names and descriptions', async () => {
-    vi.mocked(axios.get).mockResolvedValue({
-      data: {
-        data: MOCK_DATA,
-      },
-    });
-
     render(<CardList />);
 
     const cards = await screen.findAllByTestId('card');
@@ -117,10 +104,24 @@ describe('Data Display Tests', () => {
 
 describe('Error Handling Tests', () => {
   it('should displays error message when API call fails', async () => {
-    vi.mocked(axios.get).mockRejectedValue('error');
+    vi.mocked(axios.get).mockRejectedValue(new AxiosError('my error'));
 
     render(<CardList />);
 
-    expect(await screen.findByText(/response error/i)).toBeInTheDocument();
+    expect(await screen.findByText('my error')).toBeInTheDocument();
+  });
+
+  it('should shows appropriate error for different HTTP status codes (4xx, 5xx)', async () => {
+    vi.mocked(axios.get).mockRejectedValue(new AxiosError('Not Found', '404'));
+
+    render(<CardList />);
+    expect(await screen.findByText(/not found/i)).toBeInTheDocument();
+
+    vi.mocked(axios.get).mockRejectedValue(
+      new AxiosError('Bad Gateway', '502')
+    );
+
+    render(<CardList />);
+    expect(await screen.findByText(/bad gateway/i)).toBeInTheDocument();
   });
 });
