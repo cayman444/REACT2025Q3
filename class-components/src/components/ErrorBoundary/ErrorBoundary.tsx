@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type PropsWithChildren } from 'react';
-import { Button } from './ui';
+import { Button } from '../ui';
 
 interface ErrorBoundaryState {
   error: null | Error;
@@ -28,7 +28,10 @@ export class ErrorBoundary extends Component<
   render() {
     if (this.state.error) {
       return (
-        <div className="flex items-center justify-center h-screen px-4 py-8">
+        <div
+          data-testid="error-container"
+          className="flex items-center justify-center h-screen px-4 py-8"
+        >
           <div className="flex flex-col gap-5 bg-white p-5 rounded shadow">
             <h2 className="text-gray-800 font-medium">
               Error: {this.state.error.message}
