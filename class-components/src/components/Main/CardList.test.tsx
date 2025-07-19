@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { CardList } from './CardList.component';
 import axios, { AxiosError } from 'axios';
 
@@ -100,6 +100,40 @@ describe('Data Display Tests', () => {
       expect(cards[ind]).toBeInTheDocument();
     });
   });
+
+  it('should calls API with correct parameters', async () => {
+    render(<CardList searchValue="name 1" />);
+
+    await waitFor(() => {
+      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
+        params: {
+          name: 'name 1',
+        },
+      });
+    });
+  });
+
+  it('should calls api with correct parameters when props change', async () => {
+    const { rerender } = render(<CardList searchValue="name 1" />);
+
+    await waitFor(() => {
+      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
+        params: {
+          name: 'name 1',
+        },
+      });
+    });
+
+    rerender(<CardList searchValue="name 2" />);
+
+    await waitFor(() => {
+      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
+        params: {
+          name: 'name 2',
+        },
+      });
+    });
+  });
 });
 
 describe('Error Handling Tests', () => {
@@ -109,6 +143,10 @@ describe('Error Handling Tests', () => {
     render(<CardList />);
 
     expect(await screen.findByText('my error')).toBeInTheDocument();
+
+    vi.mocked(axios.get).mockRejectedValue('error');
+    render(<CardList />);
+    expect(await screen.findByText(/response error/i)).toBeInTheDocument();
   });
 
   it('should shows appropriate error for different HTTP status codes (4xx, 5xx)', async () => {
