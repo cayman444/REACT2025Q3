@@ -1,19 +1,15 @@
-import { Component } from 'react';
+import { type FC } from 'react';
 
 interface CardProps {
   name: string;
   description: string;
 }
 
-export class Card extends Component<CardProps> {
-  render() {
-    return (
-      <article data-testid="card" className="border-b-2 border-gray-200 pb-2">
-        <h2 className="inline text-gray-800 font-medium">
-          {this.props.name}:{' '}
-        </h2>
-        <p className="inline text-gray-700">{this.props.description}</p>
-      </article>
-    );
-  }
-}
+export const Card: FC<CardProps> = ({ name, description }) => {
+  return (
+    <article data-testid="card" className="border-b-2 border-gray-200 pb-2">
+      <h2 className="inline text-gray-800 font-medium">{name}: </h2>
+      <p className="inline text-gray-700">{description}</p>
+    </article>
+  );
+};

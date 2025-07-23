@@ -1,37 +1,23 @@
-import { Component, type PropsWithChildren } from 'react';
+import { useState, type FC, type PropsWithChildren } from 'react';
 import { AppContext } from './AppContext';
 
-interface AppState {
-  searchValue: string;
-}
+export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('searchValue') || ''
+  );
 
-export class AppProvider extends Component<PropsWithChildren, AppState> {
-  state: AppState = {
-    searchValue: '',
+  const changeSearchValue = (searchValue: string) => {
+    setSearchValue(searchValue);
   };
 
-  constructor(props: PropsWithChildren) {
-    super(props);
-
-    this.state = {
-      searchValue: localStorage.getItem('searchValue') || '',
-    };
-  }
-
-  setSearchValue = (searchValue: string) => {
-    this.setState({ searchValue });
-  };
-
-  render() {
-    return (
-      <AppContext.Provider
-        value={{
-          searchValue: this.state.searchValue,
-          setSearchValue: this.setSearchValue,
-        }}
-      >
-        {this.props.children}
-      </AppContext.Provider>
-    );
-  }
-}
+  return (
+    <AppContext.Provider
+      value={{
+        searchValue,
+        setSearchValue: changeSearchValue,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};
