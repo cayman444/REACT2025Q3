@@ -1,18 +1,22 @@
 import { type FC } from 'react';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
-import { useFetchPlaces } from './useFetchPlaces';
+import type { IVehicle } from '../../types';
 
-export const CardList: FC = () => {
-  const { places, isLoading, error } = useFetchPlaces();
+interface CardListProps {
+  vehicles: IVehicle[];
+  isLoading: boolean;
+  error: string;
+}
 
+export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
       {isLoading && <Spinner />}
       {error && (
         <div className="text-center font-medium text-red-500">{error}</div>
       )}
-      {!places.length && !isLoading && !error && (
+      {!vehicles.length && !isLoading && !error && (
         <div
           data-testid="card-empty"
           className="text-center font-medium text-gray-800"
@@ -20,9 +24,11 @@ export const CardList: FC = () => {
           Nothing found for this request
         </div>
       )}
-      {places.map(({ id, name, description }) => (
-        <Card key={id} name={name} description={description} />
-      ))}
+      {vehicles.map(
+        ({ properties: { name, manufacturer: description }, _id }) => (
+          <Card key={_id} name={name} description={description} />
+        )
+      )}
     </section>
   );
 };
