@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState, type FC } from 'react';
 import axios from 'axios';
-import type { ZeldaPlaceResponse, IPlace } from '../../types';
+import type { IPlace } from '../../types';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
 import { AppContext } from '../../context';
+import { getPlaces } from '../../services';
 
 export const CardList: FC = () => {
   const context = useContext(AppContext);
@@ -17,16 +18,9 @@ export const CardList: FC = () => {
       setError('');
       setPlaces([]);
 
-      const response = await axios.get<ZeldaPlaceResponse>(
-        'https://zelda.fanapis.com/api/places',
-        {
-          params: {
-            name: searchValue ? searchValue : null,
-          },
-        }
-      );
+      const { data } = await getPlaces(searchValue);
 
-      setPlaces(response.data.data);
+      setPlaces(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.message);
