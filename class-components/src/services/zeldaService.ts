@@ -7,9 +7,13 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-export const getPlaces = async (searchValue?: string) => {
+export const getPlaces = async (
+  searchValue: string,
+  page: number,
+  limit: number
+) => {
   const response = await api.get<ZeldaPlaceResponse>('/places', {
-    params: { name: searchValue ? searchValue : null },
+    params: { name: searchValue ? searchValue : null, page, limit },
   });
 
   return response.data;

@@ -10,6 +10,8 @@ export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
       value={{
         searchValue,
         setSearchValue,
+        itemsLimit: 10,
+        itemsPage: 1,
       }}
     >
       {children}

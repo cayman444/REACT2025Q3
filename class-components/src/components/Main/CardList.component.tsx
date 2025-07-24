@@ -1,41 +1,10 @@
-import { useContext, useEffect, useState, type FC } from 'react';
-import axios from 'axios';
-import type { IPlace } from '../../types';
+import { type FC } from 'react';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
-import { AppContext } from '../../context';
-import { getPlaces } from '../../services';
+import { useFetchPlaces } from './useFetchPlaces';
 
 export const CardList: FC = () => {
-  const context = useContext(AppContext);
-  const [places, setPlaces] = useState<IPlace[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  const fetchItems = async (searchValue?: string) => {
-    try {
-      setIsLoading(true);
-      setError('');
-      setPlaces([]);
-
-      const { data } = await getPlaces(searchValue);
-
-      setPlaces(data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(error.message);
-        return;
-      }
-
-      setError('Response error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchItems(context?.searchValue);
-  }, [context?.searchValue]);
+  const { places, isLoading, error } = useFetchPlaces();
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
