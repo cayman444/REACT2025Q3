@@ -11,7 +11,7 @@ export const App = () => {
         <div className="flex flex-col mx-auto max-w-3xl px-4 py-8 gap-5">
           <Header />
           <div
-            className={`grid ${hasOutlet ? 'grid-cols-2' : 'grid-cols-1'} items-center justify-center`}
+            className={`grid ${hasOutlet ? 'grid-cols-2' : 'grid-cols-1'} items-start justify-center gap-5`}
           >
             <Main />
             <Outlet />
