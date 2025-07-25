@@ -5,7 +5,8 @@ import { getVehicles } from '../../services';
 import type { IVehicle } from '../../types';
 
 export const useFetchVehicles = () => {
-  const { searchValue, currentPage, limit, setTotalPage } = useAppContext();
+  const { searchValue, currentPage, limit, setTotalPage, setCurrentPage } =
+    useAppContext();
   const [vehicles, setVehicles] = useState<IVehicle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -16,6 +17,10 @@ export const useFetchVehicles = () => {
         setIsLoading(true);
         setError('');
         setVehicles([]);
+
+        if (searchValue) {
+          setCurrentPage(1);
+        }
 
         const response = await getVehicles(searchValue, page, limit);
 
@@ -38,7 +43,7 @@ export const useFetchVehicles = () => {
         setIsLoading(false);
       }
     },
-    [setTotalPage]
+    [setCurrentPage, setTotalPage]
   );
 
   useEffect(() => {

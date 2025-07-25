@@ -1,12 +1,19 @@
-import type { FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';
 import clsx from 'clsx';
+import { useSearchParams } from 'react-router-dom';
 
 export const Pagination: FC = () => {
   const { totalPage, currentPage, setCurrentPage } = useAppContext();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  if (!totalPage) return;
+  useEffect(() => {
+    searchParams.set('page', currentPage.toString());
+    setSearchParams(searchParams);
+  }, [currentPage, searchParams, setSearchParams]);
+
+  if (!totalPage || totalPage === 1) return;
 
   const pages = [...Array(totalPage)];
 
