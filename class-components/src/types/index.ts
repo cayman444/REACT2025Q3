@@ -17,7 +17,7 @@ export interface IVehicle {
     created: string;
     edited: string;
   };
-  _id: string;
+  uid: string;
 }
 
 export interface VehiclesResponse {
@@ -30,3 +30,6 @@ export interface VehiclesResponse {
   results: IVehicle[];
   result?: IVehicle[];
 }
+export type VehicleResponse = Omit<VehiclesResponse, 'results' | 'result'> & {
+  result: IVehicle;
+};

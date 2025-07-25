@@ -25,8 +25,8 @@ export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
         </div>
       )}
       {vehicles.map(
-        ({ properties: { name, manufacturer: description }, _id }) => (
-          <Card key={_id} name={name} description={description} />
+        ({ properties: { name, manufacturer: description }, uid }) => (
+          <Card key={uid} name={name} description={description} id={uid} />
         )
       )}
     </section>

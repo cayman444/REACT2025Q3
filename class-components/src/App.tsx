@@ -1,13 +1,21 @@
 import { AppProvider } from './context';
 import { ErrorBoundary, Header, Main } from './components';
+import { Outlet, useOutlet } from 'react-router-dom';
 
 export const App = () => {
+  const hasOutlet = useOutlet();
+
   return (
     <AppProvider>
       <ErrorBoundary>
         <div className="flex flex-col mx-auto max-w-3xl px-4 py-8 gap-5">
           <Header />
-          <Main />
+          <div
+            className={`grid ${hasOutlet ? 'grid-cols-2' : 'grid-cols-1'} items-center justify-center`}
+          >
+            <Main />
+            <Outlet />
+          </div>
         </div>
       </ErrorBoundary>
     </AppProvider>
