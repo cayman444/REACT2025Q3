@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchVehicle } from './useFetchVehicle';
 import { Button, Spinner } from '../ui';
 import type { IVehicle } from '../../types';
+import { RouteNames } from '../../router';
 
 export const DetailsCard = () => {
   const { detailsId } = useParams<{ detailsId: string }>();
@@ -21,7 +22,7 @@ export const DetailsCard = () => {
   ];
 
   const closeDetailedCard = () => {
-    navigate('/');
+    navigate(RouteNames.HOME);
   };
 
   return (
