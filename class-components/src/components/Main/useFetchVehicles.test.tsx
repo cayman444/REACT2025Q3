@@ -2,48 +2,14 @@ import type { PropsWithChildren } from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useFetchVehicles } from './useFetchVehicles';
-import type { IVehicle } from '../../types';
 import { api } from '../../services';
 import { renderWithContext } from '../../tests/utils/renderWithContext';
 import { AppProvider } from '../../context';
 import { AxiosError } from 'axios';
-
-const MOCK_DATA = [
-  {
-    properties: {
-      name: 'name 1',
-      manufacturer: 'manufacturer 1',
-    },
-    uid: '1',
-  },
-  {
-    properties: {
-      name: 'name 2',
-      manufacturer: 'manufacturer 2',
-    },
-    uid: '2',
-  },
-  {
-    properties: {
-      name: 'name 3',
-      manufacturer: 'manufacturer 3',
-    },
-    uid: '3',
-  },
-] as IVehicle[];
+import { MOCK_DATA, vehiclesMocks } from '../../tests/mocks';
 
 describe('useFetchVehicles', () => {
-  beforeEach(() => {
-    vi.spyOn(api, 'get').mockResolvedValue({
-      data: {
-        results: MOCK_DATA,
-      },
-    });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  vehiclesMocks();
 
   const wrapper = ({ children }: PropsWithChildren) => (
     <MemoryRouter>

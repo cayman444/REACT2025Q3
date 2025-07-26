@@ -7,7 +7,10 @@ export const Navbar = () => {
   const isDetailsActive = useMatch(RouteNames.ITEM_DETAILS);
 
   return (
-    <nav className="flex gap-5 justify-center items-center min-h-20">
+    <nav
+      data-testid="navbar"
+      className="flex gap-5 justify-center items-center min-h-20"
+    >
       <NavLink
         to={RouteNames.HOME}
         className={clsx(

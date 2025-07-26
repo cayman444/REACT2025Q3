@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from 'react';
 import { renderHook, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { api } from '../../services';
@@ -54,17 +53,6 @@ describe('DetailsCard', () => {
     });
 
     expect(heading).toBeInTheDocument();
-  });
-
-  it.skip('should be redirected to the home page when the button is clicked', async () => {
-    renderWithRouter(<DetailsCard />);
-    renderHook(() => useFetchVehicle('1'), { wrapper });
-
-    const button = await screen.findByRole('button', { name: /close/i });
-
-    expect(button).toBeInTheDocument();
-    await userEvent.click(button);
-    expect(screen.getByTestId('home')).toBeInTheDocument();
   });
 
   it('should displays error message when API call fails', async () => {

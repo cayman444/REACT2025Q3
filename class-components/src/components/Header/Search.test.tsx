@@ -1,11 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { Search } from './Search.component';
-import {
-  renderWithContext,
-  localStorageMocks,
-  renderWithRouter,
-} from '../../tests/utils';
+import { renderWithContext, renderWithRouter } from '../../tests/utils';
+import { localStorageMocks } from '../../tests/mocks';
 
 const getElements = () => {
   return {

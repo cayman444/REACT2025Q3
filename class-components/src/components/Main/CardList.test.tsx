@@ -3,30 +3,7 @@ import { CardList } from './CardList.component';
 import type { IVehicle } from '../../types';
 import { renderWithRouter } from '../../tests/utils';
 import { MemoryRouter } from 'react-router-dom';
-
-const MOCK_DATA = [
-  {
-    properties: {
-      name: 'name 1',
-      manufacturer: 'manufacturer 1',
-    },
-    uid: '1',
-  },
-  {
-    properties: {
-      name: 'name 2',
-      manufacturer: 'manufacturer 2',
-    },
-    uid: '2',
-  },
-  {
-    properties: {
-      name: 'name 3',
-      manufacturer: 'manufacturer 3',
-    },
-    uid: '3',
-  },
-] as IVehicle[];
+import { MOCK_DATA } from '../../tests/mocks';
 
 describe('Rendering Tests', () => {
   it('should renders correct number of items when data is provided', async () => {

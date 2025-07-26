@@ -13,7 +13,7 @@ describe('Rendering Tests', () => {
     expect(description).toHaveTextContent('desc');
   });
 
-  it('should displays item name and description correctly', () => {
+  it('should displays item with incomplete data', () => {
     renderWithRouter(<Card name="text" description="" id="1" />);
 
     const description = screen.getByRole('paragraph');
