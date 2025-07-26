@@ -30,7 +30,10 @@ export const Pagination: FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4">
+    <div
+      data-testid="pagination"
+      className="flex flex-wrap items-center justify-center gap-4"
+    >
       <Button
         className={clsx(
           {

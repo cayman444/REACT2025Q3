@@ -1,10 +1,10 @@
-import { Fragment, type FC } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AppProvider } from '../../context';
 
 export const renderWithRouter = (
-  Component: FC,
+  component: ReactNode,
   withProvider = true,
   initialRoute = '/'
 ) => {
@@ -12,9 +12,7 @@ export const renderWithRouter = (
 
   return render(
     <MemoryRouter initialEntries={[initialRoute]}>
-      <Wrapper>
-        <Component />
-      </Wrapper>
+      <Wrapper>{component}</Wrapper>
     </MemoryRouter>
   );
 };

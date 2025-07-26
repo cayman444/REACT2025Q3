@@ -1,9 +1,9 @@
 import axios from 'axios';
 import type { VehicleResponse, VehiclesResponse } from '../types';
 
-const API_URL = 'https://www.swapi.tech/api';
+export const API_URL = 'https://www.swapi.tech/api';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
   params: {
     expanded: true,

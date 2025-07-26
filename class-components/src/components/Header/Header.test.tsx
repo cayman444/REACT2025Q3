@@ -4,7 +4,7 @@ import { renderWithRouter } from '../../tests/utils';
 
 describe('Rendering tests', () => {
   it('should render header component', () => {
-    renderWithRouter(Header);
+    renderWithRouter(<Header />);
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
   });
