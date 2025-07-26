@@ -1,12 +1,13 @@
 import { useState, type FC, type PropsWithChildren } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { AppContext } from './AppContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { useSearchParams } from 'react-router-dom';
 
 const LIMIT_ITEMS = 10;
+const STORAGE_KEY = 'searchValue';
 
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [searchValue, setSearchValue] = useLocalStorage('searchValue');
+  const [searchValue, setSearchValue] = useLocalStorage(STORAGE_KEY);
   const [totalPage, setTotalPage] = useState<null | number>(null);
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(

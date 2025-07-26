@@ -1,5 +1,5 @@
 import { Outlet, useOutlet } from 'react-router-dom';
-import { Header, Main } from '../components';
+import { Header, Main } from '../../components';
 
 export const Home = () => {
   const hasOutlet = useOutlet();

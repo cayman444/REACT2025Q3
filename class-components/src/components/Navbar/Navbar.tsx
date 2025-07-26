@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { NavLink, useMatch } from 'react-router-dom';
+import clsx from 'clsx';
 import { RouteNames } from '../../router';
 
 export const Navbar = () => {

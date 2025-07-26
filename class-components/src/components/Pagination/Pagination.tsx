@@ -1,8 +1,8 @@
 import { useEffect, type FC } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import clsx from 'clsx';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';
-import clsx from 'clsx';
-import { useSearchParams } from 'react-router-dom';
 
 export const Pagination: FC = () => {
   const { totalPage, currentPage, setCurrentPage } = useAppContext();
