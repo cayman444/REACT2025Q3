@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui';
+import { RouteNames } from '../router';
 
 export const About = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export const About = () => {
             RS School
           </a>
         </div>
-        <Button onClick={() => navigate(-1)}>Back</Button>
+        <Button onClick={() => navigate(RouteNames.HOME)}>Back</Button>
       </div>
     </div>
   );

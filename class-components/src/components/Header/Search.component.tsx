@@ -1,21 +1,16 @@
-import { useLayoutEffect, useState, type FC, type MouseEvent } from 'react';
+import { useState, type FC, type MouseEvent } from 'react';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';
 
 export const Search: FC = () => {
   const { searchValue, setSearchValue } = useAppContext();
-  const [value, setValue] = useState('');
-
-  useLayoutEffect(() => {
-    setValue(searchValue || '');
-  }, [searchValue]);
+  const [value, setValue] = useState(searchValue);
 
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const valueTrimmed = value.trim();
 
-    localStorage.setItem('searchValue', valueTrimmed);
     setSearchValue(valueTrimmed);
   };
 

@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 const LIMIT_ITEMS = 10;
 
 export const AppProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [searchValue, setSearchValue] = useLocalStorage('searchValue', '');
+  const [searchValue, setSearchValue] = useLocalStorage('searchValue');
   const [totalPage, setTotalPage] = useState<null | number>(null);
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(
