@@ -5,8 +5,8 @@ import { AppProvider } from '../../context';
 
 export const renderWithRouter = (
   component: ReactNode,
-  withProvider = true,
-  initialRoute = '/'
+  initialRoute = '/',
+  withProvider = true
 ) => {
   const Wrapper = withProvider ? AppProvider : Fragment;
 

@@ -58,12 +58,6 @@ describe('useFetchVehicles', () => {
       expect(result.current.vehicles.length).toBe(MOCK_DATA.length);
       expect(api.get).toBeCalledTimes(1);
     });
-
-    vi.spyOn(api, 'get').mockResolvedValue({
-      data: {
-        result: MOCK_DATA,
-      },
-    });
   });
 
   it('should return correct number of items', async () => {

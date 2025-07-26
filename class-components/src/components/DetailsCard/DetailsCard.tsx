@@ -32,7 +32,12 @@ export const DetailsCard = () => {
       ) : (
         <>
           {error && (
-            <div className="text-center font-medium text-red-500">{error}</div>
+            <div
+              data-testid="error"
+              className="text-center font-medium text-red-500"
+            >
+              {error}
+            </div>
           )}
           <h2 className="text-center font-medium">
             {vehicle?.properties.name}
