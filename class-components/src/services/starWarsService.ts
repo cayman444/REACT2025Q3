@@ -1,0 +1,29 @@
+import axios from 'axios';
+import type { VehicleResponse, VehiclesResponse } from '../types';
+
+export const API_URL = 'https://www.swapi.tech/api';
+
+export const api = axios.create({
+  baseURL: API_URL,
+  params: {
+    expanded: true,
+  },
+});
+
+export const getVehicles = async (
+  searchValue: string,
+  page: number,
+  limit: number
+) => {
+  const response = await api.get<VehiclesResponse>('/vehicles', {
+    params: { name: searchValue ? searchValue : null, page, limit },
+  });
+
+  return response.data;
+};
+
+export const getVehicle = async (id: string) => {
+  const response = await api.get<VehicleResponse>(`/vehicles/${id}`);
+
+  return response.data;
+};

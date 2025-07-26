@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { Search } from './Search.component';
-import { renderWithContext, localStorageMocks } from '../../tests/utils';
-import { AppProvider } from '../../context';
+import { renderWithContext, renderWithRouter } from '../../tests/utils';
+import { localStorageMocks } from '../../tests/mocks';
 
 const getElements = () => {
   return {
@@ -18,7 +18,8 @@ describe('Rendering tests', () => {
   localStorageMocks();
 
   it('should render a search field and a search button', () => {
-    render(<Search />);
+    renderWithRouter(<Search />);
+
     const { button, input } = getElements();
 
     expect(input).toBeInTheDocument();
@@ -28,24 +29,17 @@ describe('Rendering tests', () => {
   it('should display a previously saved search query from localStorage when mounted', () => {
     localStorage.setItem(STORAGE_KEY, MOCK_VALUE);
 
-    render(
-      <AppProvider>
-        <Search />
-      </AppProvider>
-    );
+    renderWithRouter(<Search />);
 
     const { input } = getElements();
+
     expect(input).toHaveValue(MOCK_VALUE);
   });
 
   it('should display an empty value if there is no saved query', () => {
     localStorage.setItem(STORAGE_KEY, '');
 
-    render(
-      <AppProvider>
-        <Search />
-      </AppProvider>
-    );
+    renderWithRouter(<Search />);
 
     const { input } = getElements();
     expect(input).toHaveValue('');
@@ -56,7 +50,8 @@ describe('User interaction tests', () => {
   localStorageMocks();
 
   it('should update the input value when the user enters data', async () => {
-    render(<Search />);
+    renderWithRouter(<Search />);
+
     const { input } = getElements();
 
     expect(input).toHaveValue('');
@@ -65,7 +60,8 @@ describe('User interaction tests', () => {
   });
 
   it('should saves the search query to localStorage when the search button is clicked', async () => {
-    render(<Search />);
+    renderWithRouter(<Search />);
+
     const { input, button } = getElements();
 
     await userEvent.type(input, MOCK_VALUE);
@@ -76,7 +72,8 @@ describe('User interaction tests', () => {
   });
 
   it('should remove spaces in the query before saving', async () => {
-    render(<Search />);
+    renderWithRouter(<Search />);
+
     const { input, button } = getElements();
 
     await userEvent.type(input, `  ${MOCK_VALUE}  `);
@@ -88,10 +85,12 @@ describe('User interaction tests', () => {
   it('should triggers search callback with correct parameters', async () => {
     const setSearchValue = vi.fn();
 
-    renderWithContext(<Search />, {
-      searchValue: '',
-      setSearchValue,
-    });
+    render(
+      renderWithContext(<Search />, {
+        searchValue: '',
+        setSearchValue,
+      })
+    );
 
     const { input, button } = getElements();
 
@@ -106,25 +105,21 @@ describe('LocalStorage Integration tests', () => {
   localStorageMocks();
 
   it('should retrieves saved search term on component mount', () => {
-    const mockSetState = vi.fn();
-    vi.spyOn(Search.prototype, 'setState').mockImplementation(mockSetState);
+    render(
+      renderWithContext(<Search />, {
+        searchValue: MOCK_VALUE,
+      })
+    );
 
-    renderWithContext(<Search />, {
-      searchValue: MOCK_VALUE,
-      setSearchValue: vi.fn(),
-    });
+    const { input } = getElements();
 
-    expect(mockSetState).toHaveBeenCalledWith({ value: MOCK_VALUE });
+    expect(input).toHaveValue(MOCK_VALUE);
   });
 
   it('should overwrites existing localStorage value when new search is performed', async () => {
     localStorage.setItem(STORAGE_KEY, 'old-value');
 
-    render(
-      <AppProvider>
-        <Search />
-      </AppProvider>
-    );
+    renderWithRouter(<Search />);
 
     const { input, button } = getElements();
 

@@ -1,165 +1,96 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { CardList } from './CardList.component';
-import axios, { AxiosError } from 'axios';
-
-const MOCK_DATA = [
-  {
-    name: 'name 1',
-    description: 'desc 1',
-    id: '1',
-  },
-  {
-    name: 'name 2',
-    description: 'desc 2',
-    id: '2',
-  },
-  {
-    name: 'name 3',
-    description: 'desc 3',
-    id: '3',
-  },
-];
-
-beforeEach(() => {
-  vi.spyOn(axios, 'get').mockResolvedValue({ data: { data: MOCK_DATA } });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
+import type { IVehicle } from '../../types';
+import { renderWithRouter } from '../../tests/utils';
+import { MemoryRouter } from 'react-router-dom';
+import { MOCK_DATA } from '../../tests/mocks';
 
 describe('Rendering Tests', () => {
   it('should renders correct number of items when data is provided', async () => {
-    render(<CardList />);
+    renderWithRouter(
+      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    );
 
     const cards = await screen.findAllByTestId('card');
     expect(cards).length(MOCK_DATA.length);
-    expect(axios.get).toBeCalledTimes(1);
   });
 
   it('should displays "no results" message when data array is empty', async () => {
-    vi.mocked(axios.get).mockResolvedValue({
-      data: {
-        data: [],
-      },
-    });
-
-    render(<CardList />);
+    renderWithRouter(<CardList vehicles={[]} error="" isLoading={false} />);
 
     const cardEmpty = await screen.findByTestId('card-empty');
     expect(cardEmpty).toHaveTextContent(/nothing found/i);
   });
 
   it('should shows loading state while fetching data', async () => {
-    render(<CardList />);
+    const { rerender } = renderWithRouter(
+      <CardList vehicles={[]} error="" isLoading={true} />
+    );
 
-    const spinner = screen.queryByTestId('spinner');
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument();
 
-    expect(spinner).toBeInTheDocument();
-    await screen.findAllByTestId('card');
-    expect(spinner).not.toBeInTheDocument();
+    rerender(
+      <MemoryRouter>
+        <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
+    });
   });
 });
 
 describe('Data Display Tests', () => {
   it('should correctly displays item names and descriptions', async () => {
-    render(<CardList />);
+    renderWithRouter(
+      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    );
 
     const cards = await screen.findAllByTestId('card');
 
-    MOCK_DATA.forEach(({ name, description }, ind) => {
+    MOCK_DATA.forEach(({ properties: { name, manufacturer } }, ind) => {
       const card = cards[ind];
 
       expect(card).toHaveTextContent(name);
-      expect(card).toHaveTextContent(description);
+      expect(card).toHaveTextContent(manufacturer);
     });
   });
 
   it('should handles missing or undefined data gracefully', async () => {
     const MOCK_DATA = [
       {
-        description: 'desc 1',
-        id: '1',
+        properties: {
+          manufacturer: 'manufacturer 1',
+        },
+        uid: '1',
       },
       {
-        name: 'name 2',
-        id: '2',
+        properties: {
+          name: 'name 2',
+          manufacturer: '',
+        },
+        uid: '2',
       },
-    ];
+    ] as IVehicle[];
 
-    vi.mocked(axios.get).mockResolvedValue({
-      data: {
-        data: MOCK_DATA,
-      },
-    });
-
-    render(<CardList />);
+    renderWithRouter(
+      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    );
 
     const cards = await screen.findAllByTestId('card');
     MOCK_DATA.forEach((_, ind) => {
       expect(cards[ind]).toBeInTheDocument();
     });
   });
-
-  it('should calls API with correct parameters', async () => {
-    render(<CardList searchValue="name 1" />);
-
-    await waitFor(() => {
-      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
-        params: {
-          name: 'name 1',
-        },
-      });
-    });
-  });
-
-  it('should calls api with correct parameters when props change', async () => {
-    const { rerender } = render(<CardList searchValue="name 1" />);
-
-    await waitFor(() => {
-      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
-        params: {
-          name: 'name 1',
-        },
-      });
-    });
-
-    rerender(<CardList searchValue="name 2" />);
-
-    await waitFor(() => {
-      expect(axios.get).toBeCalledWith('https://zelda.fanapis.com/api/places', {
-        params: {
-          name: 'name 2',
-        },
-      });
-    });
-  });
 });
 
 describe('Error Handling Tests', () => {
   it('should displays error message when API call fails', async () => {
-    vi.mocked(axios.get).mockRejectedValue(new AxiosError('my error'));
-
-    render(<CardList />);
-
-    expect(await screen.findByText('my error')).toBeInTheDocument();
-
-    vi.mocked(axios.get).mockRejectedValue('error');
-    render(<CardList />);
-    expect(await screen.findByText(/response error/i)).toBeInTheDocument();
-  });
-
-  it('should shows appropriate error for different HTTP status codes (4xx, 5xx)', async () => {
-    vi.mocked(axios.get).mockRejectedValue(new AxiosError('Not Found', '404'));
-
-    render(<CardList />);
-    expect(await screen.findByText(/not found/i)).toBeInTheDocument();
-
-    vi.mocked(axios.get).mockRejectedValue(
-      new AxiosError('Bad Gateway', '502')
+    renderWithRouter(
+      <CardList vehicles={[]} error="my error" isLoading={false} />
     );
 
-    render(<CardList />);
-    expect(await screen.findByText(/bad gateway/i)).toBeInTheDocument();
+    expect(await screen.findByText('my error')).toBeInTheDocument();
   });
 });

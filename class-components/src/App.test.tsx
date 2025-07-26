@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { App } from './App';
+import { renderWithRouter } from './tests/utils';
 
 describe('Rendering tests', () => {
   it('should render app component', () => {
-    render(<App />);
+    renderWithRouter(<App />);
 
-    expect(screen.queryByRole('banner')).toBeInTheDocument();
-    expect(screen.queryByRole('main')).toBeInTheDocument();
+    expect(screen.getByTestId('navbar')).toBeInTheDocument();
   });
 });

@@ -1,5 +1,4 @@
 import { Component, type ErrorInfo, type PropsWithChildren } from 'react';
-import { Button } from '../ui';
 
 interface ErrorBoundaryState {
   error: null | Error;
@@ -21,10 +20,6 @@ export class ErrorBoundary extends Component<
     console.error(error, info.componentStack);
   }
 
-  removeErrors = () => {
-    this.setState({ error: null });
-  };
-
   render() {
     if (this.state.error) {
       return (
@@ -36,7 +31,6 @@ export class ErrorBoundary extends Component<
             <h2 className="text-gray-800 font-medium">
               Error: {this.state.error.message}
             </h2>
-            <Button onClick={this.removeErrors}>Remove error</Button>
           </div>
         </div>
       );

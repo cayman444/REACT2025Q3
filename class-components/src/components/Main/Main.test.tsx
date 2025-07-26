@@ -1,50 +1,29 @@
-import { render, screen } from '@testing-library/react';
+import { renderHook, screen, waitFor } from '@testing-library/react';
 import { Main } from './Main.component';
-import { ErrorBoundary } from '../ErrorBoundary';
-import { userEvent } from '@testing-library/user-event';
+import { renderWithContext, renderWithRouter } from '../../tests/utils';
+import { useFetchVehicles } from './useFetchVehicles';
+import type { PropsWithChildren } from 'react';
+import { AppProvider } from '../../context';
+import { MemoryRouter } from 'react-router-dom';
+import { vehiclesMocks } from '../../tests/mocks';
 
-describe('Error Button Tests', () => {
-  beforeEach(() => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
+describe('Rendering Tests', () => {
+  vehiclesMocks();
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  const wrapper = ({ children }: PropsWithChildren) => (
+    <MemoryRouter>
+      <AppProvider>{children}</AppProvider>
+    </MemoryRouter>
+  );
 
-  it('should throws error when test button is clicked', async () => {
-    render(
-      <ErrorBoundary>
-        <Main />
-      </ErrorBoundary>
-    );
+  it('should not show pagination component when loading state', async () => {
+    renderWithRouter(renderWithContext(<Main />, { totalPage: 10 }));
+    renderHook(() => useFetchVehicles(), { wrapper });
 
-    const button = screen.getByRole('button', { name: /error button/i });
-    await userEvent.click(button);
-    const errorContainer = screen.getByTestId('error-container');
-    expect(errorContainer).toBeInTheDocument();
-    expect(
-      screen.getByText(/error caused by pressing a button/i)
-    ).toBeInTheDocument();
-  });
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
 
-  it('should fix the error when pressing the button in the backup interface', async () => {
-    render(
-      <ErrorBoundary>
-        <Main />
-      </ErrorBoundary>
-    );
-
-    const button = screen.getByRole('button', { name: /error button/i });
-    await userEvent.click(button);
-    const errorContainer = screen.getByTestId('error-container');
-    expect(errorContainer).toBeInTheDocument();
-    const removeErrorButton = screen.getByRole('button', {
-      name: /remove error/i,
+    await waitFor(() => {
+      expect(screen.getByTestId('pagination')).toBeInTheDocument();
     });
-    await userEvent.click(removeErrorButton);
-    expect(
-      screen.getByRole('button', { name: /error button/i })
-    ).toBeInTheDocument();
   });
 });

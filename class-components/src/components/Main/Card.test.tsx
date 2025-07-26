@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { Card } from './Card.component';
+import { renderWithRouter } from '../../tests/utils';
 
 describe('Rendering Tests', () => {
   it('should displays item name and description correctly', () => {
-    render(<Card name="text" description="desc" />);
+    renderWithRouter(<Card name="text" description="desc" id="1" />);
 
     const name = screen.getByRole('heading');
     const description = screen.getByRole('paragraph');
@@ -12,8 +13,8 @@ describe('Rendering Tests', () => {
     expect(description).toHaveTextContent('desc');
   });
 
-  it('should displays item name and description correctly', () => {
-    render(<Card name="text" description="" />);
+  it('should displays item with incomplete data', () => {
+    renderWithRouter(<Card name="text" description="" id="1" />);
 
     const description = screen.getByRole('paragraph');
 

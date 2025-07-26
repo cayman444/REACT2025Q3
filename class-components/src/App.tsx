@@ -1,18 +1,14 @@
-import { Component } from 'react';
+import { Outlet } from 'react-router-dom';
 import { AppProvider } from './context';
-import { ErrorBoundary, Header, Main } from './components';
+import { ErrorBoundary, Navbar } from './components';
 
-export class App extends Component {
-  render() {
-    return (
+export const App = () => {
+  return (
+    <ErrorBoundary>
       <AppProvider>
-        <ErrorBoundary>
-          <div className="flex flex-col mx-auto max-w-3xl px-4 py-8 gap-5">
-            <Header />
-            <Main />
-          </div>
-        </ErrorBoundary>
+        <Navbar />
+        <Outlet />
       </AppProvider>
-    );
-  }
-}
+    </ErrorBoundary>
+  );
+};
