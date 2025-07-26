@@ -35,6 +35,7 @@ export const Pagination: FC = () => {
       className="flex flex-wrap items-center justify-center gap-4"
     >
       <Button
+        data-testid="page-prev"
         className={clsx(
           {
             'pointer-events-none opacity-50': currentPage === 1,
@@ -62,6 +63,7 @@ export const Pagination: FC = () => {
         ))}
       </div>
       <Button
+        data-testid="page-next"
         className={clsx(
           {
             'pointer-events-none opacity-50': currentPage === totalPage,
