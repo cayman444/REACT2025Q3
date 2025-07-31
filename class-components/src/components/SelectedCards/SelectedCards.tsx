@@ -30,8 +30,10 @@ export const SelectedCards: FC<SelectedCardsProps> = ({ cards }) => {
   };
 
   return (
-    <div className="flex items-center justify-between gap-5 bg-white/50 p-5 rounded shadow">
-      <div>Items are selected: {cards.length}</div>
+    <div className="flex items-center justify-between gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow">
+      <div className="font-medium dark:text-gray-200">
+        Items are selected: {cards.length}
+      </div>
       <div className="flex gap-2">
         <Button onClick={() => dispatch(unselectAllCards())}>
           Unselect all

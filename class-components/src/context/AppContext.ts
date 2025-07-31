@@ -6,6 +6,8 @@ export interface AppContextType {
   limit: number;
   currentPage: number;
   totalPage: null | number;
+  isDarkTheme: boolean;
+  setIsDarkTheme: (theme: boolean) => void;
   setTotalPage: (totalPage: number) => void;
   setCurrentPage: (page: number) => void;
 }

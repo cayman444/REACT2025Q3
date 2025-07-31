@@ -21,7 +21,7 @@ export const Search: FC = () => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Enter something..."
-        className="w-full border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors"
+        className="w-full border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors dark:text-gray-200 dark:border-gray-700 dark:placeholder:text-gray-600 dark:focus:border-blue-400"
       />
       <Button onClick={handleButtonClick}>Search</Button>
     </form>

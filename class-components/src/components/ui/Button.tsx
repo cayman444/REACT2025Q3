@@ -6,7 +6,7 @@ export const Button: FC<ComponentProps<'button'>> = ({
   ...props
 }) => {
   const classes =
-    'bg-blue-600 hover:bg-blue-500 focus:outline-blue-500 text-white font-medium rounded px-5 py-1 cursor-pointer transition-colors';
+    'bg-blue-600 hover:bg-blue-500 dark:bg-blue-400 dark:text-gray-200 focus:outline-blue-500 text-white font-medium rounded px-5 py-1 cursor-pointer transition-colors';
 
   const mergedClasses = twMerge(classes, props.className);
 

@@ -22,7 +22,7 @@ export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
       {!vehicles.length && !isLoading && !error && (
         <div
           data-testid="card-empty"
-          className="text-center font-medium text-gray-800"
+          className="text-center font-medium text-gray-800 dark:text-gray-200"
         >
           Nothing found for this request
         </div>
