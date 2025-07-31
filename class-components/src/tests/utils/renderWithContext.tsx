@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react';
 import { AppContext, type AppContextType } from '../../context';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 const defaultValues: AppContextType = {
   searchValue: '',
@@ -16,8 +18,10 @@ export const renderWithContext = (
   value: Partial<AppContextType>
 ) => {
   return (
-    <AppContext.Provider value={{ ...defaultValues, ...value }}>
-      {component}
-    </AppContext.Provider>
+    <Provider store={store}>
+      <AppContext.Provider value={{ ...defaultValues, ...value }}>
+        {component}
+      </AppContext.Provider>
+    </Provider>
   );
 };

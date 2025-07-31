@@ -1,10 +1,14 @@
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Card } from './Card.component';
-import { renderWithRouter } from '../../tests/utils';
+import { renderTestApp } from '../../tests/utils';
 
 describe('Rendering Tests', () => {
   it('should displays item name and description correctly', () => {
-    renderWithRouter(<Card name="text" description="desc" id="1" />);
+    render(
+      renderTestApp(
+        <Card name="text" description="desc" id="1" isCardChecked={false} />
+      )
+    );
 
     const name = screen.getByRole('heading');
     const description = screen.getByRole('paragraph');
@@ -14,7 +18,11 @@ describe('Rendering Tests', () => {
   });
 
   it('should displays item with incomplete data', () => {
-    renderWithRouter(<Card name="text" description="" id="1" />);
+    render(
+      renderTestApp(
+        <Card name="text" description="" id="1" isCardChecked={false} />
+      )
+    );
 
     const description = screen.getByRole('paragraph');
 
