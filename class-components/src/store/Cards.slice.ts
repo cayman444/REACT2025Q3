@@ -1,28 +1,34 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { ISelectedCard } from '../types';
 
 interface CardsState {
-  selectedCardsId: string[];
+  selectedCards: ISelectedCard[];
 }
 
 const initialState: CardsState = {
-  selectedCardsId: [],
+  selectedCards: [],
 };
 
 export const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    toggleCard: ({ selectedCardsId }, { payload }: PayloadAction<string>) => {
-      const currentCardIndex = selectedCardsId.indexOf(payload);
+    toggleCard: (
+      { selectedCards },
+      { payload }: PayloadAction<ISelectedCard>
+    ) => {
+      const currentCardIndex = selectedCards.findIndex(
+        (card) => card.id === payload.id
+      );
 
       if (currentCardIndex !== -1) {
-        selectedCardsId.splice(currentCardIndex, 1);
+        selectedCards.splice(currentCardIndex, 1);
       } else {
-        selectedCardsId.push(payload);
+        selectedCards.push(payload);
       }
     },
     unselectAllCards: (state) => {
-      state.selectedCardsId = [];
+      state.selectedCards = [];
     },
   },
 });

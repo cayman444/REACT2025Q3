@@ -10,12 +10,7 @@ interface CardProps {
   isCardChecked: boolean;
 }
 
-export const Card: FC<CardProps> = ({
-  name,
-  description,
-  isCardChecked,
-  id,
-}) => {
+export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [checked, setChecked] = useState(false);
@@ -26,7 +21,7 @@ export const Card: FC<CardProps> = ({
 
   const checkboxHandleChange = () => {
     setChecked(!checked);
-    dispatch(toggleCard(id));
+    dispatch(toggleCard(card));
   };
 
   return (
@@ -36,10 +31,10 @@ export const Card: FC<CardProps> = ({
     >
       <div
         className="flex-auto cursor-pointer"
-        onClick={() => navigate(`details/${id}`)}
+        onClick={() => navigate(`details/${card.id}`)}
       >
-        <h2 className="inline text-gray-800 font-medium">{name}: </h2>
-        <p className="inline text-gray-700">{description}</p>
+        <h2 className="inline text-gray-800 font-medium">{card.name}: </h2>
+        <p className="inline text-gray-700">{card.description}</p>
       </div>
       <input
         type="checkbox"

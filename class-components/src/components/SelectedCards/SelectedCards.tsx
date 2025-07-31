@@ -2,9 +2,10 @@ import { useRef, type FC } from 'react';
 import { Button } from '../ui';
 import { useAppDispatch } from '../../hooks';
 import { unselectAllCards } from '../../store/Cards.slice';
+import type { ISelectedCard } from '../../types';
 
 interface SelectedCardsProps {
-  cards: string[];
+  cards: ISelectedCard[];
 }
 
 export const SelectedCards: FC<SelectedCardsProps> = ({ cards }) => {
@@ -15,7 +16,11 @@ export const SelectedCards: FC<SelectedCardsProps> = ({ cards }) => {
     const link = downloadRef.current;
     if (!link) return;
 
-    const file = new Blob([cards.join(',')], { type: 'text/csv' });
+    const headerCsv = Object.keys(cards[0]).join(',');
+    const bodyCsv = cards.map((card) => Object.values(card)).join('\n');
+    const resCsv = [headerCsv, bodyCsv].join('\n');
+
+    const file = new Blob([resCsv], { type: 'text/csv' });
 
     const url = URL.createObjectURL(file);
     link.href = url;

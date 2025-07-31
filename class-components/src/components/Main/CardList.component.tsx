@@ -11,7 +11,7 @@ interface CardListProps {
 }
 
 export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
-  const { selectedCardsId } = useAppSelector((state) => state.cards);
+  const { selectedCards } = useAppSelector((state) => state.cards);
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
@@ -33,7 +33,7 @@ export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
             key={uid}
             name={name}
             description={description}
-            isCardChecked={selectedCardsId.includes(uid)}
+            isCardChecked={selectedCards.some((card) => card.id === uid)}
             id={uid}
           />
         )
