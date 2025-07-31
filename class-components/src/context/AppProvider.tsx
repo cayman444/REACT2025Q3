@@ -1,7 +1,7 @@
 import { useState, type FC, type PropsWithChildren } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AppContext } from './AppContext';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLocalStorage } from '../hooks';
 
 const LIMIT_ITEMS = 10;
 const STORAGE_KEY = 'searchValue';
