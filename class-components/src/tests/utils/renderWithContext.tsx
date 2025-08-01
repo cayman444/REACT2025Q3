@@ -9,6 +9,8 @@ const defaultValues: AppContextType = {
   limit: 10,
   currentPage: 1,
   totalPage: null,
+  isDarkTheme: false,
+  setIsDarkTheme: vi.fn(),
   setTotalPage: vi.fn(),
   setCurrentPage: vi.fn(),
 };

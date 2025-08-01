@@ -15,7 +15,11 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark');
+    if (isDarkTheme) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [isDarkTheme]);
 
   return (
