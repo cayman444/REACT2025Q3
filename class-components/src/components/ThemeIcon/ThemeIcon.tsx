@@ -9,6 +9,7 @@ export const ThemeIcon: FC<ThemeIconProps> = ({ isDarkTheme, ...props }) => {
     <>
       {isDarkTheme ? (
         <svg
+          data-testid="dark-theme-icon"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -25,6 +26,7 @@ export const ThemeIcon: FC<ThemeIconProps> = ({ isDarkTheme, ...props }) => {
         </svg>
       ) : (
         <svg
+          data-testid="light-theme-icon"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
