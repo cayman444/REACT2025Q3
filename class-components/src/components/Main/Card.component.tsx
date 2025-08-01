@@ -1,23 +1,45 @@
 import { type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/redux';
+import { toggleCard } from '../../store/Cards.slice';
 
 interface CardProps {
   name: string;
   description: string;
   id: string;
+  isCardChecked: boolean;
 }
 
-export const Card: FC<CardProps> = ({ name, description, id }) => {
+export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const checkboxHandleChange = () => {
+    dispatch(toggleCard(card));
+  };
 
   return (
     <article
       data-testid="card"
-      className="border-b-2 border-gray-200 pb-2 cursor-pointer"
-      onClick={() => navigate(`details/${id}`)}
+      className="flex items-center gap-5 border-b-2 border-gray-200 pb-2 dark:border-gray-700"
     >
-      <h2 className="inline text-gray-800 font-medium">{name}: </h2>
-      <p className="inline text-gray-700">{description}</p>
+      <div
+        className="flex-auto cursor-pointer"
+        onClick={() => navigate(`details/${card.id}`)}
+      >
+        <h2 className="inline text-gray-800 font-medium dark:text-gray-200">
+          {card.name}:{' '}
+        </h2>
+        <p className="inline text-gray-700 dark:text-gray-400">
+          {card.description}
+        </p>
+      </div>
+      <input
+        type="checkbox"
+        name="card-select"
+        checked={isCardChecked}
+        onChange={checkboxHandleChange}
+      />
     </article>
   );
 };

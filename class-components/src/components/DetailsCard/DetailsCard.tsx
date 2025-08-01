@@ -26,7 +26,7 @@ export const DetailsCard = () => {
   };
 
   return (
-    <article className="flex flex-col gap-5 bg-white/50 p-5 rounded shadow min-h-28 relative">
+    <article className="flex flex-col gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -39,16 +39,16 @@ export const DetailsCard = () => {
               {error}
             </div>
           )}
-          <h2 className="text-center font-medium">
+          <h2 className="text-center font-medium dark:text-gray-200">
             {vehicle?.properties.name}
           </h2>
           <ul className="flex flex-col gap-2">
             {DESCRIPTION_LIST.map((desc, ind) => (
               <li key={ind}>
-                <span className="inline text-gray-800 font-medium">
+                <span className="inline text-gray-800 font-medium dark:text-gray-200">
                   {desc.replaceAll('_', ' ')}:
                 </span>{' '}
-                <p className="inline text-gray-700">
+                <p className="inline text-gray-700 dark:text-gray-400">
                   {vehicle?.properties?.[desc]}
                 </p>
               </li>

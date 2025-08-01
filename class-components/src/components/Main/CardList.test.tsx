@@ -1,14 +1,15 @@
-import { screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { CardList } from './CardList.component';
 import type { IVehicle } from '../../types';
-import { renderWithRouter } from '../../tests/utils';
-import { MemoryRouter } from 'react-router-dom';
+import { renderTestApp } from '../../tests/utils';
 import { MOCK_DATA } from '../../tests/mocks';
 
 describe('Rendering Tests', () => {
   it('should renders correct number of items when data is provided', async () => {
-    renderWithRouter(
-      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    render(
+      renderTestApp(
+        <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+      )
     );
 
     const cards = await screen.findAllByTestId('card');
@@ -16,23 +17,25 @@ describe('Rendering Tests', () => {
   });
 
   it('should displays "no results" message when data array is empty', async () => {
-    renderWithRouter(<CardList vehicles={[]} error="" isLoading={false} />);
+    render(
+      renderTestApp(<CardList vehicles={[]} error="" isLoading={false} />)
+    );
 
     const cardEmpty = await screen.findByTestId('card-empty');
     expect(cardEmpty).toHaveTextContent(/nothing found/i);
   });
 
   it('should shows loading state while fetching data', async () => {
-    const { rerender } = renderWithRouter(
-      <CardList vehicles={[]} error="" isLoading={true} />
+    const { rerender } = render(
+      renderTestApp(<CardList vehicles={[]} error="" isLoading={true} />)
     );
 
     expect(screen.queryByTestId('spinner')).toBeInTheDocument();
 
     rerender(
-      <MemoryRouter>
+      renderTestApp(
         <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
-      </MemoryRouter>
+      )
     );
 
     await waitFor(() => {
@@ -43,8 +46,10 @@ describe('Rendering Tests', () => {
 
 describe('Data Display Tests', () => {
   it('should correctly displays item names and descriptions', async () => {
-    renderWithRouter(
-      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    render(
+      renderTestApp(
+        <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+      )
     );
 
     const cards = await screen.findAllByTestId('card');
@@ -74,8 +79,10 @@ describe('Data Display Tests', () => {
       },
     ] as IVehicle[];
 
-    renderWithRouter(
-      <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+    render(
+      renderTestApp(
+        <CardList vehicles={MOCK_DATA} error="" isLoading={false} />
+      )
     );
 
     const cards = await screen.findAllByTestId('card');
@@ -87,8 +94,10 @@ describe('Data Display Tests', () => {
 
 describe('Error Handling Tests', () => {
   it('should displays error message when API call fails', async () => {
-    renderWithRouter(
-      <CardList vehicles={[]} error="my error" isLoading={false} />
+    render(
+      renderTestApp(
+        <CardList vehicles={[]} error="my error" isLoading={false} />
+      )
     );
 
     expect(await screen.findByText('my error')).toBeInTheDocument();

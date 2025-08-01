@@ -1,8 +1,10 @@
 import { Outlet, useOutlet } from 'react-router-dom';
-import { Header, Main } from '../../components';
+import { Header, Main, SelectedCards } from '../../components';
+import { useAppSelector } from '../../hooks';
 
 export const Home = () => {
   const hasOutlet = useOutlet();
+  const { selectedCards } = useAppSelector((state) => state.cards);
 
   return (
     <div
@@ -16,6 +18,7 @@ export const Home = () => {
         <Main />
         <Outlet />
       </div>
+      {selectedCards.length ? <SelectedCards cards={selectedCards} /> : null}
     </div>
   );
 };

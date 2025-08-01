@@ -20,6 +20,16 @@ export interface IVehicle {
   uid: string;
 }
 
+export interface ISelectedCard {
+  name: string;
+  description: string;
+  id: string;
+}
+
+export interface CardsState {
+  selectedCards: ISelectedCard[];
+}
+
 export interface VehiclesResponse {
   message: string;
   total_records: number;
