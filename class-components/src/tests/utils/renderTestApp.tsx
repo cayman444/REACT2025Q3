@@ -1,20 +1,27 @@
+import { type ReactNode } from 'react';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import { Fragment, type ReactNode } from 'react';
+import cardsReducer from '../../store/Cards.slice';
 import { AppProvider } from '../../context';
+import type { RootState } from '../../store';
 
 export const renderTestApp = (
   component: ReactNode,
-  initialRoute = '/',
-  withProvider = true
+  preloadedState?: RootState,
+  initialRoute = '/'
 ) => {
-  const Wrapper = withProvider ? AppProvider : Fragment;
+  const store = configureStore({
+    reducer: {
+      cards: cardsReducer,
+    },
+    preloadedState,
+  });
 
   return (
     <Provider store={store}>
       <MemoryRouter initialEntries={[initialRoute]}>
-        <Wrapper>{component}</Wrapper>
+        <AppProvider>{component}</AppProvider>
       </MemoryRouter>
     </Provider>
   );

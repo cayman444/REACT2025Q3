@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { toggleCard } from '../../store/Cards.slice';
@@ -13,14 +13,8 @@ interface CardProps {
 export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    setChecked(isCardChecked);
-  }, [isCardChecked]);
 
   const checkboxHandleChange = () => {
-    setChecked(!checked);
     dispatch(toggleCard(card));
   };
 
@@ -43,7 +37,7 @@ export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
       <input
         type="checkbox"
         name="card-select"
-        checked={checked}
+        checked={isCardChecked}
         onChange={checkboxHandleChange}
       />
     </article>

@@ -26,6 +26,10 @@ export interface ISelectedCard {
   id: string;
 }
 
+export interface CardsState {
+  selectedCards: ISelectedCard[];
+}
+
 export interface VehiclesResponse {
   message: string;
   total_records: number;
