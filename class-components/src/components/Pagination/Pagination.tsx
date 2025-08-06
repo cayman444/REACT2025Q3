@@ -1,33 +1,37 @@
 import { useEffect, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import clsx from 'clsx';
-import { useAppContext } from '../../context';
 import { Button } from '../ui';
-import { useGetVehiclesQuery } from '../../services';
+import { useAppDispatch } from '../../hooks';
+import { setPagination } from '../../store/Pagination';
 
-export const Pagination: FC = () => {
-  const { totalPage, currentPage, setCurrentPage } = useAppContext();
+interface PaginationProps {
+  currentPage: number;
+  totalPage: number | null;
+}
+
+export const Pagination: FC<PaginationProps> = ({ currentPage, totalPage }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading } = useGetVehiclesQuery();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     searchParams.set('page', currentPage.toString());
     setSearchParams(searchParams);
   }, [currentPage, searchParams, setSearchParams]);
 
-  if (!totalPage || totalPage === 1 || isLoading) return;
+  if (!totalPage || totalPage === 1) return;
 
   const pages = [...Array(totalPage)];
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      dispatch(setPagination({ currentPage: currentPage - 1 }));
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPage) {
-      setCurrentPage(currentPage + 1);
+      dispatch(setPagination({ currentPage: currentPage + 1 }));
     }
   };
 
@@ -58,7 +62,7 @@ export const Pagination: FC = () => {
               },
               'flex justify-center items-center w-10'
             )}
-            onClick={() => setCurrentPage(ind + 1)}
+            onClick={() => dispatch(setPagination({ currentPage: ind + 1 }))}
           >
             {ind + 1}
           </Button>

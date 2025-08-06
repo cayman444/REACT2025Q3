@@ -1,7 +1,7 @@
 import { useRef, type FC } from 'react';
 import { Button } from '../ui';
 import { useAppDispatch } from '../../hooks';
-import { unselectAllCards } from '../../store/Cards.slice';
+import { unselectAllCards } from '../../store/Cards';
 import type { ISelectedCard } from '../../types';
 
 interface SelectedCardsProps {

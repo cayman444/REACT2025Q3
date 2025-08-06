@@ -31,19 +31,18 @@ export const DetailsCard = () => {
   };
 
   return (
-    <article className="flex flex-col gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
+    <article className="flex flex-col justify-center gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
       {isLoading || isFetching ? (
         <Spinner />
+      ) : error && !isLoading && !isFetching ? (
+        <div
+          data-testid="error"
+          className="text-center font-medium text-red-500"
+        >
+          {'status' in error ? error.status : ''}
+        </div>
       ) : (
         <>
-          {error && (
-            <div
-              data-testid="error"
-              className="text-center font-medium text-red-500"
-            >
-              {'message' in error ? error.message : ''}
-            </div>
-          )}
           <h2 className="text-center font-medium dark:text-gray-200">
             {vehicle?.properties.name}
           </h2>

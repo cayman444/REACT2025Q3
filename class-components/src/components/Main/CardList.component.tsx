@@ -1,33 +1,34 @@
-import { useEffect, type FC } from 'react';
+import { type FC } from 'react';
+import type { SerializedError } from '@reduxjs/toolkit';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
 import { useAppSelector } from '../../hooks';
-import { useGetVehiclesQuery } from '../../services';
-import { useAppContext } from '../../context';
+import type { VehiclesResponse } from '../../types';
 
-export const CardList: FC = () => {
-  const { searchValue, setCurrentPage, setTotalPage } = useAppContext();
+interface CardsListProps {
+  data?: VehiclesResponse;
+  isLoading: boolean;
+  isFetching: boolean;
+  error?: SerializedError | FetchBaseQueryError;
+}
+
+export const CardList: FC<CardsListProps> = ({
+  data,
+  isLoading,
+  isFetching,
+  error,
+}) => {
   const { selectedCards } = useAppSelector((state) => state.cards);
-  const { data, isLoading, error } = useGetVehiclesQuery();
 
   const vehicles = data?.result ? data.result : data?.results;
 
-  useEffect(() => {
-    if (!data) return;
-
-    if (searchValue) {
-      setCurrentPage(1);
-    }
-
-    setTotalPage(data.total_pages);
-  }, [data, searchValue, setCurrentPage, setTotalPage]);
-
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
-      {isLoading && <Spinner />}
-      {error && (
+      {(isLoading || isFetching) && <Spinner />}
+      {error && !isLoading && !isFetching && (
         <div className="text-center font-medium text-red-500">
-          {'message' in error ? error.message : ''}
+          {'status' in error ? error.status : ''}
         </div>
       )}
       {!vehicles?.length && !isLoading && !error && (
@@ -38,17 +39,19 @@ export const CardList: FC = () => {
           Nothing found for this request
         </div>
       )}
-      {vehicles?.map(
-        ({ properties: { name, manufacturer: description }, uid }) => (
-          <Card
-            key={uid}
-            name={name}
-            description={description}
-            isCardChecked={selectedCards.some((card) => card.id === uid)}
-            id={uid}
-          />
-        )
-      )}
+      {!isFetching
+        ? vehicles?.map(
+            ({ properties: { name, manufacturer: description }, uid }) => (
+              <Card
+                key={uid}
+                name={name}
+                description={description}
+                isCardChecked={selectedCards.some((card) => card.id === uid)}
+                id={uid}
+              />
+            )
+          )
+        : null}
     </section>
   );
 };
