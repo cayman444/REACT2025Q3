@@ -3,17 +3,19 @@ import { useSearchParams } from 'react-router-dom';
 import clsx from 'clsx';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';
+import { useGetVehiclesQuery } from '../../services';
 
 export const Pagination: FC = () => {
   const { totalPage, currentPage, setCurrentPage } = useAppContext();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { isLoading } = useGetVehiclesQuery();
 
   useEffect(() => {
     searchParams.set('page', currentPage.toString());
     setSearchParams(searchParams);
   }, [currentPage, searchParams, setSearchParams]);
 
-  if (!totalPage || totalPage === 1) return;
+  if (!totalPage || totalPage === 1 || isLoading) return;
 
   const pages = [...Array(totalPage)];
 

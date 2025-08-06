@@ -1,25 +1,36 @@
-import { type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
-import type { IVehicle } from '../../types';
 import { useAppSelector } from '../../hooks';
+import { useGetVehiclesQuery } from '../../services';
+import { useAppContext } from '../../context';
 
-interface CardListProps {
-  vehicles: IVehicle[];
-  isLoading: boolean;
-  error: string;
-}
-
-export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
+export const CardList: FC = () => {
+  const { searchValue, setCurrentPage, setTotalPage } = useAppContext();
   const { selectedCards } = useAppSelector((state) => state.cards);
+  const { data, isLoading, error } = useGetVehiclesQuery();
+
+  const vehicles = data?.result ? data.result : data?.results;
+
+  useEffect(() => {
+    if (!data) return;
+
+    if (searchValue) {
+      setCurrentPage(1);
+    }
+
+    setTotalPage(data.total_pages);
+  }, [data, searchValue, setCurrentPage, setTotalPage]);
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
       {isLoading && <Spinner />}
       {error && (
-        <div className="text-center font-medium text-red-500">{error}</div>
+        <div className="text-center font-medium text-red-500">
+          {'message' in error ? error.message : ''}
+        </div>
       )}
-      {!vehicles.length && !isLoading && !error && (
+      {!vehicles?.length && !isLoading && !error && (
         <div
           data-testid="card-empty"
           className="text-center font-medium text-gray-800 dark:text-gray-200"
@@ -27,7 +38,7 @@ export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
           Nothing found for this request
         </div>
       )}
-      {vehicles.map(
+      {vehicles?.map(
         ({ properties: { name, manufacturer: description }, uid }) => (
           <Card
             key={uid}

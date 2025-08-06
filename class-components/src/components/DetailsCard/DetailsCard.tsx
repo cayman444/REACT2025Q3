@@ -1,25 +1,30 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchVehicle } from './useFetchVehicle';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { Button, Spinner } from '../ui';
 import type { IVehicle } from '../../types';
 import { RouteNames } from '../../router';
+import { useGetVehicleQuery } from '../../services';
+
+const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
+  'vehicle_class',
+  'model',
+  'manufacturer',
+  'crew',
+  'passengers',
+  'length',
+  'cargo_capacity',
+  'consumables',
+  'cost_in_credits',
+];
 
 export const DetailsCard = () => {
-  const { detailsId } = useParams<{ detailsId: string }>();
+  const { detailsId } = useParams();
   const navigate = useNavigate();
-  const { vehicle, isLoading, error } = useFetchVehicle(detailsId || '');
+  const { data, isLoading, isFetching, error } = useGetVehicleQuery(
+    detailsId || skipToken
+  );
 
-  const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
-    'vehicle_class',
-    'model',
-    'manufacturer',
-    'crew',
-    'passengers',
-    'length',
-    'cargo_capacity',
-    'consumables',
-    'cost_in_credits',
-  ];
+  const vehicle = data?.result;
 
   const closeDetailedCard = () => {
     navigate(RouteNames.HOME);
@@ -27,7 +32,7 @@ export const DetailsCard = () => {
 
   return (
     <article className="flex flex-col gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <Spinner />
       ) : (
         <>
@@ -36,7 +41,7 @@ export const DetailsCard = () => {
               data-testid="error"
               className="text-center font-medium text-red-500"
             >
-              {error}
+              {'message' in error ? error.message : ''}
             </div>
           )}
           <h2 className="text-center font-medium dark:text-gray-200">
