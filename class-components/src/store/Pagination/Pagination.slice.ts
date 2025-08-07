@@ -27,8 +27,8 @@ export const cardsSlice = createSlice({
         state.currentPage = payload.currentPage;
       }
 
-      if (payload.totalPage) {
-        state.totalPage = payload.totalPage;
+      if ('totalPage' in payload) {
+        state.totalPage = payload.totalPage ?? null;
       }
     },
   },

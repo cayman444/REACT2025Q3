@@ -8,30 +8,24 @@ import type { VehiclesResponse } from '../../types';
 
 interface CardsListProps {
   data?: VehiclesResponse;
-  isLoading: boolean;
   isFetching: boolean;
   error?: SerializedError | FetchBaseQueryError;
 }
 
-export const CardList: FC<CardsListProps> = ({
-  data,
-  isLoading,
-  isFetching,
-  error,
-}) => {
+export const CardList: FC<CardsListProps> = ({ data, isFetching, error }) => {
   const { selectedCards } = useAppSelector((state) => state.cards);
 
   const vehicles = data?.result ? data.result : data?.results;
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
-      {(isLoading || isFetching) && <Spinner />}
-      {error && !isLoading && !isFetching && (
+      {isFetching && <Spinner />}
+      {error && !isFetching && (
         <div className="text-center font-medium text-red-500">
           {'status' in error ? error.status : ''}
         </div>
       )}
-      {!vehicles?.length && !isLoading && !error && (
+      {!vehicles?.length && !isFetching && !error && (
         <div
           data-testid="card-empty"
           className="text-center font-medium text-gray-800 dark:text-gray-200"

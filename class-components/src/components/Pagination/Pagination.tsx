@@ -8,9 +8,14 @@ import { setPagination } from '../../store/Pagination';
 interface PaginationProps {
   currentPage: number;
   totalPage: number | null;
+  searchValue: string;
 }
 
-export const Pagination: FC<PaginationProps> = ({ currentPage, totalPage }) => {
+export const Pagination: FC<PaginationProps> = ({
+  currentPage,
+  totalPage,
+  searchValue,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
 
@@ -19,7 +24,7 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPage }) => {
     setSearchParams(searchParams);
   }, [currentPage, searchParams, setSearchParams]);
 
-  if (!totalPage || totalPage === 1) return;
+  if (!totalPage || totalPage === 1 || searchValue) return;
 
   const pages = [...Array(totalPage)];
 

@@ -20,7 +20,7 @@ const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
 export const DetailsCard = () => {
   const { detailsId } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading, isFetching, error } = useGetVehicleQuery(
+  const { data, isFetching, error } = useGetVehicleQuery(
     detailsId || skipToken
   );
 
@@ -32,9 +32,9 @@ export const DetailsCard = () => {
 
   return (
     <article className="flex flex-col justify-center gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
-      {isLoading || isFetching ? (
+      {isFetching ? (
         <Spinner />
-      ) : error && !isLoading && !isFetching ? (
+      ) : error && !isFetching ? (
         <div
           data-testid="error"
           className="text-center font-medium text-red-500"
