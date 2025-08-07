@@ -12,6 +12,7 @@ export interface VehiclesParams {
 export const starWarsApi = createApi({
   reducerPath: 'starWarsApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  tagTypes: ['Vehicles'],
   endpoints: (build) => ({
     getVehicles: build.query<VehiclesResponse, VehiclesParams>({
       query: ({ currentPage, searchValue }) => ({
@@ -23,6 +24,7 @@ export const starWarsApi = createApi({
           limit: LIMIT_ITEMS,
         },
       }),
+      providesTags: ['Vehicles'],
     }),
     getVehicle: build.query<VehicleResponse, string>({
       query: (id) => ({
@@ -31,6 +33,7 @@ export const starWarsApi = createApi({
           expanded: true,
         },
       }),
+      providesTags: ['Vehicles'],
     }),
   }),
 });
