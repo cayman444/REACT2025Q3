@@ -1,11 +1,10 @@
-import type { PropsWithChildren } from 'react';
-import { renderHook, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { api } from '../../services';
-import { renderWithRouter } from '../../tests/utils';
+import { render, screen, waitFor } from '@testing-library/react';
+import { Route, Routes } from 'react-router-dom';
+import { setupServer } from 'msw/node';
+import { http, HttpResponse } from 'msw';
+import { renderTestApp } from '../../tests/utils';
 import { DetailsCard } from './DetailsCard';
-import { useFetchVehicle } from './useFetchVehicle';
+import { API_URL } from '../../services';
 
 const MOCK_DATA = {
   properties: {
@@ -15,66 +14,68 @@ const MOCK_DATA = {
   uid: '1',
 };
 
-describe('DetailsCard', () => {
-  beforeEach(() => {
-    vi.spyOn(api, 'get').mockResolvedValue({
-      data: {
-        result: MOCK_DATA,
-      },
-    });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  const wrapper = ({ children }: PropsWithChildren) => (
-    <MemoryRouter>{children}</MemoryRouter>
+const renderDetailsComponent = () =>
+  render(
+    renderTestApp(
+      <Routes>
+        <Route path="/details/:detailsId" element={<DetailsCard />} />
+      </Routes>,
+      undefined,
+      '/details/1'
+    )
   );
 
+describe('DetailsCard', () => {
+  const server = setupServer(
+    http.get(`${API_URL}vehicles/:id`, () => {
+      return HttpResponse.json({
+        result: MOCK_DATA,
+      });
+    })
+  );
+
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+
   it('should return correct data', async () => {
-    renderWithRouter(<DetailsCard />);
-    const { result } = renderHook(() => useFetchVehicle('1'), { wrapper });
+    renderDetailsComponent();
 
     const spinner = screen.queryByTestId('spinner');
     expect(spinner).toBeInTheDocument();
 
     await waitFor(() => {
       expect(spinner).not.toBeInTheDocument();
+
       expect(
-        screen.getByRole('heading', {
-          name: result.current.vehicle?.properties.name,
-        })
+        screen.getByRole('heading', { name: 'name 1' })
       ).toBeInTheDocument();
     });
-
-    const heading = await screen.findByRole('heading', {
-      name: result.current.vehicle?.properties.name,
-    });
-
-    expect(heading).toBeInTheDocument();
   });
 
   it('should displays error message when API call fails', async () => {
-    vi.mocked(api.get).mockRejectedValue(new AxiosError('my error'));
+    server.use(http.get(`${API_URL}vehicles/:id`, () => HttpResponse.error()));
 
-    renderWithRouter(<DetailsCard />);
-    const { result } = renderHook(() => useFetchVehicle('1'), { wrapper });
+    renderDetailsComponent();
 
     await waitFor(() => {
-      expect(screen.getByTestId('error')).toHaveTextContent(
-        result.current.error || ''
-      );
+      expect(screen.getByTestId('error')).toHaveTextContent('FETCH_ERROR');
     });
   });
 
   it('should return error message when API call fails unknown error', async () => {
-    vi.mocked(api.get).mockRejectedValue('unknown error');
-    renderWithRouter(<DetailsCard />);
-    renderHook(() => useFetchVehicle('1'), { wrapper });
+    server.use(
+      http.get(`${API_URL}vehicles/:id`, () => {
+        return new HttpResponse(null, {
+          status: 500,
+        });
+      })
+    );
+
+    renderDetailsComponent();
 
     await waitFor(() => {
-      expect(screen.getByTestId('error')).toHaveTextContent('Response error');
+      expect(screen.getByTestId('error')).toHaveTextContent('500');
     });
   });
 });
