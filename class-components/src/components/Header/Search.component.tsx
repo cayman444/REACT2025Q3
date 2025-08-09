@@ -1,8 +1,11 @@
 import { useState, type FC, type MouseEvent } from 'react';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';
+import { useAppDispatch } from '../../hooks';
+import { setPagination } from '../../store/Pagination';
 
 export const Search: FC = () => {
+  const dispatch = useAppDispatch();
   const { searchValue, setSearchValue } = useAppContext();
   const [value, setValue] = useState(searchValue);
 
@@ -10,6 +13,8 @@ export const Search: FC = () => {
     e.preventDefault();
 
     const valueTrimmed = value.trim();
+
+    if (valueTrimmed) dispatch(setPagination({ currentPage: 1 }));
 
     setSearchValue(valueTrimmed);
   };

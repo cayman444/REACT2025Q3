@@ -1,27 +1,22 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { renderTestApp } from '../../tests/utils';
-import { MOCK_SELECTED_CARD } from '../../tests/mocks';
 import { Home } from './Home';
 
 describe('Home', () => {
   it('should render page', () => {
-    const { container } = render(renderTestApp(<Home />));
+    const { container } = renderTestApp(<Home />);
 
     expect(container).toBeInTheDocument();
   });
 
-  it('should remove SelectedCards when unselect all button click', async () => {
-    render(
-      renderTestApp(<Home />, {
-        cards: { selectedCards: MOCK_SELECTED_CARD },
-      })
-    );
+  it('should be data updated when the refresh button is click', async () => {
+    renderTestApp(<Home />);
 
-    const button = screen.getByTestId('button-unselect');
+    const refetchButton = screen.getByRole('button', { name: 'Refetch data' });
 
-    await userEvent.click(button);
+    await userEvent.click(refetchButton);
 
-    expect(screen.queryByTestId('selected-cards')).toBeNull();
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument();
   });
 });

@@ -1,29 +1,41 @@
-import axios from 'axios';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { VehicleResponse, VehiclesResponse } from '../types';
 
-export const API_URL = 'https://www.swapi.tech/api';
+export const API_URL = 'https://www.swapi.tech/api/';
+const LIMIT_ITEMS = 10;
 
-export const api = axios.create({
-  baseURL: API_URL,
-  params: {
-    expanded: true,
-  },
+export interface VehiclesParams {
+  currentPage: number;
+  searchValue: string;
+}
+
+export const starWarsApi = createApi({
+  reducerPath: 'starWarsApi',
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  tagTypes: ['Vehicles'],
+  endpoints: (build) => ({
+    getVehicles: build.query<VehiclesResponse, VehiclesParams>({
+      query: ({ currentPage, searchValue }) => ({
+        url: 'vehicles',
+        params: {
+          expanded: true,
+          page: currentPage,
+          name: searchValue || undefined,
+          limit: LIMIT_ITEMS,
+        },
+      }),
+      providesTags: ['Vehicles'],
+    }),
+    getVehicle: build.query<VehicleResponse, string>({
+      query: (id) => ({
+        url: `vehicles/${id}`,
+        params: {
+          expanded: true,
+        },
+      }),
+      providesTags: ['Vehicles'],
+    }),
+  }),
 });
 
-export const getVehicles = async (
-  searchValue: string,
-  page: number,
-  limit: number
-) => {
-  const response = await api.get<VehiclesResponse>('/vehicles', {
-    params: { name: searchValue ? searchValue : null, page, limit },
-  });
-
-  return response.data;
-};
-
-export const getVehicle = async (id: string) => {
-  const response = await api.get<VehicleResponse>(`/vehicles/${id}`);
-
-  return response.data;
-};
+export const { useGetVehiclesQuery, useGetVehicleQuery } = starWarsApi;

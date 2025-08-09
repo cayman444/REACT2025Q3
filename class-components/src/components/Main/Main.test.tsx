@@ -1,27 +1,29 @@
-import { renderHook, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { Main } from './Main.component';
-import {
-  renderTestApp,
-  renderWithContext,
-  renderWithRouter,
-} from '../../tests/utils';
-import { useFetchVehicles } from './useFetchVehicles';
-import type { PropsWithChildren } from 'react';
-import { vehiclesMocks } from '../../tests/mocks';
+import { renderTestApp } from '../../tests/utils';
+import { setupServer } from 'msw/node';
+import { API_URL } from '../../services';
+import { http, HttpResponse } from 'msw';
+import { MOCK_DATA } from '../../tests/mocks';
 
-describe('Rendering Tests', () => {
-  vehiclesMocks();
+describe('Main', () => {
+  const server = setupServer(
+    http.get(`${API_URL}vehicles`, () => {
+      return HttpResponse.json({
+        result: MOCK_DATA,
+      });
+    })
+  );
 
-  const wrapper = ({ children }: PropsWithChildren) => renderTestApp(children);
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
-  it('should not show pagination component when loading state', async () => {
-    renderWithRouter(renderWithContext(<Main />, { totalPage: 10 }));
-    renderHook(() => useFetchVehicles(), { wrapper });
-
-    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
+  it('should return correct data', async () => {
+    renderTestApp(<Main />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('pagination')).toBeInTheDocument();
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
     });
   });
 });

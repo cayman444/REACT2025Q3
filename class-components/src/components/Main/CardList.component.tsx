@@ -1,25 +1,29 @@
 import { type FC } from 'react';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
-import type { IVehicle } from '../../types';
 import { useAppSelector } from '../../hooks';
+import type { IVehicle } from '../../types';
 
-interface CardListProps {
-  vehicles: IVehicle[];
-  isLoading: boolean;
-  error: string;
+interface CardsListProps {
+  vehicles?: IVehicle[];
+  isFetching: boolean;
+  error?: string | number;
 }
 
-export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
+export const CardList: FC<CardsListProps> = ({
+  vehicles,
+  isFetching,
+  error,
+}) => {
   const { selectedCards } = useAppSelector((state) => state.cards);
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
-      {isLoading && <Spinner />}
-      {error && (
+      {isFetching && <Spinner />}
+      {error && !isFetching && (
         <div className="text-center font-medium text-red-500">{error}</div>
       )}
-      {!vehicles.length && !isLoading && !error && (
+      {!vehicles?.length && !isFetching && !error && (
         <div
           data-testid="card-empty"
           className="text-center font-medium text-gray-800 dark:text-gray-200"
@@ -27,17 +31,19 @@ export const CardList: FC<CardListProps> = ({ vehicles, isLoading, error }) => {
           Nothing found for this request
         </div>
       )}
-      {vehicles.map(
-        ({ properties: { name, manufacturer: description }, uid }) => (
-          <Card
-            key={uid}
-            name={name}
-            description={description}
-            isCardChecked={selectedCards.some((card) => card.id === uid)}
-            id={uid}
-          />
-        )
-      )}
+      {!isFetching
+        ? vehicles?.map(
+            ({ properties: { name, manufacturer: description }, uid }) => (
+              <Card
+                key={uid}
+                name={name}
+                description={description}
+                isCardChecked={selectedCards.some((card) => card.id === uid)}
+                id={uid}
+              />
+            )
+          )
+        : null}
     </section>
   );
 };

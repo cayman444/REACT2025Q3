@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
-import { toggleCard } from '../../store/Cards.slice';
+import { toggleCard } from '../../store/Cards';
 
 interface CardProps {
   name: string;

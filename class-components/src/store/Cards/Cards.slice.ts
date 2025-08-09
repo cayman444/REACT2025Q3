@@ -1,5 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { CardsState, ISelectedCard } from '../types';
+import type { ISelectedCard } from '../../types';
+
+export interface CardsState {
+  selectedCards: ISelectedCard[];
+}
 
 const initialState: CardsState = {
   selectedCards: [],
