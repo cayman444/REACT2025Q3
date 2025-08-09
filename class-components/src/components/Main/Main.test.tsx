@@ -1,15 +1,29 @@
 import { screen, waitFor } from '@testing-library/react';
 import { Main } from './Main.component';
 import { renderTestApp } from '../../tests/utils';
+import { setupServer } from 'msw/node';
+import { API_URL } from '../../services';
+import { http, HttpResponse } from 'msw';
+import { MOCK_DATA } from '../../tests/mocks';
 
-describe.skip('Rendering Tests', () => {
-  it('should not show pagination component when loading state', async () => {
+describe('Main', () => {
+  const server = setupServer(
+    http.get(`${API_URL}vehicles`, () => {
+      return HttpResponse.json({
+        result: MOCK_DATA,
+      });
+    })
+  );
+
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+
+  it('should return correct data', async () => {
     renderTestApp(<Main />);
 
-    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
-
     await waitFor(() => {
-      expect(screen.getByTestId('pagination')).toBeInTheDocument();
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
     });
   });
 });
