@@ -60,6 +60,7 @@ export const Pagination: FC<PaginationProps> = ({
       <div className="flex flex-wrap justify-center items-center gap-2">
         {pages.map((_, ind) => (
           <Button
+            data-testid="current-page"
             key={ind}
             className={clsx(
               {

@@ -7,6 +7,7 @@ import { paginationReducer } from '../../store/Pagination';
 import { AppProvider } from '../../context';
 import type { RootState } from '../../store';
 import { starWarsApi } from '../../services';
+import { render } from '@testing-library/react';
 
 export const renderTestApp = (
   component: ReactNode,
@@ -24,11 +25,14 @@ export const renderTestApp = (
     preloadedState,
   });
 
-  return (
-    <Provider store={store}>
-      <MemoryRouter initialEntries={[initialRoute]}>
-        <AppProvider>{component}</AppProvider>
-      </MemoryRouter>
-    </Provider>
-  );
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <AppProvider>{component}</AppProvider>
+        </MemoryRouter>
+      </Provider>
+    ),
+  };
 };

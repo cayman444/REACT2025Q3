@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { Route, Routes } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
@@ -15,14 +15,12 @@ const MOCK_DATA = {
 };
 
 const renderDetailsComponent = () =>
-  render(
-    renderTestApp(
-      <Routes>
-        <Route path="/details/:detailsId" element={<DetailsCard />} />
-      </Routes>,
-      undefined,
-      '/details/1'
-    )
+  renderTestApp(
+    <Routes>
+      <Route path="/details/:detailsId" element={<DetailsCard />} />
+    </Routes>,
+    undefined,
+    '/details/1'
   );
 
 describe('DetailsCard', () => {

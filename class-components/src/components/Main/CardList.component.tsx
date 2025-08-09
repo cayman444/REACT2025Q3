@@ -1,29 +1,27 @@
 import { type FC } from 'react';
-import type { SerializedError } from '@reduxjs/toolkit';
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { Card } from './Card.component';
 import { Spinner } from '../ui';
 import { useAppSelector } from '../../hooks';
-import type { VehiclesResponse } from '../../types';
+import type { IVehicle } from '../../types';
 
 interface CardsListProps {
-  data?: VehiclesResponse;
+  vehicles?: IVehicle[];
   isFetching: boolean;
-  error?: SerializedError | FetchBaseQueryError;
+  error?: string | number;
 }
 
-export const CardList: FC<CardsListProps> = ({ data, isFetching, error }) => {
+export const CardList: FC<CardsListProps> = ({
+  vehicles,
+  isFetching,
+  error,
+}) => {
   const { selectedCards } = useAppSelector((state) => state.cards);
-
-  const vehicles = data?.result ? data.result : data?.results;
 
   return (
     <section className="relative flex flex-col justify-center gap-5 min-h-18">
       {isFetching && <Spinner />}
       {error && !isFetching && (
-        <div className="text-center font-medium text-red-500">
-          {'status' in error ? error.status : ''}
-        </div>
+        <div className="text-center font-medium text-red-500">{error}</div>
       )}
       {!vehicles?.length && !isFetching && !error && (
         <div

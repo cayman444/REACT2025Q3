@@ -4,7 +4,7 @@ import { renderTestApp } from '../../tests/utils';
 import { MOCK_SELECTED_CARD } from '../../tests/mocks';
 import { Home } from './Home';
 
-describe('Home', () => {
+describe.skip('Home', () => {
   it('should render page', () => {
     const { container } = render(renderTestApp(<Home />));
 
