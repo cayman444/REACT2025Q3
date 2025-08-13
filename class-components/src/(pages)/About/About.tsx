@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui';
-import { RouteNames } from '../../router';
+import { ROUTE_NAMES } from '../../constants/pages';
 
 export const About = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const About = () => {
             RS School
           </a>
         </div>
-        <Button onClick={() => navigate(RouteNames.HOME)}>Back</Button>
+        <Button onClick={() => navigate(ROUTE_NAMES.HOME)}>Back</Button>
       </div>
     </div>
   );

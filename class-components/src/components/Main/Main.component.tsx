@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, type FC } from 'react';
 import { CardList } from './CardList.component';
 import { Pagination } from '../Pagination';

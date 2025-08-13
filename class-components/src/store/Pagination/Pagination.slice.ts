@@ -1,6 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 const getCurrentPage = () => {
+  if (typeof window === 'undefined') return 1;
+
   const params = new URLSearchParams(window.location.search);
   return Number(params.get('page')) || 1;
 };

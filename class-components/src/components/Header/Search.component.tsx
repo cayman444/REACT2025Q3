@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type FC, type MouseEvent } from 'react';
 import { useAppContext } from '../../context';
 import { Button } from '../ui';

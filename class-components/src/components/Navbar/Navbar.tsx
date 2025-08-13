@@ -1,14 +1,16 @@
-import { NavLink, useMatch } from 'react-router-dom';
+'use client';
+
 import clsx from 'clsx';
-import { RouteNames } from '../../router';
 import { useAppContext } from '../../context';
 import { ThemeIcon } from '../ThemeIcon/ThemeIcon';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { ROUTE_NAMES } from '../../constants/pages';
 
 export const Navbar = () => {
   const { isDarkTheme, setIsDarkTheme } = useAppContext();
-  const isHomeActive = useMatch(RouteNames.HOME);
-  const isDetailsActive = useMatch(RouteNames.ITEM_DETAILS);
+  const pathname = usePathname();
 
   const themeClickHandler = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -28,23 +30,23 @@ export const Navbar = () => {
       className="flex gap-5 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
     >
       <div className="flex gap-5 justify-center items-center flex-auto">
-        <NavLink
-          to={RouteNames.HOME}
+        <Link
+          href={ROUTE_NAMES.HOME}
           className={clsx(
             'text-gray-800 font-medium dark:text-gray-200',
-            (isHomeActive || isDetailsActive) && 'underline pointer-events-none'
+            (pathname === ROUTE_NAMES.HOME ||
+              pathname === ROUTE_NAMES.ITEM_DETAILS) &&
+              'underline pointer-events-none'
           )}
         >
           Home
-        </NavLink>
-        <NavLink
-          to={RouteNames.ABOUT}
-          className={({ isActive }) =>
-            `text-gray-800 font-medium dark:text-gray-200 ${isActive ? 'underline pointer-events-none' : ''}`
-          }
+        </Link>
+        <Link
+          href={ROUTE_NAMES.ABOUT}
+          className={`text-gray-800 font-medium dark:text-gray-200 ${pathname === ROUTE_NAMES.ABOUT ? 'underline pointer-events-none' : ''}`}
         >
           About
-        </NavLink>
+        </Link>
       </div>
       <ThemeIcon isDarkTheme={isDarkTheme} onClick={themeClickHandler} />
     </nav>

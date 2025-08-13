@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { Button, Spinner } from '../ui';
 import type { IVehicle } from '../../types';
-import { RouteNames } from '../../router';
+import { ROUTE_NAMES } from '../../constants/pages';
 import { useGetVehicleQuery } from '../../services';
 
 const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
@@ -27,7 +27,7 @@ export const DetailsCard = () => {
   const vehicle = data?.result;
 
   const closeDetailedCard = () => {
-    navigate(RouteNames.HOME);
+    navigate(ROUTE_NAMES.HOME);
   };
 
   return (
@@ -50,7 +50,7 @@ export const DetailsCard = () => {
             {DESCRIPTION_LIST.map((desc, ind) => (
               <li key={ind}>
                 <span className="inline text-gray-800 font-medium dark:text-gray-200">
-                  {desc.replaceAll('_', ' ')}:
+                  {desc.replace('_', ' ')}:
                 </span>{' '}
                 <p className="inline text-gray-700 dark:text-gray-400">
                   {vehicle?.properties?.[desc]}

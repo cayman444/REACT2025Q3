@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type FC, type PropsWithChildren } from 'react';
 import { AppContext } from './AppContext';
 import { useLocalStorage } from '../hooks';

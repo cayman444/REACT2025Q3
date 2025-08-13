@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, type FC } from 'react';
 import { Button } from '../ui';
 import { useAppDispatch } from '../../hooks';
