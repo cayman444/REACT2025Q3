@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../../components/ui';
-import { ROUTE_NAMES } from '../../constants/pages';
+import { Metadata } from 'next';
+import { ButtonToHome } from '../../../components';
 
-export const About = () => {
-  const navigate = useNavigate();
+export const metadata: Metadata = {
+  title: 'About page',
+};
 
+export default function About() {
   return (
     <div className="flex items-center justify-center h-[calc(100vh-160px)] px-4">
       <div className="flex flex-col justify-center items-center gap-8 bg-white dark:bg-gray-800 p-5 rounded shadow">
@@ -29,8 +30,8 @@ export const About = () => {
             RS School
           </a>
         </div>
-        <Button onClick={() => navigate(ROUTE_NAMES.HOME)}>Back</Button>
+        <ButtonToHome />
       </div>
     </div>
   );
-};
+}

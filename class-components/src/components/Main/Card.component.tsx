@@ -1,7 +1,7 @@
 import { type FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { toggleCard } from '../../store/Cards';
+import { useRouter } from 'next/navigation';
 
 interface CardProps {
   name: string;
@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const checkboxHandleChange = () => {
@@ -25,7 +25,7 @@ export const Card: FC<CardProps> = ({ isCardChecked, ...card }) => {
     >
       <div
         className="flex-auto cursor-pointer"
-        onClick={() => navigate(`details/${card.id}`)}
+        onClick={() => router.push(`/details/${card.id}`)}
       >
         <h2 className="inline text-gray-800 font-medium dark:text-gray-200">
           {card.name}:{' '}

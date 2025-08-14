@@ -34,8 +34,7 @@ export const Navbar = () => {
           href={ROUTE_NAMES.HOME}
           className={clsx(
             'text-gray-800 font-medium dark:text-gray-200',
-            (pathname === ROUTE_NAMES.HOME ||
-              pathname === ROUTE_NAMES.ITEM_DETAILS) &&
+            (pathname === ROUTE_NAMES.HOME || pathname.includes('/details')) &&
               'underline pointer-events-none'
           )}
         >

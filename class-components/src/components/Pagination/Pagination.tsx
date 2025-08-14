@@ -1,9 +1,9 @@
-import { useEffect, type FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useCallback, useEffect, type FC } from 'react';
 import clsx from 'clsx';
 import { Button } from '../ui';
 import { useAppDispatch } from '../../hooks';
 import { setPagination } from '../../store/Pagination';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   currentPage: number;
@@ -16,13 +16,27 @@ export const Pagination: FC<PaginationProps> = ({
   totalPage,
   searchValue,
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const dispatch = useAppDispatch();
 
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   useEffect(() => {
-    searchParams.set('page', currentPage.toString());
-    setSearchParams(searchParams);
-  }, [currentPage, searchParams, setSearchParams]);
+    const query = createQueryString('page', currentPage.toString());
+
+    router.push(`${pathname}?${query}`);
+  }, [createQueryString, currentPage, pathname, router, searchParams]);
 
   if (!totalPage || totalPage === 1 || searchValue) return;
 

@@ -1,9 +1,11 @@
-import { useNavigate, useParams } from 'react-router-dom';
+'use client';
+
+import { useParams, useRouter } from 'next/navigation';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { Button, Spinner } from '../ui';
-import type { IVehicle } from '../../types';
-import { ROUTE_NAMES } from '../../constants/pages';
-import { useGetVehicleQuery } from '../../services';
+import { IVehicle } from '../../../../../types';
+import { useGetVehicleQuery } from '../../../../../services';
+import { ROUTE_NAMES } from '../../../../../constants/pages';
+import { Button, Spinner } from '../../../../../components/ui';
 
 const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'vehicle_class',
@@ -17,9 +19,9 @@ const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'cost_in_credits',
 ];
 
-export const DetailsCard = () => {
-  const { detailsId } = useParams();
-  const navigate = useNavigate();
+export default function DetailsCard() {
+  const { detailsId } = useParams<{ detailsId: string }>();
+  const router = useRouter();
   const { data, isFetching, error } = useGetVehicleQuery(
     detailsId || skipToken
   );
@@ -27,7 +29,7 @@ export const DetailsCard = () => {
   const vehicle = data?.result;
 
   const closeDetailedCard = () => {
-    navigate(ROUTE_NAMES.HOME);
+    router.push(ROUTE_NAMES.HOME);
   };
 
   return (
@@ -63,4 +65,4 @@ export const DetailsCard = () => {
       )}
     </article>
   );
-};
+}

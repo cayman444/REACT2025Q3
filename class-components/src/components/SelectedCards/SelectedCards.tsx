@@ -2,31 +2,30 @@
 
 import { useRef, type FC } from 'react';
 import { Button } from '../ui';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { unselectAllCards } from '../../store/Cards';
-import type { ISelectedCard } from '../../types';
 
-interface SelectedCardsProps {
-  cards: ISelectedCard[];
-}
+export const SelectedCards: FC = () => {
+  const { selectedCards } = useAppSelector((state) => state.cards);
 
-export const SelectedCards: FC<SelectedCardsProps> = ({ cards }) => {
   const dispatch = useAppDispatch();
   const downloadRef = useRef<HTMLAnchorElement>(null);
+
+  if (!selectedCards.length) return null;
 
   const saveCards = () => {
     const link = downloadRef.current;
     if (!link) return;
 
-    const headerCsv = Object.keys(cards[0]).join(',');
-    const bodyCsv = cards.map((card) => Object.values(card)).join('\n');
+    const headerCsv = Object.keys(selectedCards[0]).join(',');
+    const bodyCsv = selectedCards.map((card) => Object.values(card)).join('\n');
     const resCsv = [headerCsv, bodyCsv].join('\n');
 
     const file = new Blob([resCsv], { type: 'text/csv' });
 
     const url = URL.createObjectURL(file);
     link.href = url;
-    link.download = `${cards.length}_cards`;
+    link.download = `${selectedCards.length}_cards`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -40,7 +39,7 @@ export const SelectedCards: FC<SelectedCardsProps> = ({ cards }) => {
         data-testid="items-selected"
         className="font-medium dark:text-gray-200"
       >
-        Items are selected: {cards.length}
+        Items are selected: {selectedCards.length}
       </div>
       <div className="flex gap-2">
         <Button
