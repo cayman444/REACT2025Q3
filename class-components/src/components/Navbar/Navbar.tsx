@@ -11,19 +11,17 @@ export const Navbar = () => {
   const t = useTranslations('Home');
   const pathname = usePathname();
 
-  const pathnameParts = pathname.split('/').slice(1);
-
   return (
     <nav
       data-testid="navbar"
-      className="flex gap-5 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
+      className="flex gap-3 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
     >
       <div className="flex gap-5 justify-start items-center flex-auto">
         <Link
           href={ROUTE_NAMES.HOME}
           className={clsx('text-gray-800 font-medium dark:text-gray-200', {
             'underline pointer-events-none':
-              pathnameParts.length === 1 || pathnameParts.includes('details'),
+              pathname === ROUTE_NAMES.HOME || pathname.includes('details'),
           })}
         >
           {t('home')}
@@ -31,7 +29,7 @@ export const Navbar = () => {
         <Link
           href={ROUTE_NAMES.ABOUT}
           className={clsx('text-gray-800 font-medium dark:text-gray-200', {
-            'underline pointer-events-none': pathnameParts.includes('about'),
+            'underline pointer-events-none': pathname === ROUTE_NAMES.ABOUT,
           })}
         >
           {t('about')}
