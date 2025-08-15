@@ -1,11 +1,13 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useRouter } from '../../../../../../i18n/navigation';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { IVehicle } from '../../../../../types';
-import { useGetVehicleQuery } from '../../../../../services';
-import { ROUTE_NAMES } from '../../../../../constants/pages';
-import { Button, Spinner } from '../../../../../components/ui';
+import { IVehicle } from '../../../../../../types';
+import { useGetVehicleQuery } from '../../../../../../services';
+import { Button, Spinner } from '../../../../../../components/ui';
+import { ROUTE_NAMES } from '../../../../../../constants/pages';
 
 const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'vehicle_class',
@@ -20,6 +22,7 @@ const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
 ];
 
 export default function DetailsCard() {
+  const t = useTranslations('Home');
   const { detailsId } = useParams<{ detailsId: string }>();
   const router = useRouter();
   const { data, isFetching, error } = useGetVehicleQuery(
@@ -60,7 +63,7 @@ export default function DetailsCard() {
               </li>
             ))}
           </ul>
-          <Button onClick={closeDetailedCard}>Close</Button>
+          <Button onClick={closeDetailedCard}>{t('close')}</Button>
         </>
       )}
     </article>

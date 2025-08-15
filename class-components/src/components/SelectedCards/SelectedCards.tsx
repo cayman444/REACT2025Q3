@@ -1,11 +1,13 @@
 'use client';
 
 import { useRef, type FC } from 'react';
+import { useTranslations } from 'next-intl';
 import { Button } from '../ui';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { unselectAllCards } from '../../store/Cards';
 
 export const SelectedCards: FC = () => {
+  const t = useTranslations('Home');
   const { selectedCards } = useAppSelector((state) => state.cards);
 
   const dispatch = useAppDispatch();
@@ -39,17 +41,17 @@ export const SelectedCards: FC = () => {
         data-testid="items-selected"
         className="font-medium dark:text-gray-200"
       >
-        Items are selected: {selectedCards.length}
+        {t('selected')}: {selectedCards.length}
       </div>
       <div className="flex gap-2">
         <Button
           data-testid="button-unselect"
           onClick={() => dispatch(unselectAllCards())}
         >
-          Unselect all
+          {t('unselect')}
         </Button>
         <Button data-testid="button-download" onClick={saveCards}>
-          Download
+          {t('download')}
         </Button>
         <a
           data-testid="link-download"

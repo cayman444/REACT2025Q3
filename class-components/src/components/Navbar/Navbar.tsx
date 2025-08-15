@@ -1,53 +1,44 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '../../i18n/navigation';
 import clsx from 'clsx';
-import { useAppContext } from '../../context';
-import { ThemeIcon } from '../ThemeIcon/ThemeIcon';
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import { ROUTE_NAMES } from '../../constants/pages';
+import { LanguageSelect } from '../LanguageSelect';
+import { ThemeIcon } from '../ThemeIcon';
 
 export const Navbar = () => {
-  const { isDarkTheme, setIsDarkTheme } = useAppContext();
+  const t = useTranslations('Home');
   const pathname = usePathname();
 
-  const themeClickHandler = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-
-  useEffect(() => {
-    if (isDarkTheme) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkTheme]);
+  const pathnameParts = pathname.split('/').slice(1);
 
   return (
     <nav
       data-testid="navbar"
       className="flex gap-5 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
     >
-      <div className="flex gap-5 justify-center items-center flex-auto">
+      <div className="flex gap-5 justify-start items-center flex-auto">
         <Link
           href={ROUTE_NAMES.HOME}
-          className={clsx(
-            'text-gray-800 font-medium dark:text-gray-200',
-            (pathname === ROUTE_NAMES.HOME || pathname.includes('/details')) &&
-              'underline pointer-events-none'
-          )}
+          className={clsx('text-gray-800 font-medium dark:text-gray-200', {
+            'underline pointer-events-none':
+              pathnameParts.length === 1 || pathnameParts.includes('details'),
+          })}
         >
-          Home
+          {t('home')}
         </Link>
         <Link
           href={ROUTE_NAMES.ABOUT}
-          className={`text-gray-800 font-medium dark:text-gray-200 ${pathname === ROUTE_NAMES.ABOUT ? 'underline pointer-events-none' : ''}`}
+          className={clsx('text-gray-800 font-medium dark:text-gray-200', {
+            'underline pointer-events-none': pathnameParts.includes('about'),
+          })}
         >
-          About
+          {t('about')}
         </Link>
       </div>
-      <ThemeIcon isDarkTheme={isDarkTheme} onClick={themeClickHandler} />
+      <ThemeIcon />
+      <LanguageSelect />
     </nav>
   );
 };

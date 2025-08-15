@@ -5,3 +5,4 @@ export * from './Navbar';
 export * from './SelectedCards';
 export * from './ButtonToHome';
 export * from './ButtonRefreshData';
+export * from './LanguageSelect';

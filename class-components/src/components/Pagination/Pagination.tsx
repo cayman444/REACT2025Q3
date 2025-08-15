@@ -1,9 +1,10 @@
 import { useCallback, useEffect, type FC } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from '../../i18n/navigation';
 import clsx from 'clsx';
 import { Button } from '../ui';
 import { useAppDispatch } from '../../hooks';
 import { setPagination } from '../../store/Pagination';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   currentPage: number;

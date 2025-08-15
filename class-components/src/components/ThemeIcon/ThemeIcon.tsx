@@ -1,10 +1,23 @@
-import type { ComponentProps, FC } from 'react';
+'use client';
 
-interface ThemeIconProps extends ComponentProps<'svg'> {
-  isDarkTheme: boolean;
-}
+import { useEffect, type FC } from 'react';
+import { useAppContext } from '../../context';
 
-export const ThemeIcon: FC<ThemeIconProps> = ({ isDarkTheme, ...props }) => {
+export const ThemeIcon: FC = () => {
+  const { isDarkTheme, setIsDarkTheme } = useAppContext();
+
+  const themeClickHandler = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
+
+  useEffect(() => {
+    if (isDarkTheme) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkTheme]);
+
   return (
     <>
       {isDarkTheme ? (
@@ -16,7 +29,7 @@ export const ThemeIcon: FC<ThemeIconProps> = ({ isDarkTheme, ...props }) => {
           strokeWidth={1.5}
           stroke="currentColor"
           className="size-6 cursor-pointer text-gray-200"
-          {...props}
+          onClick={themeClickHandler}
         >
           <path
             strokeLinecap="round"
@@ -33,7 +46,7 @@ export const ThemeIcon: FC<ThemeIconProps> = ({ isDarkTheme, ...props }) => {
           strokeWidth={1.5}
           stroke="currentColor"
           className="size-6 cursor-pointer text-gray-800"
-          {...props}
+          onClick={themeClickHandler}
         >
           <path
             strokeLinecap="round"

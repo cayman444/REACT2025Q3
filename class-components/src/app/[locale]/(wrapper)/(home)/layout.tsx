@@ -5,7 +5,7 @@ import {
   Main,
   SelectedCards,
   ButtonRefreshData,
-} from '../../../components';
+} from '../../../../components';
 
 export const metadata: Metadata = {
   title: 'Home page',
