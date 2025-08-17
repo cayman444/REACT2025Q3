@@ -11,10 +11,7 @@
     "lint:fix": "eslint --fix .",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "prepare": "cd .. && husky class-components/.husky",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "prepare": "cd .. && husky class-components/.husky"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
