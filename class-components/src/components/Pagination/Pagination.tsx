@@ -1,12 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, type FC } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { type FC } from 'react';
 import clsx from 'clsx';
-import { usePathname, useRouter } from '@/i18n';
-import { setPagination } from '@/store/Pagination';
-import { useAppDispatch } from '@/hooks';
 import { Button } from '@/components/ui';
+import { usePagination } from './usePagination';
 
 interface PaginationProps {
   currentPage: number;
@@ -14,48 +11,13 @@ interface PaginationProps {
   searchValue: string;
 }
 
-export const Pagination: FC<PaginationProps> = ({
-  currentPage,
-  totalPage,
-  searchValue,
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export const Pagination: FC<PaginationProps> = (props) => {
+  const { handleSelectPage, handleNextPage, handlePrevPage } =
+    usePagination(props);
 
-  const dispatch = useAppDispatch();
+  if (!props.totalPage || props.totalPage === 1 || props.searchValue) return;
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-  useEffect(() => {
-    const query = createQueryString('page', currentPage.toString());
-
-    router.push(`${pathname}?${query}`);
-  }, [createQueryString, currentPage, pathname, router, searchParams]);
-
-  if (!totalPage || totalPage === 1 || searchValue) return;
-
-  const pages = [...Array(totalPage)];
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      dispatch(setPagination({ currentPage: currentPage - 1 }));
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPage) {
-      dispatch(setPagination({ currentPage: currentPage + 1 }));
-    }
-  };
+  const pages = [...Array(props.totalPage)];
 
   return (
     <div
@@ -66,7 +28,7 @@ export const Pagination: FC<PaginationProps> = ({
         data-testid="page-prev"
         className={clsx(
           {
-            'pointer-events-none opacity-50': currentPage === 1,
+            'pointer-events-none opacity-50': props.currentPage === 1,
           },
           'flex justify-center items-center w-10'
         )}
@@ -81,11 +43,11 @@ export const Pagination: FC<PaginationProps> = ({
             key={ind}
             className={clsx(
               {
-                'pointer-events-none opacity-50': ind + 1 === currentPage,
+                'pointer-events-none opacity-50': ind + 1 === props.currentPage,
               },
               'flex justify-center items-center w-10'
             )}
-            onClick={() => dispatch(setPagination({ currentPage: ind + 1 }))}
+            onClick={() => handleSelectPage(ind + 1)}
           >
             {ind + 1}
           </Button>
@@ -95,7 +57,8 @@ export const Pagination: FC<PaginationProps> = ({
         data-testid="page-next"
         className={clsx(
           {
-            'pointer-events-none opacity-50': currentPage === totalPage,
+            'pointer-events-none opacity-50':
+              props.currentPage === props.totalPage,
           },
           'flex justify-center items-center w-10'
         )}
