@@ -1,11 +1,6 @@
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
-import {
-  Header,
-  Main,
-  SelectedCards,
-  ButtonRefreshData,
-} from '../../../../components';
+import { ButtonRefreshData, Header, Main, SelectedCards } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Home page',

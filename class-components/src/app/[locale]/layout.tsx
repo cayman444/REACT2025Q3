@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { routing } from '../../i18n/routing';
-import { ErrorBoundary } from '../../components';
-import StoreProvider from '../../store/StoreProvider';
+import { routing } from '@/i18n';
+import StoreProvider from '@/store/StoreProvider';
+import { ErrorBoundary } from '@/components';
 import '../../index.css';
 
 export default async function LocaleLayout({

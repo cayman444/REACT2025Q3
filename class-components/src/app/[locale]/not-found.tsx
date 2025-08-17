@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { ButtonToHome } from '../../components';
+import { ButtonToHome } from '@/components';
 
 export default function GlobalNotFound() {
   const t = useTranslations('NotFound');

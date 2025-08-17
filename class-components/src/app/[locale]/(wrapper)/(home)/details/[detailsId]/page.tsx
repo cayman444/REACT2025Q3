@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { IVehicle, VehicleResponse } from '../../../../../../types';
-import { API_URL } from '../../../../../../services';
-import { ButtonDetailedClose } from '../../../../../../components';
+import { API_URL } from '@/services';
+import { IVehicle, VehicleResponse } from '@/types';
+import { ButtonDetailedClose } from '@/components';
 
 const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'vehicle_class',

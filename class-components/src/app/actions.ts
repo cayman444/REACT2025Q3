@@ -1,6 +1,6 @@
 'use server';
 
-import { ISelectedCard } from '../types';
+import { ISelectedCard } from '@/types';
 
 export const csvFormation = async (selectedCards: ISelectedCard[]) => {
   const headerCsv = Object.keys(selectedCards[0]).join(',');
