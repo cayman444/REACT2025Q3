@@ -9,3 +9,6 @@ export * from './LanguageSelect';
 export * from './ButtonDetailedClose';
 export * from './Pagination';
 export * from './ThemeIcon';
+export * from './Search';
+export * from './Card';
+export * from './CardList';

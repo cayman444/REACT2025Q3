@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Search } from './Search.component';
+import { Search } from '@/components';
 
 export const Header: FC = () => {
   return (

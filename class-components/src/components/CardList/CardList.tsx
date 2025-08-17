@@ -1,8 +1,10 @@
+'use client';
+
 import { type FC } from 'react';
 import { IVehicle } from '@/types';
 import { useAppSelector } from '@/hooks';
 import { Spinner } from '@/components/ui';
-import { Card } from './Card.component';
+import { Card } from '@/components';
 
 interface CardsListProps {
   vehicles?: IVehicle[];

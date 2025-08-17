@@ -1,3 +1,5 @@
+'use client';
+
 import { type FC } from 'react';
 import { useRouter } from '@/i18n';
 import { useAppDispatch } from '@/hooks';

@@ -5,8 +5,7 @@ import { setPagination } from '@/store/Pagination';
 import { useAppContext } from '@/context';
 import { useGetVehiclesQuery } from '@/services';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { Pagination } from '@/components';
-import { CardList } from './CardList.component';
+import { Pagination, CardList } from '@/components';
 
 export const Main: FC = () => {
   const dispatch = useAppDispatch();
