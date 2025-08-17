@@ -2,6 +2,7 @@
 
 import { useRef, type FC } from 'react';
 import { useTranslations } from 'next-intl';
+import { csvFormation } from '../../app/actions';
 import { Button } from '../ui';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { unselectAllCards } from '../../store/Cards';
@@ -15,15 +16,11 @@ export const SelectedCards: FC = () => {
 
   if (!selectedCards.length) return null;
 
-  const saveCards = () => {
+  const saveCards = async () => {
     const link = downloadRef.current;
     if (!link) return;
 
-    const headerCsv = Object.keys(selectedCards[0]).join(',');
-    const bodyCsv = selectedCards.map((card) => Object.values(card)).join('\n');
-    const resCsv = [headerCsv, bodyCsv].join('\n');
-
-    const file = new Blob([resCsv], { type: 'text/csv' });
+    const file = await csvFormation(selectedCards);
 
     const url = URL.createObjectURL(file);
     link.href = url;
