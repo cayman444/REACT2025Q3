@@ -1,0 +1,1 @@
+export { ButtonDetailedClose } from './ButtonDetailedClose';

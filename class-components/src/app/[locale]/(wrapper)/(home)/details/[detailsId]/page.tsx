@@ -1,13 +1,7 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { useRouter } from '../../../../../../i18n/navigation';
-import { skipToken } from '@reduxjs/toolkit/query';
-import { IVehicle } from '../../../../../../types';
-import { useGetVehicleQuery } from '../../../../../../services';
-import { Button, Spinner } from '../../../../../../components/ui';
-import { ROUTE_NAMES } from '../../../../../../constants/pages';
+import { Metadata } from 'next';
+import { IVehicle, VehicleResponse } from '../../../../../../types';
+import { API_URL } from '../../../../../../services';
+import { ButtonDetailedClose } from '../../../../../../components';
 
 const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'vehicle_class',
@@ -21,51 +15,42 @@ const DESCRIPTION_LIST: Array<keyof IVehicle['properties']> = [
   'cost_in_credits',
 ];
 
-export default function DetailsCard() {
-  const t = useTranslations('Home');
-  const { detailsId } = useParams<{ detailsId: string }>();
-  const router = useRouter();
-  const { data, isFetching, error } = useGetVehicleQuery(
-    detailsId || skipToken
-  );
+export const metadata: Metadata = {
+  title: 'DetailsCard page',
+};
+
+export default async function DetailsCard({
+  params,
+}: {
+  params: Promise<{ detailsId: string }>;
+}) {
+  const { detailsId } = await params;
+
+  const res = await fetch(`${API_URL}/vehicles/${detailsId}`, {
+    next: { revalidate: 60 },
+  });
+  const data: VehicleResponse = await res.json();
 
   const vehicle = data?.result;
 
-  const closeDetailedCard = () => {
-    router.push(ROUTE_NAMES.HOME);
-  };
-
   return (
     <article className="flex flex-col justify-center gap-5 bg-white/50 dark:bg-gray-800 p-5 rounded shadow min-h-28 relative">
-      {isFetching ? (
-        <Spinner />
-      ) : error && !isFetching ? (
-        <div
-          data-testid="error"
-          className="text-center font-medium text-red-500"
-        >
-          {'status' in error ? error.status : ''}
-        </div>
-      ) : (
-        <>
-          <h2 className="text-center font-medium dark:text-gray-200">
-            {vehicle?.properties.name}
-          </h2>
-          <ul className="flex flex-col gap-2">
-            {DESCRIPTION_LIST.map((desc, ind) => (
-              <li key={ind}>
-                <span className="inline text-gray-800 font-medium dark:text-gray-200">
-                  {desc.replace('_', ' ')}:
-                </span>{' '}
-                <p className="inline text-gray-700 dark:text-gray-400">
-                  {vehicle?.properties?.[desc]}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <Button onClick={closeDetailedCard}>{t('close')}</Button>
-        </>
-      )}
+      <h2 className="text-center font-medium text-gray-800 dark:text-gray-200">
+        {vehicle?.properties.name}
+      </h2>
+      <ul className="flex flex-col gap-2">
+        {DESCRIPTION_LIST.map((desc, ind) => (
+          <li key={ind}>
+            <span className="inline text-gray-800 font-medium dark:text-gray-200">
+              {desc.replace('_', ' ')}:
+            </span>{' '}
+            <p className="inline text-gray-700 dark:text-gray-400">
+              {vehicle?.properties?.[desc]}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <ButtonDetailedClose />
     </article>
   );
 }
