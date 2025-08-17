@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, type FC, type MouseEvent } from 'react';
-import { useAppContext } from '../../context';
-import { Button } from '../ui';
-import { useAppDispatch } from '../../hooks';
-import { setPagination } from '../../store/Pagination';
 import { useTranslations } from 'next-intl';
+import { setPagination } from '@/store/Pagination';
+import { useAppContext } from '@/context';
+import { useAppDispatch } from '@/hooks';
+import { Button } from '@/components/ui';
 
 export const Search: FC = () => {
   const dispatch = useAppDispatch();

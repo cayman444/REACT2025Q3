@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useRouter } from '../../i18n/navigation';
-import { Button } from '../ui';
-import { ROUTE_NAMES } from '../../constants/pages';
+import { useRouter } from '@/i18n';
+import { ROUTE_NAMES } from '@/constants/pages';
+import { Button } from '@/components/ui';
 
 export const ButtonDetailedClose = () => {
   const t = useTranslations('Home');

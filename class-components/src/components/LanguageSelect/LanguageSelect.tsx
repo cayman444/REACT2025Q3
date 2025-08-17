@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '../../i18n/navigation';
-import { routing } from '../../i18n/routing';
+import { routing, usePathname, useRouter } from '@/i18n';
 
 export const LanguageSelect = () => {
   const router = useRouter();

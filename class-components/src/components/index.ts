@@ -7,3 +7,5 @@ export * from './ButtonToHome';
 export * from './ButtonRefreshData';
 export * from './LanguageSelect';
 export * from './ButtonDetailedClose';
+export * from './Pagination';
+export * from './ThemeIcon';

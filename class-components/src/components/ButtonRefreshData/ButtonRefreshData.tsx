@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useAppDispatch } from '../../hooks';
-import { starWarsApi } from '../../services';
-import { Button } from '../ui';
+import { starWarsApi } from '@/services';
+import { useAppDispatch } from '@/hooks';
+import { Button } from '@/components/ui';
 
 export const ButtonRefreshData = () => {
   const t = useTranslations('Home');

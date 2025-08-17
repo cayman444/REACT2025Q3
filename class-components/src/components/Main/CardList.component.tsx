@@ -1,8 +1,8 @@
 import { type FC } from 'react';
+import { IVehicle } from '@/types';
+import { useAppSelector } from '@/hooks';
+import { Spinner } from '@/components/ui';
 import { Card } from './Card.component';
-import { Spinner } from '../ui';
-import { useAppSelector } from '../../hooks';
-import type { IVehicle } from '../../types';
 
 interface CardsListProps {
   vehicles?: IVehicle[];

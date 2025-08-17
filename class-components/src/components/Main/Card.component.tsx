@@ -1,7 +1,7 @@
 import { type FC } from 'react';
-import { useRouter } from '../../i18n/navigation';
-import { useAppDispatch } from '../../hooks/redux';
-import { toggleCard } from '../../store/Cards';
+import { useRouter } from '@/i18n';
+import { useAppDispatch } from '@/hooks';
+import { toggleCard } from '@/store/Cards';
 
 interface CardProps {
   name: string;

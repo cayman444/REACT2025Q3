@@ -1,11 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Link, usePathname } from '../../i18n/navigation';
 import clsx from 'clsx';
-import { ROUTE_NAMES } from '../../constants/pages';
-import { LanguageSelect } from '../LanguageSelect';
-import { ThemeIcon } from '../ThemeIcon';
+import { Link, usePathname } from '@/i18n';
+import { ROUTE_NAMES } from '@/constants/pages';
+import { ThemeIcon, LanguageSelect } from '@/components';
 
 export const Navbar = () => {
   const t = useTranslations('Home');

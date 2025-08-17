@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { starWarsApi } from '../services';
-import { paginationReducer } from './Pagination';
+import { starWarsApi } from '@/services';
 import { cardsReducer } from './Cards';
+import { paginationReducer } from './Pagination';
 
 export const makeStore = () => {
   return configureStore({

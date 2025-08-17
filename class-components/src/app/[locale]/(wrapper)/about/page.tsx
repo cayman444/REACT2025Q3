@@ -1,10 +1,5 @@
-import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { ButtonToHome } from '@/components';
-
-export const metadata: Metadata = {
-  title: 'About page',
-};
 
 export default function About() {
   const t = useTranslations('About');

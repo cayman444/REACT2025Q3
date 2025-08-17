@@ -1,10 +1,12 @@
+'use client';
+
 import { useCallback, useEffect, type FC } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { usePathname, useRouter } from '../../i18n/navigation';
 import clsx from 'clsx';
-import { Button } from '../ui';
-import { useAppDispatch } from '../../hooks';
-import { setPagination } from '../../store/Pagination';
+import { usePathname, useRouter } from '@/i18n';
+import { setPagination } from '@/store/Pagination';
+import { useAppDispatch } from '@/hooks';
+import { Button } from '@/components/ui';
 
 interface PaginationProps {
   currentPage: number;

@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, type FC } from 'react';
+import { setPagination } from '@/store/Pagination';
+import { useAppContext } from '@/context';
+import { useGetVehiclesQuery } from '@/services';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { Pagination } from '@/components';
 import { CardList } from './CardList.component';
-import { Pagination } from '../Pagination';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useGetVehiclesQuery } from '../../services';
-import { useAppContext } from '../../context';
-import { setPagination } from '../../store/Pagination';
 
 export const Main: FC = () => {
   const dispatch = useAppDispatch();

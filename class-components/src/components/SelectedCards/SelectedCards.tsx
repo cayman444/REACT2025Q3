@@ -2,10 +2,10 @@
 
 import { useRef, type FC } from 'react';
 import { useTranslations } from 'next-intl';
-import { csvFormation } from '../../app/actions';
-import { Button } from '../ui';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { unselectAllCards } from '../../store/Cards';
+import { unselectAllCards } from '@/store/Cards';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { csvFormation } from '@/app/actions';
+import { Button } from '@/components/ui';
 
 export const SelectedCards: FC = () => {
   const t = useTranslations('Home');

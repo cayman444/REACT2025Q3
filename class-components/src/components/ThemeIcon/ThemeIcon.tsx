@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect, type FC } from 'react';
 import Image from 'next/image';
-import { useAppContext } from '../../context';
+import { useAppContext } from '@/context';
 
 export const ThemeIcon: FC = () => {
   const { isDarkTheme, setIsDarkTheme } = useAppContext();
