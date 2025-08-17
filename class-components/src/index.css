@@ -2,6 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+
 html {
   scrollbar-gutter: stable;
 }
