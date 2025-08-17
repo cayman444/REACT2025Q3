@@ -1,0 +1,23 @@
+{
+  "Home": {
+    "about": "About",
+    "home": "Home",
+    "placeholder": "Enter something...",
+    "search": "Search",
+    "refetch": "Refetch data",
+    "close": "Close",
+    "selected": "Items are selected",
+    "unselect": "Unselect all",
+    "download": "Download"
+  },
+  "About": {
+    "title": "Routing and Hooks",
+    "description": "The application is designed for Routing and Hooks work assignments within the React 2025 Q3 course",
+    "author": "cayman444",
+    "course": "RS School",
+    "back": "Back"
+  },
+  "NotFound": {
+    "description": "Nothing found"
+  }
+}

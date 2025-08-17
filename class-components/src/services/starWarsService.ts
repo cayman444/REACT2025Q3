@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { VehicleResponse, VehiclesResponse } from '../types';
+import { VehicleResponse, VehiclesResponse } from '@/types';
 
 export const API_URL = 'https://www.swapi.tech/api/';
 const LIMIT_ITEMS = 10;

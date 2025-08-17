@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { ISelectedCard } from '../../types';
+import { ISelectedCard } from '@/types';
 
 export interface CardsState {
   selectedCards: ISelectedCard[];

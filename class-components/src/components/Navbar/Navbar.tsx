@@ -1,52 +1,41 @@
-import { NavLink, useMatch } from 'react-router-dom';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import clsx from 'clsx';
-import { RouteNames } from '../../router';
-import { useAppContext } from '../../context';
-import { ThemeIcon } from '../ThemeIcon/ThemeIcon';
-import { useEffect } from 'react';
+import { Link, usePathname } from '@/i18n';
+import { ROUTE_NAMES } from '@/constants/pages';
+import { ThemeIcon, LanguageSelect } from '@/components';
 
 export const Navbar = () => {
-  const { isDarkTheme, setIsDarkTheme } = useAppContext();
-  const isHomeActive = useMatch(RouteNames.HOME);
-  const isDetailsActive = useMatch(RouteNames.ITEM_DETAILS);
-
-  const themeClickHandler = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-
-  useEffect(() => {
-    if (isDarkTheme) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkTheme]);
+  const t = useTranslations('Home');
+  const pathname = usePathname();
 
   return (
     <nav
       data-testid="navbar"
-      className="flex gap-5 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
+      className="flex gap-3 justify-between items-center min-h-20 mx-auto max-w-3xl px-4"
     >
-      <div className="flex gap-5 justify-center items-center flex-auto">
-        <NavLink
-          to={RouteNames.HOME}
-          className={clsx(
-            'text-gray-800 font-medium dark:text-gray-200',
-            (isHomeActive || isDetailsActive) && 'underline pointer-events-none'
-          )}
+      <div className="flex gap-5 justify-start items-center flex-auto">
+        <Link
+          href={ROUTE_NAMES.HOME}
+          className={clsx('text-gray-800 font-medium dark:text-gray-200', {
+            'underline pointer-events-none':
+              pathname === ROUTE_NAMES.HOME || pathname.includes('details'),
+          })}
         >
-          Home
-        </NavLink>
-        <NavLink
-          to={RouteNames.ABOUT}
-          className={({ isActive }) =>
-            `text-gray-800 font-medium dark:text-gray-200 ${isActive ? 'underline pointer-events-none' : ''}`
-          }
+          {t('home')}
+        </Link>
+        <Link
+          href={ROUTE_NAMES.ABOUT}
+          className={clsx('text-gray-800 font-medium dark:text-gray-200', {
+            'underline pointer-events-none': pathname === ROUTE_NAMES.ABOUT,
+          })}
         >
-          About
-        </NavLink>
+          {t('about')}
+        </Link>
       </div>
-      <ThemeIcon isDarkTheme={isDarkTheme} onClick={themeClickHandler} />
+      <ThemeIcon />
+      <LanguageSelect />
     </nav>
   );
 };
