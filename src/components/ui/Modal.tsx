@@ -22,6 +22,8 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
     }
   }, [isVisible]);
 
+  if (!isVisible) return null;
+
   return createPortal(
     <dialog
       ref={dialogRef}

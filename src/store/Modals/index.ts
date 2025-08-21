@@ -1,2 +1,1 @@
-export { default as modalsReducer, toggleModalVisible } from './Modals.slice';
-export * from './Modals.type';
+export { default as formsReducer } from './Forms.slice';

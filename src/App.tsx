@@ -1,28 +1,33 @@
-import { ModalControlled, ModalUncontrolled } from './components';
-import { toggleModalVisible } from './store/Modals';
-import { useAppDispatch } from './hooks';
-import { Button } from './components/ui';
-import { MODAL_TYPE } from './constants';
+import { ControlledForm, UncontrolledForm } from './components';
+import { Button, Modal } from './components/ui';
+import { useState } from 'react';
 
 function App() {
-  const dispatch = useAppDispatch();
+  const [isOpenModalUncontrolled, setIsOpenModalUncontrolled] = useState(false);
+  const [isOpenModalControlled, setIsOpenModalControlled] = useState(false);
 
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="flex gap-5 items-center">
-        <Button
-          onClick={() => dispatch(toggleModalVisible(MODAL_TYPE.UNCONTROLLED))}
-        >
+        <Button onClick={() => setIsOpenModalUncontrolled(true)}>
           Open uncontrolled form
         </Button>
-        <Button
-          onClick={() => dispatch(toggleModalVisible(MODAL_TYPE.CONTROLLED))}
-        >
+        <Button onClick={() => setIsOpenModalControlled(true)}>
           Open controlled form
         </Button>
       </div>
-      <ModalUncontrolled />
-      <ModalControlled />
+      <Modal
+        isVisible={isOpenModalUncontrolled}
+        onClose={() => setIsOpenModalUncontrolled(false)}
+      >
+        <UncontrolledForm />
+      </Modal>
+      <Modal
+        isVisible={isOpenModalControlled}
+        onClose={() => setIsOpenModalControlled(false)}
+      >
+        <ControlledForm />
+      </Modal>
     </div>
   );
 }

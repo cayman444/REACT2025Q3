@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { modalsReducer } from './Modals';
+import { formsReducer } from './Modals';
 
 export const store = configureStore({
   reducer: {
-    modals: modalsReducer,
+    forms: formsReducer,
   },
 });
 
