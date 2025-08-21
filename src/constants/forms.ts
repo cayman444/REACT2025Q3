@@ -37,7 +37,7 @@ export const FORM_INPUTS: IFormInput[] = [
     title: 'Password',
   },
   {
-    name: 'confirm-password',
+    name: 'confirmPassword',
     type: 'password',
     placeholder: 'Confirm password',
     title: 'Confirm password',

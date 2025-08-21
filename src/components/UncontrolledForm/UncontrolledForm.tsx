@@ -1,21 +1,24 @@
-import { useRef, type FormEvent } from 'react';
+import { useRef } from 'react';
+import { formSchema } from '../../schemas';
 import { FORM_INPUTS, FORM_SELECTS } from '../../constants';
 import { Button } from '../ui';
 
 export const UncontrolledForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
+  const formAction = (formData: FormData) => {
     const formValues = Object.fromEntries(formData);
+    const result = formSchema.safeParse(formValues);
 
-    console.log(formValues);
+    if (result.success) {
+      console.log(result.data);
+    } else {
+      console.log(result.error);
+    }
   };
 
   return (
-    <form className="flex flex-col gap-3" onSubmit={submitHandler}>
+    <form className="flex flex-col gap-3" action={formAction} noValidate>
       {FORM_INPUTS.map(({ name, placeholder, title, type }) => (
         <div className="flex flex-col gap-1" key={name}>
           <label htmlFor={name} className="font-medium">
