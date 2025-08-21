@@ -1,19 +1,19 @@
-import type { FC } from 'react';
+import { MODAL_TYPE } from '../../constants';
+import { toggleModalVisible } from '../../store/Modals';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Modal } from '../ui';
 
-interface ModalControlledProps {
-  isOpen: boolean;
-  onCloseModal: () => void;
-}
+export const ModalControlled = () => {
+  const dispatch = useAppDispatch();
+  const { controlledModal } = useAppSelector((state) => state.modals);
 
-export const ModalControlled: FC<ModalControlledProps> = ({
-  isOpen,
-  onCloseModal,
-}) => {
-  if (!isOpen) return;
+  if (!controlledModal.isVisible) return;
 
   return (
-    <Modal isOpen={isOpen} onClose={onCloseModal}>
+    <Modal
+      isVisible={controlledModal.isVisible}
+      onClose={() => dispatch(toggleModalVisible(MODAL_TYPE.CONTROLLED))}
+    >
       controlled
     </Modal>
   );

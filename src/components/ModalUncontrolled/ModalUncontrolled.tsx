@@ -1,19 +1,19 @@
-import type { FC } from 'react';
+import { MODAL_TYPE } from '../../constants';
+import { toggleModalVisible } from '../../store/Modals';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Modal } from '../ui';
 
-interface ModalUncontrolledProps {
-  isOpen: boolean;
-  onCloseModal: () => void;
-}
+export const ModalUncontrolled = () => {
+  const dispatch = useAppDispatch();
+  const { uncontrolledModal } = useAppSelector((state) => state.modals);
 
-export const ModalUncontrolled: FC<ModalUncontrolledProps> = ({
-  isOpen,
-  onCloseModal,
-}) => {
-  if (!isOpen) return;
+  if (!uncontrolledModal.isVisible) return;
 
   return (
-    <Modal isOpen={isOpen} onClose={onCloseModal}>
+    <Modal
+      isVisible={uncontrolledModal.isVisible}
+      onClose={() => dispatch(toggleModalVisible(MODAL_TYPE.UNCONTROLLED))}
+    >
       uncontrolled
     </Modal>
   );

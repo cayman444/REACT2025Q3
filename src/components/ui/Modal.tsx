@@ -3,11 +3,11 @@ import { createPortal } from 'react-dom';
 import { Button } from './Button';
 
 interface ModalProps extends PropsWithChildren {
-  isOpen: boolean;
+  isVisible: boolean;
   onClose: () => void;
 }
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -15,12 +15,12 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
     if (!dialog) return;
 
-    if (isOpen) {
+    if (isVisible) {
       dialog.showModal();
     } else {
       dialog.close();
     }
-  }, [isOpen]);
+  }, [isVisible]);
 
   return createPortal(
     <dialog
