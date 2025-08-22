@@ -27,13 +27,15 @@ export const formSchema = z
       ),
     confirmPassword: z.string().nonempty({ error: 'Required to fill' }),
     gender: z.string().nonempty({ error: 'Required to fill' }),
-    insurance: z.string().nonempty({ error: 'Required to fill' }),
+    insurance: z
+      .string('Required to fill')
+      .nonempty({ error: 'Required to fill' }),
     file: z
       .file()
       .refine((val) => val.type.match(/png|jpeg/), {
         error: 'file extension must be png or jpeg',
       })
-      .refine((val) => val.size <= 2 * 2048, {
+      .refine((val) => val.size <= 2 * 1024 * 1024, {
         error: 'the file size must not exceed 2MB',
       }),
     country: z.string().nonempty({ error: 'Required to fill' }),

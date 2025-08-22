@@ -31,7 +31,7 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
       onClose={onClose}
       className="bg-white rounded shadow m-auto backdrop:bg-black/50"
     >
-      <div className="p-5" onClick={(e) => e.stopPropagation()}>
+      <div className="p-5 min-w-3xl" onClick={(e) => e.stopPropagation()}>
         <Button onClick={onClose}>close</Button>
         {children}
       </div>

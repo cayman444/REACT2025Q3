@@ -6,6 +6,9 @@ function App() {
   const [isOpenModalUncontrolled, setIsOpenModalUncontrolled] = useState(false);
   const [isOpenModalControlled, setIsOpenModalControlled] = useState(false);
 
+  const closeUncontrolledModal = () => setIsOpenModalUncontrolled(false);
+  const closeControlledModal = () => setIsOpenModalControlled(false);
+
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="flex gap-5 items-center">
@@ -18,14 +21,11 @@ function App() {
       </div>
       <Modal
         isVisible={isOpenModalUncontrolled}
-        onClose={() => setIsOpenModalUncontrolled(false)}
+        onClose={closeUncontrolledModal}
       >
-        <UncontrolledForm />
+        <UncontrolledForm onCloseModal={closeUncontrolledModal} />
       </Modal>
-      <Modal
-        isVisible={isOpenModalControlled}
-        onClose={() => setIsOpenModalControlled(false)}
-      >
+      <Modal isVisible={isOpenModalControlled} onClose={closeControlledModal}>
         <ControlledForm />
       </Modal>
     </div>
