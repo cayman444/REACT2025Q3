@@ -36,8 +36,8 @@ export const ControlledForm: FC<ControlledFormProps> = (props) => {
           />
           <FormSelects register={register} errors={errors} />
         </div>
-        <FormFile control={control} errors={errors} />
-        <FormInsurance control={control} errors={errors} />
+        <FormFile control={control} error={errors.file?.message} />
+        <FormInsurance control={control} error={errors.insurance?.message} />
       </div>
       <Button disabled={!isValid}>Submit</Button>
     </form>

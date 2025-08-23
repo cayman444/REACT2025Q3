@@ -1,13 +1,13 @@
 import type { FC } from 'react';
-import { Controller, type Control, type FieldErrors } from 'react-hook-form';
+import { Controller, type Control } from 'react-hook-form';
 import type { FormFields } from '../../../schemas';
 
 interface FormInsurance {
   control: Control<FormFields>;
-  errors: FieldErrors<FormFields>;
+  error?: string;
 }
 
-export const FormInsurance: FC<FormInsurance> = ({ control, errors }) => {
+export const FormInsurance: FC<FormInsurance> = ({ control, error }) => {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between">
@@ -23,14 +23,12 @@ export const FormInsurance: FC<FormInsurance> = ({ control, errors }) => {
               id="insurance"
               name="insurance"
               type="checkbox"
-              className={`cursor-pointer focus:outline-blue-500 ${errors?.['insurance'] && 'outline-1 outline-red-500'}`}
+              className={`cursor-pointer focus:outline-blue-500 ${error && 'outline-1 outline-red-500'}`}
             />
           )}
         />
       </div>
-      <p className="text-xs text-red-500 min-h-4">
-        {errors?.['insurance'] && errors['insurance'].message}
-      </p>
+      <p className="text-xs text-red-500 min-h-4">{error}</p>
     </div>
   );
 };

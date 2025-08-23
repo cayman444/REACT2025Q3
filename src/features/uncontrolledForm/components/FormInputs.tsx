@@ -30,14 +30,14 @@ export const FormInputs: FC<FormInputsProps> = ({
       />
       <FormInput
         name="email"
-        placeholder="Enter your email"
+        placeholder="Email"
         title="Email"
         type="email"
         error={errors?.email?.errors[0]}
       />
       <FormInput
         name="password"
-        placeholder="Enter your password"
+        placeholder="Password"
         title="Password"
         type="password"
         error={errors?.password?.errors[0]}
