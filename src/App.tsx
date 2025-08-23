@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { ControlledForm, UncontrolledForm, DataFormList } from './components';
+import { UncontrolledForm, DataFormList } from './components';
 import { Button, Modal } from './components/ui';
+import { ControlledForm } from './features/controlledForm';
 
 function App() {
   const [isOpenModalUncontrolled, setIsOpenModalUncontrolled] = useState(false);
