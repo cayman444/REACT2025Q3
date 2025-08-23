@@ -1,11 +1,11 @@
 import type { FC, PropsWithChildren } from 'react';
 import type { UseFormRegister } from 'react-hook-form';
-import type { IFormInput } from '../../../types';
-import type { FormFields } from '../../../schemas';
+import type { IFormInput } from '../../types';
+import type { FormFields } from '../../schemas';
 
 interface FormInputProps extends IFormInput {
   error?: string;
-  register: UseFormRegister<FormFields>;
+  register?: UseFormRegister<FormFields>;
 }
 
 export const FormInput: FC<PropsWithChildren<FormInputProps>> = ({
@@ -17,13 +17,15 @@ export const FormInput: FC<PropsWithChildren<FormInputProps>> = ({
   children,
   register,
 }) => {
+  const registerInput = register ? register(name) : {};
+
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={name} className="font-medium">
         {title}
       </label>
       <input
-        {...register(name)}
+        {...registerInput}
         id={name}
         type={type}
         name={name}

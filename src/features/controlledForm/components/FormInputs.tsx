@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import type { FormFields } from '../../../schemas';
 import type { StrengthPassword } from '../../../types';
-import { FormInput } from './FormInput';
+import { FormInput } from '../../../components';
 
 interface FormInputsProps {
   register: UseFormRegister<FormFields>;

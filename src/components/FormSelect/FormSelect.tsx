@@ -1,8 +1,11 @@
 import type { FC } from 'react';
-import type { IFormSelect } from '../../../types';
+import type { UseFormRegister } from 'react-hook-form';
+import type { IFormSelect } from '../../types';
+import type { FormFields } from '../../schemas';
 
 interface FormSelectProps extends IFormSelect {
   error?: string;
+  register?: UseFormRegister<FormFields>;
 }
 
 export const FormSelect: FC<FormSelectProps> = ({
@@ -10,13 +13,17 @@ export const FormSelect: FC<FormSelectProps> = ({
   options,
   title,
   error,
+  register,
 }) => {
+  const registerSelect = register ? register(name) : {};
+
   return (
     <div className="flex flex-col gap-1" key={name}>
       <label htmlFor={name} className="font-medium">
         {title}
       </label>
       <select
+        {...registerSelect}
         id={name}
         name={name}
         autoComplete="on"

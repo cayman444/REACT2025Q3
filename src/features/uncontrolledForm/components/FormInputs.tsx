@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FormErrors } from '../types';
 import type { StrengthPassword } from '../../../types';
-import { FormInput } from './FormInput';
+import { FormInput } from '../../../components';
 
 interface FormInputsProps {
   errors?: Partial<FormErrors>;

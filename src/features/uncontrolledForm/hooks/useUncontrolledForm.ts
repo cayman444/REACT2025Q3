@@ -3,9 +3,8 @@ import z from 'zod';
 import { useAppDispatch } from '../../../hooks';
 import type { FormErrors } from '../types';
 import { formSchema } from '../../../schemas';
-import { encodeImageFile } from '../../../utils';
+import { encodeImageFile, evaluatePasswordStrength } from '../../../utils';
 import { setUncontrolledFormData } from '../../../store/Forms';
-import { evaluatePasswordStrength } from '../../../utils/evaluatePasswordStrength';
 import type { StrengthPassword } from '../../../types';
 
 interface useUncontrolledFormProps {

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { FormErrors } from '../types';
-import { FormSelect } from './FormSelect';
+import { FormSelect } from '../../../components';
 
 interface FormSelectsProps {
   errors?: Partial<FormErrors> | null;

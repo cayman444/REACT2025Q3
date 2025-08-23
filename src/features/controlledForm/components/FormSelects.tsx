@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import type { FormFields } from '../../../schemas';
-import { FormSelect } from './FormSelect';
+import { FormSelect } from '../../../components';
 
 interface FormSelectsProps {
   register: UseFormRegister<FormFields>;

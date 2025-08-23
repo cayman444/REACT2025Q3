@@ -2,9 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../hooks';
 import { formSchema, type FormFields } from '../../../schemas';
-import { encodeImageFile } from '../../../utils';
+import { encodeImageFile, evaluatePasswordStrength } from '../../../utils';
 import { setControlledFormData } from '../../../store/Forms';
-import { evaluatePasswordStrength } from '../../../utils/evaluatePasswordStrength';
 
 interface useControlledFormProps {
   onCloseModal: () => void;
