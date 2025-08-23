@@ -23,7 +23,7 @@ export const FormInputs: FC<FormInputsProps> = ({ register, errors }) => {
             name={name}
             placeholder={placeholder}
             autoComplete={'on'}
-            className="border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors"
+            className={`border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors ${errors?.[name] && 'border-red-500'}`}
           />
           <p className="text-xs text-red-500 min-h-4">
             {errors?.[name] && errors[name].message}

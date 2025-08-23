@@ -23,7 +23,7 @@ export const FormInsurance: FC<FormInsurance> = ({ control, errors }) => {
               id="insurance"
               name="insurance"
               type="checkbox"
-              className="cursor-pointer focus:outline-blue-500"
+              className={`cursor-pointer focus:outline-blue-500 ${errors?.['insurance'] && 'outline-1 outline-red-500'}`}
             />
           )}
         />

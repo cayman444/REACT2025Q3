@@ -18,7 +18,7 @@ export const FormSelects: FC<FormSelectsProps> = ({ errors }) => {
             id={name}
             name={name}
             autoComplete="on"
-            className="border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors cursor-pointer min-h-9"
+            className={`border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors cursor-pointer min-h-9 ${errors?.[name] && 'border-red-500'}`}
           >
             {options.map(({ value, text }, ind) => (
               <option value={value} key={ind}>

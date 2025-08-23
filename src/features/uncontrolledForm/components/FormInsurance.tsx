@@ -16,7 +16,7 @@ export const FormInsurance: FC<FormInsurance> = ({ errors }) => {
           id="insurance"
           name="insurance"
           type="checkbox"
-          className="cursor-pointer focus:outline-blue-500"
+          className={`cursor-pointer focus:outline-blue-500 ${errors?.['insurance'] && 'outline-1 outline-red-500'}`}
         />
       </div>
       <p className="text-xs text-red-500 min-h-4">
