@@ -31,7 +31,7 @@ export const formSchema = z
       .string('Required to fill')
       .nonempty({ error: 'Required to fill' }),
     file: z
-      .file()
+      .instanceof(File)
       .refine((val) => val.type.match(/png|jpeg/), {
         error: 'file extension must be png or jpeg',
       })

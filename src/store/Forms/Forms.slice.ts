@@ -13,8 +13,12 @@ export const formsSlice = createSlice({
     setUncontrolledFormData: (state, { payload }: PayloadAction<DataForm>) => {
       state.uncontrolledFormData.push(payload);
     },
+    setControlledFormData: (state, { payload }: PayloadAction<DataForm>) => {
+      state.controlledFormData.push(payload);
+    },
   },
 });
 
-export const { setUncontrolledFormData } = formsSlice.actions;
+export const { setUncontrolledFormData, setControlledFormData } =
+  formsSlice.actions;
 export default formsSlice.reducer;

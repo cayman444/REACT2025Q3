@@ -28,8 +28,8 @@ export const DataForm: FC<DataFormProps> = ({ file, ...data }) => {
         </div>
       ))}
       <div>
-        <span className="font-medium">File:</span>{' '}
-        <img src={file} alt="" className="max-w-50" />
+        <span className="font-medium">file:</span>{' '}
+        <img src={file} alt="" className="w-full h-50 object-cover" />
       </div>
     </li>
   );

@@ -29,7 +29,7 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
       ref={dialogRef}
       onClick={onClose}
       onClose={onClose}
-      className="bg-white rounded shadow m-auto backdrop:bg-black/50"
+      className="bg-white rounded shadow m-auto backdrop:bg-black/50 focus:outline-0"
     >
       <div className="p-5 min-w-3xl" onClick={(e) => e.stopPropagation()}>
         <Button onClick={onClose}>close</Button>

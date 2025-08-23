@@ -1,13 +1,15 @@
+import type { FormFields } from '../schemas';
+
 interface IFormInput {
   type: string;
   title: string;
-  name: string;
+  name: keyof FormFields;
   placeholder: string;
 }
 
 interface IFormSelect {
   title: string;
-  name: string;
+  name: keyof FormFields;
   options: { value: string; text: string }[];
 }
 

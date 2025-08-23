@@ -10,7 +10,7 @@ function App() {
   const closeControlledModal = () => setIsOpenModalControlled(false);
 
   return (
-    <div className="flex flex-col gap-5 p-5">
+    <div className="flex flex-col gap-5 p-5 max-w-4xl m-auto">
       <div className="grid grid-cols-2 gap-5 items-center">
         <Button onClick={() => setIsOpenModalUncontrolled(true)}>
           Open uncontrolled form
@@ -27,7 +27,7 @@ function App() {
         <UncontrolledForm onCloseModal={closeUncontrolledModal} />
       </Modal>
       <Modal isVisible={isOpenModalControlled} onClose={closeControlledModal}>
-        <ControlledForm />
+        <ControlledForm onCloseModal={closeControlledModal} />
       </Modal>
     </div>
   );
