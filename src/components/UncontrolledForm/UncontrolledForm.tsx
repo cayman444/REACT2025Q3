@@ -35,12 +35,12 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = ({
       return;
     }
 
-    const encodeFile = await encodeImageFile(result.data.file);
-    dispatch(setUncontrolledFormData({ ...result.data, file: encodeFile }));
-
     setErrors(null);
     e.currentTarget.reset();
     onCloseModal();
+
+    const encodeFile = await encodeImageFile(result.data.file);
+    dispatch(setUncontrolledFormData({ ...result.data, file: encodeFile }));
   };
 
   return (

@@ -1,6 +1,6 @@
-import { ControlledForm, UncontrolledForm } from './components';
-import { Button, Modal } from './components/ui';
 import { useState } from 'react';
+import { ControlledForm, UncontrolledForm, DataFormList } from './components';
+import { Button, Modal } from './components/ui';
 
 function App() {
   const [isOpenModalUncontrolled, setIsOpenModalUncontrolled] = useState(false);
@@ -10,8 +10,8 @@ function App() {
   const closeControlledModal = () => setIsOpenModalControlled(false);
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="flex gap-5 items-center">
+    <div className="flex flex-col gap-5 p-5">
+      <div className="grid grid-cols-2 gap-5 items-center">
         <Button onClick={() => setIsOpenModalUncontrolled(true)}>
           Open uncontrolled form
         </Button>
@@ -19,6 +19,7 @@ function App() {
           Open controlled form
         </Button>
       </div>
+      <DataFormList />
       <Modal
         isVisible={isOpenModalUncontrolled}
         onClose={closeUncontrolledModal}

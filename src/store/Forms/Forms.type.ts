@@ -1,10 +1,10 @@
 import type { FormFields } from '../../schemas';
 
 export interface FormsState {
-  uncontrolledForm: StateForm;
-  controlledForm: StateForm;
+  uncontrolledFormData: DataForm[];
+  controlledFormData: DataForm[];
 }
 
-export interface StateForm extends Omit<FormFields, 'file'> {
-  file: ArrayBuffer | null;
+export interface DataForm extends Omit<FormFields, 'file'> {
+  file: string;
 }

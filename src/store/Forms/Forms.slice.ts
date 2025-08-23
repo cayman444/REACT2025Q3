@@ -1,37 +1,17 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { FormsState, StateForm } from './Forms.type';
+import type { DataForm, FormsState } from './Forms.type';
 
 const initialState: FormsState = {
-  uncontrolledForm: {
-    username: '',
-    age: '',
-    password: '',
-    confirmPassword: '',
-    email: '',
-    country: '',
-    gender: '',
-    insurance: '',
-    file: null,
-  },
-  controlledForm: {
-    username: '',
-    age: '',
-    password: '',
-    confirmPassword: '',
-    email: '',
-    country: '',
-    gender: '',
-    insurance: '',
-    file: null,
-  },
+  uncontrolledFormData: [],
+  controlledFormData: [],
 };
 
 export const formsSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    setUncontrolledFormData: (state, { payload }: PayloadAction<StateForm>) => {
-      state.uncontrolledForm = payload;
+    setUncontrolledFormData: (state, { payload }: PayloadAction<DataForm>) => {
+      state.uncontrolledFormData.push(payload);
     },
   },
 });
