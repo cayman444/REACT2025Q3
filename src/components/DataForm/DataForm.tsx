@@ -13,10 +13,8 @@ export const DataForm: FC<DataFormProps> = ({ file, ...data }) => {
       setActiveClass(false);
     }, 2000);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [activeClass]);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <li

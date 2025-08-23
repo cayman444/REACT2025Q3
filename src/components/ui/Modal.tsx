@@ -31,8 +31,13 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
       onClose={onClose}
       className="bg-white rounded shadow m-auto backdrop:bg-black/50 focus:outline-0"
     >
-      <div className="p-5 min-w-3xl" onClick={(e) => e.stopPropagation()}>
-        <Button onClick={onClose}>close</Button>
+      <div
+        className="flex flex-col gap-5 p-5 min-w-3xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="text-right">
+          <Button onClick={onClose}>X</Button>
+        </div>
         {children}
       </div>
     </dialog>,

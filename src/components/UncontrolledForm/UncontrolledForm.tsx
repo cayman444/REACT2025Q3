@@ -1,4 +1,4 @@
-import { useRef, useState, type FC, type FormEvent } from 'react';
+import { useState, type FC, type FormEvent } from 'react';
 import z from 'zod';
 import { formSchema } from '../../schemas';
 import { FORM_INPUTS, FORM_SELECTS } from '../../constants';
@@ -16,7 +16,6 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = ({
   onCloseModal,
 }) => {
   const dispatch = useAppDispatch();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<Partial<FormErrors> | null>(null);
 
   const formSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -99,20 +98,12 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = ({
       <div className="flex flex-col gap-1">
         <label htmlFor="file" className="flex flex-col gap-1 font-medium">
           File
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed rounded text-center text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors cursor-pointer hover:border-blue-500"
-          >
-            Upload file
-          </button>
           <input
-            ref={fileInputRef}
             id="file"
             type="file"
             name="file"
             accept="image/png, image/jpeg"
-            className="hidden"
+            className="border-2 border-dashed rounded text-center text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors cursor-pointer hover:border-blue-500"
           />
         </label>
         <p className="text-xs text-red-500 min-h-4">

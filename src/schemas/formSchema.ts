@@ -26,7 +26,9 @@ export const formSchema = z
         'Password must contain special character'
       ),
     confirmPassword: z.string().nonempty({ error: 'Required to fill' }),
-    gender: z.string().nonempty({ error: 'Required to fill' }),
+    gender: z
+      .string('Required to fill')
+      .nonempty({ error: 'Required to fill' }),
     insurance: z
       .string('Required to fill')
       .nonempty({ error: 'Required to fill' }),
@@ -38,7 +40,9 @@ export const formSchema = z
       .refine((val) => val.size <= 2 * 1024 * 1024, {
         error: 'the file size must not exceed 2MB',
       }),
-    country: z.string().nonempty({ error: 'Required to fill' }),
+    country: z
+      .string('Required to fill')
+      .nonempty({ error: 'Required to fill' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: 'the password must match',
