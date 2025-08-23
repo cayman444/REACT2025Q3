@@ -25,8 +25,8 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = (props) => {
           <FormInputs errors={errors} strengthPassword={strengthPassword} />
           <FormSelects errors={errors} />
         </div>
-        <FormFile errors={errors} />
-        <FormInsurance errors={errors} />
+        <FormFile error={errors?.file?.errors[0]} />
+        <FormInsurance error={errors?.insurance?.errors[0]} />
       </div>
       <Button>Submit</Button>
     </form>

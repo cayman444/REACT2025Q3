@@ -16,7 +16,7 @@ export const useUncontrolledForm = ({
   onCloseModal,
 }: useUncontrolledFormProps) => {
   const dispatch = useAppDispatch();
-  const [errors, setErrors] = useState<Partial<FormErrors> | null>(null);
+  const [errors, setErrors] = useState<Partial<FormErrors>>();
   const [strengthPassword, setStrengthPassword] = useState<StrengthPassword>();
 
   const formSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -41,7 +41,7 @@ export const useUncontrolledForm = ({
       return;
     }
 
-    setErrors(null);
+    setErrors({});
     e.currentTarget.reset();
     onCloseModal();
 

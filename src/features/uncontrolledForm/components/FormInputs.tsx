@@ -1,10 +1,10 @@
 import type { FC } from 'react';
-import { FORM_INPUTS } from '../../../constants';
 import type { FormErrors } from '../types';
 import type { StrengthPassword } from '../../../types';
+import { FormInput } from './FormInput';
 
 interface FormInputsProps {
-  errors: Partial<FormErrors> | null;
+  errors?: Partial<FormErrors>;
   strengthPassword?: StrengthPassword;
 }
 
@@ -14,32 +14,50 @@ export const FormInputs: FC<FormInputsProps> = ({
 }) => {
   return (
     <div>
-      {FORM_INPUTS.map(({ name, placeholder, title, type }) => (
-        <div className="flex flex-col gap-1" key={name}>
-          <label htmlFor={name} className="font-medium">
-            {title}
-          </label>
-          <input
-            id={name}
-            type={type}
-            name={name}
-            placeholder={placeholder}
-            autoComplete={'on'}
-            className={`border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors ${errors?.[name] && 'border-red-500'}`}
-          />
-          {name === 'password' && strengthPassword && (
-            <div className="text-gray-700">
-              Password strength:{' '}
-              <span className={strengthPassword.class}>
-                {strengthPassword.message}
-              </span>
-            </div>
-          )}
-          <p className="text-xs text-red-500 min-h-4">
-            {errors?.[name] && errors[name].errors[0]}
-          </p>
-        </div>
-      ))}
+      <FormInput
+        name="username"
+        placeholder="Enter your name"
+        title="Name"
+        type="text"
+        error={errors?.username?.errors[0]}
+      />
+      <FormInput
+        name="age"
+        placeholder="Enter your age"
+        title="Age"
+        type="text"
+        error={errors?.age?.errors[0]}
+      />
+      <FormInput
+        name="email"
+        placeholder="Enter your email"
+        title="Email"
+        type="email"
+        error={errors?.email?.errors[0]}
+      />
+      <FormInput
+        name="password"
+        placeholder="Enter your password"
+        title="Password"
+        type="password"
+        error={errors?.password?.errors[0]}
+      >
+        {strengthPassword && (
+          <div className="text-gray-700">
+            Password strength:{' '}
+            <span className={strengthPassword.class}>
+              {strengthPassword.message}
+            </span>
+          </div>
+        )}
+      </FormInput>
+      <FormInput
+        name="confirmPassword"
+        placeholder="Confirm password"
+        title="Confirm password"
+        type="password"
+        error={errors?.confirmPassword?.errors[0]}
+      />
     </div>
   );
 };

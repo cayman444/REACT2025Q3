@@ -1,17 +1,4 @@
-import type { FormFields } from '../schemas';
-
-interface IFormInput {
-  type: string;
-  title: string;
-  name: keyof FormFields;
-  placeholder: string;
-}
-
-interface IFormSelect {
-  title: string;
-  name: keyof FormFields;
-  options: { value: string; text: string }[];
-}
+import type { IFormInput, IFormSelect } from '../types/forms';
 
 export const FORM_INPUTS: IFormInput[] = [
   {
