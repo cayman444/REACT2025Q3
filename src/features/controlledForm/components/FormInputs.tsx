@@ -2,13 +2,19 @@ import type { FC } from 'react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import type { FormFields } from '../../../schemas';
 import { FORM_INPUTS } from '../../../constants';
+import type { StrengthPassword } from '../../../types';
 
 interface FormInputsProps {
   register: UseFormRegister<FormFields>;
+  strengthPassword?: StrengthPassword;
   errors: FieldErrors<FormFields>;
 }
 
-export const FormInputs: FC<FormInputsProps> = ({ register, errors }) => {
+export const FormInputs: FC<FormInputsProps> = ({
+  register,
+  strengthPassword,
+  errors,
+}) => {
   return (
     <div>
       {FORM_INPUTS.map(({ name, placeholder, title, type }) => (
@@ -25,6 +31,14 @@ export const FormInputs: FC<FormInputsProps> = ({ register, errors }) => {
             autoComplete={'on'}
             className={`border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors ${errors?.[name] && 'border-red-500'}`}
           />
+          {name === 'password' && strengthPassword && (
+            <div className="text-gray-700">
+              Password strength:{' '}
+              <span className={strengthPassword.class}>
+                {strengthPassword.message}
+              </span>
+            </div>
+          )}
           <p className="text-xs text-red-500 min-h-4">
             {errors?.[name] && errors[name].message}
           </p>

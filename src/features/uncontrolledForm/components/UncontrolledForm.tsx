@@ -11,7 +11,7 @@ interface UncontrolledFormProps {
 }
 
 export const UncontrolledForm: FC<UncontrolledFormProps> = (props) => {
-  const { formSubmit, errors } = useUncontrolledForm(props);
+  const { formSubmit, strengthPassword, errors } = useUncontrolledForm(props);
 
   return (
     <form
@@ -22,7 +22,7 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = (props) => {
     >
       <div className="mb-3">
         <div className="grid grid-cols-2 gap-5 mb-3">
-          <FormInputs errors={errors} />
+          <FormInputs errors={errors} strengthPassword={strengthPassword} />
           <FormSelects errors={errors} />
         </div>
         <FormFile errors={errors} />

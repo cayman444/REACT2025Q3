@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../../hooks';
 import { formSchema, type FormFields } from '../../../schemas';
 import { encodeImageFile } from '../../../utils';
 import { setControlledFormData } from '../../../store/Forms';
+import { evaluatePasswordStrength } from '../../../utils/evaluatePasswordStrength';
 
 interface useControlledFormProps {
   onCloseModal: () => void;
@@ -15,6 +16,7 @@ export const useControlledForm = ({ onCloseModal }: useControlledFormProps) => {
     register,
     handleSubmit,
     reset,
+    watch,
     control,
     formState: { errors, isValid },
   } = useForm<FormFields>({
@@ -30,5 +32,17 @@ export const useControlledForm = ({ onCloseModal }: useControlledFormProps) => {
     dispatch(setControlledFormData({ ...data, file: encodeFile }));
   };
 
-  return { register, handleSubmit, control, errors, isValid, submitForm };
+  const password = watch('password');
+
+  const strengthPassword = evaluatePasswordStrength(password);
+
+  return {
+    register,
+    handleSubmit,
+    control,
+    errors,
+    isValid,
+    strengthPassword,
+    submitForm,
+  };
 };

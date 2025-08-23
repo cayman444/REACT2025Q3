@@ -5,6 +5,8 @@ import type { FormErrors } from '../types';
 import { formSchema } from '../../../schemas';
 import { encodeImageFile } from '../../../utils';
 import { setUncontrolledFormData } from '../../../store/Forms';
+import { evaluatePasswordStrength } from '../../../utils/evaluatePasswordStrength';
+import type { StrengthPassword } from '../../../types';
 
 interface useUncontrolledFormProps {
   onCloseModal: () => void;
@@ -15,6 +17,7 @@ export const useUncontrolledForm = ({
 }: useUncontrolledFormProps) => {
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<Partial<FormErrors> | null>(null);
+  const [strengthPassword, setStrengthPassword] = useState<StrengthPassword>();
 
   const formSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +32,12 @@ export const useUncontrolledForm = ({
         setErrors(treeError.properties);
       }
 
+      const passwordStrength = evaluatePasswordStrength(
+        formData.get('password')?.toString() ?? ''
+      );
+
+      setStrengthPassword(passwordStrength);
+
       return;
     }
 
@@ -40,5 +49,5 @@ export const useUncontrolledForm = ({
     dispatch(setUncontrolledFormData({ ...result.data, file: encodeFile }));
   };
 
-  return { formSubmit, errors };
+  return { formSubmit, errors, strengthPassword };
 };

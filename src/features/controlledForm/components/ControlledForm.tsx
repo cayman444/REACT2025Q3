@@ -11,8 +11,15 @@ interface ControlledFormProps {
 }
 
 export const ControlledForm: FC<ControlledFormProps> = (props) => {
-  const { register, handleSubmit, submitForm, errors, control, isValid } =
-    useControlledForm(props);
+  const {
+    register,
+    handleSubmit,
+    submitForm,
+    strengthPassword,
+    errors,
+    control,
+    isValid,
+  } = useControlledForm(props);
 
   return (
     <form
@@ -22,7 +29,11 @@ export const ControlledForm: FC<ControlledFormProps> = (props) => {
     >
       <div className="mb-3">
         <div className="grid grid-cols-2 gap-5 mb-3">
-          <FormInputs register={register} errors={errors} />
+          <FormInputs
+            register={register}
+            errors={errors}
+            strengthPassword={strengthPassword}
+          />
           <FormSelects register={register} errors={errors} />
         </div>
         <FormFile control={control} errors={errors} />
