@@ -21,6 +21,7 @@ export const FormFile: FC<FormFileProps> = ({ control, error }) => {
                 field.onChange(e.target.files?.[0]);
               }}
               id="file"
+              data-testid="file"
               type="file"
               name="file"
               accept="image/png, image/jpeg"
@@ -29,7 +30,9 @@ export const FormFile: FC<FormFileProps> = ({ control, error }) => {
           )}
         />
       </label>
-      <p className="text-xs text-red-500 min-h-4">{error}</p>
+      <p data-testid="error-file" className="text-xs text-red-500 min-h-4">
+        {error}
+      </p>
     </div>
   );
 };

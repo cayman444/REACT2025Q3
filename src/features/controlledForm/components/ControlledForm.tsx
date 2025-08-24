@@ -39,7 +39,9 @@ export const ControlledForm: FC<ControlledFormProps> = (props) => {
         <FormFile control={control} error={errors.file?.message} />
         <FormInsurance control={control} error={errors.insurance?.message} />
       </div>
-      <Button disabled={!isValid}>Submit</Button>
+      <Button data-testid="submit-button" disabled={!isValid}>
+        Submit
+      </Button>
     </form>
   );
 };
