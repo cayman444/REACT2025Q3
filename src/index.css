@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  @apply bg-gray-200;
+
+  &:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
