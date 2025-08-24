@@ -14,10 +14,16 @@ function App() {
   return (
     <div className="flex flex-col gap-5 p-5 max-w-4xl m-auto">
       <div className="grid grid-cols-2 gap-5 items-center">
-        <Button onClick={() => setIsOpenModalUncontrolled(true)}>
+        <Button
+          data-testid="uncontrolledFormButton"
+          onClick={() => setIsOpenModalUncontrolled(true)}
+        >
           Open uncontrolled form
         </Button>
-        <Button onClick={() => setIsOpenModalControlled(true)}>
+        <Button
+          data-testid="controlledFormButton"
+          onClick={() => setIsOpenModalControlled(true)}
+        >
           Open controlled form
         </Button>
       </div>
@@ -25,10 +31,15 @@ function App() {
       <Modal
         isVisible={isOpenModalUncontrolled}
         onClose={closeUncontrolledModal}
+        testid="uncontrolledFormModal"
       >
         <UncontrolledForm onCloseModal={closeUncontrolledModal} />
       </Modal>
-      <Modal isVisible={isOpenModalControlled} onClose={closeControlledModal}>
+      <Modal
+        isVisible={isOpenModalControlled}
+        onClose={closeControlledModal}
+        testid="controlledFormModal"
+      >
         <ControlledForm onCloseModal={closeControlledModal} />
       </Modal>
     </div>

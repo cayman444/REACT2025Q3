@@ -4,10 +4,16 @@ import { Button } from './Button';
 
 interface ModalProps extends PropsWithChildren {
   isVisible: boolean;
+  testid: string;
   onClose: () => void;
 }
 
-export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
+export const Modal: FC<ModalProps> = ({
+  isVisible,
+  testid,
+  onClose,
+  children,
+}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -26,6 +32,7 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
 
   return createPortal(
     <dialog
+      data-testid={testid}
       ref={dialogRef}
       onClick={onClose}
       onClose={onClose}
@@ -36,7 +43,9 @@ export const Modal: FC<ModalProps> = ({ isVisible, onClose, children }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-right">
-          <Button onClick={onClose}>X</Button>
+          <Button onClick={onClose} data-testid="modal-close">
+            X
+          </Button>
         </div>
         {children}
       </div>
