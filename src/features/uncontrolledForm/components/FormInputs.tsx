@@ -45,7 +45,10 @@ export const FormInputs: FC<FormInputsProps> = ({
         {strengthPassword && (
           <div className="text-gray-700">
             Password strength:{' '}
-            <span className={strengthPassword.class}>
+            <span
+              className={strengthPassword.class}
+              data-testid="strengthPassword"
+            >
               {strengthPassword.message}
             </span>
           </div>

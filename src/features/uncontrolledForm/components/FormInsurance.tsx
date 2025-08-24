@@ -13,12 +13,15 @@ export const FormInsurance: FC<FormInsurance> = ({ error }) => {
         </label>
         <input
           id="insurance"
+          data-testid="insurance"
           name="insurance"
           type="checkbox"
           className={`cursor-pointer focus:outline-blue-500 ${error && 'outline-1 outline-red-500'}`}
         />
       </div>
-      <p className="text-xs text-red-500 min-h-4">{error}</p>
+      <p data-testid="error-insurance" className="text-xs text-red-500 min-h-4">
+        {error}
+      </p>
     </div>
   );
 };

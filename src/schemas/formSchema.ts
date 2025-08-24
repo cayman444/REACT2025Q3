@@ -5,7 +5,7 @@ export const formSchema = z
     username: z
       .string()
       .nonempty({ error: 'Required to fill' })
-      .refine((val) => val && val[0] === val[0].toUpperCase(), {
+      .refine((val) => /^[A-Z]/.test(val), {
         error: 'the first letter must be capitalized',
       }),
     age: z

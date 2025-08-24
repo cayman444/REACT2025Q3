@@ -15,6 +15,7 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = (props) => {
 
   return (
     <form
+      data-testid="uncontrolledForm"
       className="flex flex-col gap-1"
       onSubmit={formSubmit}
       noValidate
@@ -28,7 +29,7 @@ export const UncontrolledForm: FC<UncontrolledFormProps> = (props) => {
         <FormFile error={errors?.file?.errors[0]} />
         <FormInsurance error={errors?.insurance?.errors[0]} />
       </div>
-      <Button>Submit</Button>
+      <Button data-testid="submit-button">Submit</Button>
     </form>
   );
 };

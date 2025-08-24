@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
 import App from './App';
+import { renderWithContext } from './tests/utils';
 
 describe('App', () => {
-  it('should render hello test', () => {
-    render(<App />);
+  it('should render App', () => {
+    const { container } = renderWithContext(<App />);
 
-    expect(screen.getByText(/hello/i)).toBeInTheDocument();
+    expect(container).toBeInTheDocument();
   });
 });

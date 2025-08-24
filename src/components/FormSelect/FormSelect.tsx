@@ -24,6 +24,7 @@ export const FormSelect: FC<FormSelectProps> = ({
       </label>
       <select
         {...registerSelect}
+        data-testid={name}
         id={name}
         name={name}
         autoComplete="on"

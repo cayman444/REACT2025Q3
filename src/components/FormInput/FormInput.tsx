@@ -26,6 +26,7 @@ export const FormInput: FC<PropsWithChildren<FormInputProps>> = ({
       </label>
       <input
         {...registerInput}
+        data-testid={name}
         id={name}
         type={type}
         name={name}
@@ -34,7 +35,9 @@ export const FormInput: FC<PropsWithChildren<FormInputProps>> = ({
         className={`border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors ${error && 'border-red-500'}`}
       />
       {children}
-      <p className="text-xs text-red-500 min-h-4">{error}</p>
+      <p data-testid={`error-${name}`} className="text-xs text-red-500 min-h-4">
+        {error}
+      </p>
     </div>
   );
 };
