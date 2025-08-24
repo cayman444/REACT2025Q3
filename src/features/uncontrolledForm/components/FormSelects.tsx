@@ -1,12 +1,15 @@
 import type { FC } from 'react';
 import type { FormErrors } from '../types';
 import { FormSelect } from '../../../components';
+import { useAppSelector } from '../../../hooks';
 
 interface FormSelectsProps {
   errors?: Partial<FormErrors> | null;
 }
 
 export const FormSelects: FC<FormSelectsProps> = ({ errors }) => {
+  const { countries } = useAppSelector((state) => state.forms);
+
   return (
     <div>
       <FormSelect
@@ -21,10 +24,7 @@ export const FormSelects: FC<FormSelectsProps> = ({ errors }) => {
       <FormSelect
         name="country"
         title="Country"
-        options={[
-          { value: 'denmark', text: 'Denmark' },
-          { value: 'norway', text: 'Norway' },
-        ]}
+        options={countries}
         error={errors?.country?.errors[0]}
       />
     </div>

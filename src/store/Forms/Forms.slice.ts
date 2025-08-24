@@ -4,6 +4,10 @@ import type { DataForm, FormsState } from './Forms.type';
 const initialState: FormsState = {
   uncontrolledFormData: [],
   controlledFormData: [],
+  countries: [
+    { value: 'denmark', text: 'Denmark' },
+    { value: 'norway', text: 'Norway' },
+  ],
 };
 
 export const formsSlice = createSlice({
