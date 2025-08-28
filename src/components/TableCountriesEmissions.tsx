@@ -1,9 +1,12 @@
-import { use } from 'react';
 import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { CountryEmissions } from './CountryEmissions';
 
 export const TableCountriesEmissions = () => {
-  const countriesEmissions = use(getCountriesEmissionsData());
+  const { data: countriesEmissions } = useSuspenseQuery({
+    queryKey: ['countriesEmissions'],
+    queryFn: getCountriesEmissionsData,
+  });
 
   return (
     <div>
