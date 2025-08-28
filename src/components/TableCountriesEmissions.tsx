@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
 import { CountryEmissions } from './CountryEmissions';
-import { AvailableDataDropdown } from './AvailableDataDropdown';
+import { AvailableDataModal } from './AvailableDataModal';
+import { useAppSelector } from '@/store';
 
 export const TableCountriesEmissions = () => {
+  const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
   const { data: countriesEmissions } = useSuspenseQuery({
     queryKey: ['countriesEmissions'],
     queryFn: getCountriesEmissionsData,
@@ -12,17 +14,19 @@ export const TableCountriesEmissions = () => {
   console.log(countriesEmissions);
 
   return (
-    <div className="flex flex-col gap-4 p-20 max-w-5xl mx-auto">
-      <AvailableDataDropdown />
+    <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto">
+      <AvailableDataModal />
       <table className="text-center text-gray-700 border-collapse shadow">
         <thead className="border-1 border-gray-300 bg-gray-200 ">
           <tr>
-            <th className="p-2 border-1 border-gray-300">ISO</th>
-            <th className="p-2 border-1 border-gray-300">Country</th>
-            <th className="p-2 border-1 border-gray-300">Year</th>
-            <th className="p-2 border-1 border-gray-300">Population</th>
-            <th className="p-2 border-1 border-gray-300">CO2</th>
-            <th className="p-2 border-1 border-gray-300">CO2 per capita</th>
+            {countriesInfo.map(
+              ({ title, isAvailable }) =>
+                isAvailable && (
+                  <th key={title} className="p-1 border-1 border-gray-300">
+                    {title}
+                  </th>
+                )
+            )}
           </tr>
         </thead>
         <tbody className="bg-white">
