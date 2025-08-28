@@ -1,3 +1,12 @@
+import { Suspense } from 'react';
+import { TableCountriesEmissions } from '@/components/TableCountriesEmissions';
+
 export const App = () => {
-  return <div className="text-blue-500">Hello</div>;
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <TableCountriesEmissions />
+      </Suspense>
+    </>
+  );
 };
