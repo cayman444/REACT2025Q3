@@ -1,6 +1,7 @@
-import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
 import { CountryEmissions } from './CountryEmissions';
+import { AvailableDataDropdown } from './AvailableDataDropdown';
 
 export const TableCountriesEmissions = () => {
   const { data: countriesEmissions } = useSuspenseQuery({
@@ -11,7 +12,8 @@ export const TableCountriesEmissions = () => {
   console.log(countriesEmissions);
 
   return (
-    <div className="flex justify-center p-20">
+    <div className="flex flex-col gap-4 p-20 max-w-5xl mx-auto">
+      <AvailableDataDropdown />
       <table className="text-center text-gray-700 border-collapse shadow">
         <thead className="border-1 border-gray-300 bg-gray-200 ">
           <tr>
