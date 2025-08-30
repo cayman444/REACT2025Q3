@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useAppSelector } from '@/store';
 import type { CountryEmissionsInfo } from '@/types/countriesEmissionsTypes';
+import { getActualCountryData } from '@/utils/getActualCountryData';
 
 interface CountryEmissionsProps {
   countryName: string;
@@ -11,8 +12,11 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
   countryName,
   data: { iso_code, data },
 }) => {
-  const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
-  const lastData = data[data.length - 1];
+  const { data: countriesInfo, selectYear } = useAppSelector(
+    (state) => state.countriesInfo
+  );
+
+  const actualData = getActualCountryData(data, selectYear);
 
   return (
     <tr>
@@ -23,7 +27,7 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
 
         return (
           <td key={field} className="p-1 border-1 border-gray-300">
-            {lastData[field] ?? 'N/A'}
+            {actualData[field] ?? 'N/A'}
           </td>
         );
       })}

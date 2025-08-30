@@ -14,7 +14,7 @@ export const AvailableDataModal = () => {
   };
 
   return (
-    <div className="flex justify-end">
+    <>
       <SettingsIcon onClick={toggleDropdown} />
       <Modal isVisible={isOpen} onClose={toggleDropdown}>
         <div className="font-medium text-center">
@@ -45,6 +45,6 @@ export const AvailableDataModal = () => {
           )}
         </ul>
       </Modal>
-    </div>
+    </>
   );
 };
