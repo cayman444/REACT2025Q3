@@ -5,11 +5,13 @@ import { COUNTRIES_INFO } from './countriesInfo.data';
 export interface countriesInfo {
   data: ICountryInfo[];
   selectYear: number | null;
+  isFilteringYear: boolean;
 }
 
 const initialState: countriesInfo = {
   data: COUNTRIES_INFO,
   selectYear: null,
+  isFilteringYear: false,
 };
 
 export const countriesInfo = createSlice({
@@ -24,6 +26,7 @@ export const countriesInfo = createSlice({
       state.data[countryIndex].isAvailable = payload.isAvailable;
     },
     setSelectYear: (state, { payload }: PayloadAction<number>) => {
+      state.isFilteringYear = true;
       state.selectYear = payload;
     },
   },
