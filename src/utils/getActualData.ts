@@ -1,7 +1,16 @@
 import type {
   CountryEmissionsData,
   ICountryEmissions,
+  SortBy,
+  SortMethod,
 } from '@/types/countriesEmissionsTypes';
+
+export interface IActualCountriesData {
+  data: ICountryEmissions;
+  search?: string;
+  sortBy: SortBy;
+  sortMethod: SortMethod;
+}
 
 export const getActualCountryData = (
   data: CountryEmissionsData[],
@@ -15,14 +24,32 @@ export const getActualCountryData = (
   return actualData ?? lastYearPart;
 };
 
-export const getActualCountriesData = (
-  data: ICountryEmissions,
-  searchCountryName?: string
-) => {
-  const countriesData = Object.entries(data);
-  if (!searchCountryName) return countriesData;
+export const getActualCountriesData = (data: IActualCountriesData) => {
+  const actualData = sortingData(data);
 
-  return countriesData.filter(([countryName]) => {
-    return countryName.toLowerCase().includes(searchCountryName.toLowerCase());
+  if (!data.search) return actualData;
+
+  return actualData.filter(([countryName]) => {
+    return countryName
+      .toLowerCase()
+      .includes((data.search as string).toLowerCase());
   });
+};
+
+const sortingData = ({
+  data,
+  sortBy,
+  sortMethod,
+}: Omit<IActualCountriesData, 'search'>) => {
+  const formatData = Object.entries(data);
+
+  if (sortBy === 'country') {
+    return formatData.sort((a, b) => {
+      return sortMethod === 'asc'
+        ? a[0].toLowerCase().localeCompare(b[0].toLowerCase())
+        : b[0].toLowerCase().localeCompare(a[0].toLowerCase());
+    });
+  }
+
+  return formatData;
 };

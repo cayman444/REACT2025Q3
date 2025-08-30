@@ -1,17 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { CountrySelect, ICountryInfo } from './countriesInfo.type';
+import type { CountrySelect, ICountriesInfo } from './countriesInfo.type';
 import { COUNTRIES_INFO } from './countriesInfo.data';
+import type { SortBy, SortMethod } from '@/types/countriesEmissionsTypes';
 
-export interface countriesInfo {
-  data: ICountryInfo[];
-  isFilteringByYear: boolean;
-  selectYear?: number;
-  searchCountryName?: string;
-}
-
-const initialState: countriesInfo = {
+const initialState: ICountriesInfo = {
   data: COUNTRIES_INFO,
   isFilteringByYear: false,
+  sorting: {
+    sortBy: 'country',
+    sortMethod: 'asc',
+  },
 };
 
 export const countriesInfo = createSlice({
@@ -34,9 +32,22 @@ export const countriesInfo = createSlice({
       state.isFilteringByYear = false;
       state.searchCountryName = payload;
     },
+    setSortBy: (state, { payload }: PayloadAction<SortBy>) => {
+      state.isFilteringByYear = false;
+      state.sorting.sortBy = payload;
+    },
+    setSortMethod: (state, { payload }: PayloadAction<SortMethod>) => {
+      state.isFilteringByYear = false;
+      state.sorting.sortMethod = payload;
+    },
   },
 });
 
-export const { setCountryData, setSelectYear, setSearchCountryName } =
-  countriesInfo.actions;
+export const {
+  setCountryData,
+  setSelectYear,
+  setSearchCountryName,
+  setSortBy,
+  setSortMethod,
+} = countriesInfo.actions;
 export default countriesInfo.reducer;

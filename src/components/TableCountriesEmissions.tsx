@@ -6,9 +6,11 @@ import { CountryEmissions } from './CountryEmissions';
 import { AvailableDataModal } from './AvailableDataModal';
 import { SelectYear } from './SelectYear';
 import { CountrySearch } from './CountrySearch';
+import CountriesSort from './CountriesSort';
 
 export const TableCountriesEmissions = () => {
   const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
+  const sorting = useAppSelector((state) => state.countriesInfo.sorting);
   const searchCountryName = useAppSelector(
     (state) => state.countriesInfo.searchCountryName
   );
@@ -19,15 +21,17 @@ export const TableCountriesEmissions = () => {
 
   console.log(countriesEmissions);
 
-  const actualCountriesData = getActualCountriesData(
-    countriesEmissions,
-    searchCountryName
-  );
+  const actualCountriesData = getActualCountriesData({
+    data: countriesEmissions,
+    search: searchCountryName,
+    ...sorting,
+  });
 
   return (
     <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto">
       <div className="flex items-center gap-4 text-gray-700">
         <CountrySearch />
+        <CountriesSort />
         <SelectYear />
         <AvailableDataModal />
       </div>

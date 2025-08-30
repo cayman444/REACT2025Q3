@@ -1,10 +1,25 @@
-import type { CountryEmissionsData } from '@/types/countriesEmissionsTypes';
+import type {
+  CountryEmissionsData,
+  SortBy,
+  SortMethod,
+} from '@/types/countriesEmissionsTypes';
 
 export interface ICountryInfo {
   title: DataTitles;
   field: keyof CountryEmissionsData | null;
   isAvailable: boolean;
   isAdditional?: boolean;
+}
+
+export interface ICountriesInfo {
+  data: ICountryInfo[];
+  isFilteringByYear: boolean;
+  selectYear?: number;
+  searchCountryName?: string;
+  sorting: {
+    sortBy: SortBy;
+    sortMethod: SortMethod;
+  };
 }
 
 export type CountrySelect = Omit<ICountryInfo, 'field'>;

@@ -7,6 +7,9 @@ export interface CountryEmissionsInfo {
   data: CountryEmissionsData[];
 }
 
+export type SortBy = 'country' | 'population';
+export type SortMethod = 'asc' | 'desc';
+
 export interface CountryEmissionsData {
   year: number;
   population?: number;
