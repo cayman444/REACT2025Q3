@@ -1,55 +1,88 @@
 import type {
-  CountryEmissionsData,
+  IActualCountriesData,
   ICountryEmissions,
+  ICountryFormateActualData,
+  ICountryFormateData,
   SortBy,
   SortMethod,
 } from '@/types/countriesEmissionsTypes';
 
-export interface IActualCountriesData {
-  data: ICountryEmissions;
-  search?: string;
-  sortBy: SortBy;
-  sortMethod: SortMethod;
-}
+export const getActualCountriesData = ({
+  data,
+  search,
+  year,
+  sortBy,
+  sortMethod,
+}: IActualCountriesData) => {
+  const formateData = getFormateData(data);
+  const actualCountriesYear = getActualCountriesYear(formateData, year);
+  const dataBySearch = getDataBySearch(actualCountriesYear, search);
+  const sortedData = sortingData(dataBySearch, sortBy, sortMethod);
 
-export const getActualCountryData = (
-  data: CountryEmissionsData[],
-  year?: number
-): CountryEmissionsData => {
-  const lastYearPart = data[data.length - 1];
-  if (!year) return lastYearPart;
-
-  const actualData = data.find((part) => part.year === year);
-
-  return actualData ?? lastYearPart;
+  return sortedData;
 };
 
-export const getActualCountriesData = (data: IActualCountriesData) => {
-  const actualData = sortingData(data);
+const getActualCountriesYear = (
+  data: ICountryFormateData[],
+  year?: number
+): ICountryFormateActualData[] => {
+  const lastYearsData: ICountryFormateActualData[] = data.map(
+    ({ code, country, data }) => ({
+      country,
+      code,
+      data: data[data.length - 1],
+    })
+  );
 
-  if (!data.search) return actualData;
+  if (!year) return lastYearsData;
 
-  return actualData.filter(([countryName]) => {
-    return countryName
-      .toLowerCase()
-      .includes((data.search as string).toLowerCase());
+  return data.map(({ code, country, data }) => ({
+    country,
+    code,
+    data: data.find((part) => part.year === year) ?? data[data.length - 1],
+  }));
+};
+
+const getDataBySearch = (
+  data: ICountryFormateActualData[],
+  search?: string
+) => {
+  if (!search) return data;
+
+  return data.filter(({ country }) => {
+    return country.toLowerCase().includes(search.toLowerCase());
   });
 };
 
-const sortingData = ({
-  data,
-  sortBy,
-  sortMethod,
-}: Omit<IActualCountriesData, 'search'>) => {
-  const formatData = Object.entries(data);
-
+const sortingData = (
+  data: ICountryFormateActualData[],
+  sortBy: SortBy,
+  sortMethod: SortMethod
+) => {
   if (sortBy === 'country') {
-    return formatData.sort((a, b) => {
+    return data.sort((a, b) => {
       return sortMethod === 'asc'
-        ? a[0].toLowerCase().localeCompare(b[0].toLowerCase())
-        : b[0].toLowerCase().localeCompare(a[0].toLowerCase());
+        ? a.country.toLowerCase().localeCompare(b.country.toLowerCase())
+        : b.country.toLowerCase().localeCompare(a.country.toLowerCase());
     });
   }
 
-  return formatData;
+  if (sortBy === 'population') {
+    return data.sort((a, b) => {
+      const aValue = a.data[sortBy] ?? 0;
+      const bValue = b.data[sortBy] ?? 0;
+
+      return sortMethod === 'asc' ? aValue - bValue : bValue - aValue;
+    });
+  }
+
+  return data;
+};
+
+const getFormateData = (data: ICountryEmissions): ICountryFormateData[] => {
+  return Object.entries(data).map(([country, data]) => ({
+    country,
+    code: data.iso_code,
+    data: data.data,
+  }));
 };

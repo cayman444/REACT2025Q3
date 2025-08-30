@@ -1,24 +1,22 @@
 import { useEffect, useState, type FC } from 'react';
 import { useAppSelector } from '@/store';
-import type { CountryEmissionsInfo } from '@/types/countriesEmissionsTypes';
-import { getActualCountryData } from '@/utils/getActualData';
+import type { CountryEmissionsData } from '@/types/countriesEmissionsTypes';
 
 interface CountryEmissionsProps {
-  countryName: string;
-  data: CountryEmissionsInfo;
+  data: CountryEmissionsData;
+  country: string;
+  code?: string;
 }
 
 export const CountryEmissions: FC<CountryEmissionsProps> = ({
-  countryName,
-  data: { iso_code, data },
+  country,
+  code,
+  data: actualData,
 }) => {
-  const {
-    data: countriesInfo,
-    selectYear,
-    isFilteringByYear,
-  } = useAppSelector((state) => state.countriesInfo);
+  const { data: countriesInfo, isFilteringByYear } = useAppSelector(
+    (state) => state.countriesInfo
+  );
 
-  const actualData = getActualCountryData(data, selectYear);
   const [activeClass, setActiveClass] = useState(false);
 
   useEffect(() => {
@@ -35,8 +33,8 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
 
   return (
     <tr>
-      <td className="p-1 border-1 border-gray-300">{iso_code ?? 'N/A'}</td>
-      <td className="p-1 border-1 border-gray-300">{countryName}</td>
+      <td className="p-1 border-1 border-gray-300">{code ?? 'N/A'}</td>
+      <td className="p-1 border-1 border-gray-300">{country}</td>
       {countriesInfo.map(({ field, isAvailable }) => {
         if (!field || !isAvailable) return;
 

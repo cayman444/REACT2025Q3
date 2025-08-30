@@ -9,11 +9,12 @@ import { CountrySearch } from './CountrySearch';
 import CountriesSort from './CountriesSort';
 
 export const TableCountriesEmissions = () => {
-  const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
-  const sorting = useAppSelector((state) => state.countriesInfo.sorting);
-  const searchCountryName = useAppSelector(
-    (state) => state.countriesInfo.searchCountryName
-  );
+  const {
+    data: countriesInfo,
+    searchCountryName,
+    sorting,
+    selectYear,
+  } = useAppSelector((state) => state.countriesInfo);
   const { data: countriesEmissions } = useSuspenseQuery({
     queryKey: ['countriesEmissions'],
     queryFn: getCountriesEmissionsData,
@@ -24,6 +25,7 @@ export const TableCountriesEmissions = () => {
   const actualCountriesData = getActualCountriesData({
     data: countriesEmissions,
     search: searchCountryName,
+    year: selectYear,
     ...sorting,
   });
 
@@ -49,12 +51,8 @@ export const TableCountriesEmissions = () => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {actualCountriesData.map(([countryName, data]) => (
-            <CountryEmissions
-              key={countryName}
-              countryName={countryName}
-              data={data}
-            />
+          {actualCountriesData.map((data) => (
+            <CountryEmissions key={data.country} {...data} />
           ))}
         </tbody>
       </table>

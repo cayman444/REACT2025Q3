@@ -19,3 +19,21 @@ export interface CountryEmissionsData {
   oil_co2?: number;
   temperature_change_from_co2?: number;
 }
+
+export interface IActualCountriesData {
+  data: ICountryEmissions;
+  sortBy: SortBy;
+  sortMethod: SortMethod;
+  search?: string;
+  year?: number;
+}
+export interface ICountryFormateData {
+  country: string;
+  code: string | undefined;
+  data: CountryEmissionsData[];
+}
+export interface ICountryFormateActualData {
+  country: string;
+  code: string | undefined;
+  data: CountryEmissionsData;
+}
