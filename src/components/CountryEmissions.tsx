@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from 'react';
 import { useAppSelector } from '@/store';
 import type { CountryEmissionsInfo } from '@/types/countriesEmissionsTypes';
-import { getActualCountryData } from '@/utils/getActualCountryData';
+import { getActualCountryData } from '@/utils/getActualData';
 
 interface CountryEmissionsProps {
   countryName: string;
@@ -15,14 +15,14 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
   const {
     data: countriesInfo,
     selectYear,
-    isFilteringYear,
+    isFilteringByYear,
   } = useAppSelector((state) => state.countriesInfo);
 
   const actualData = getActualCountryData(data, selectYear);
   const [activeClass, setActiveClass] = useState(false);
 
   useEffect(() => {
-    if (isFilteringYear) {
+    if (isFilteringByYear) {
       setActiveClass(true);
 
       const timer = setTimeout(() => {
@@ -31,7 +31,7 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
 
       return () => clearTimeout(timer);
     }
-  }, [actualData, isFilteringYear]);
+  }, [actualData, isFilteringByYear]);
 
   return (
     <tr>

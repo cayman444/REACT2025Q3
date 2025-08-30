@@ -1,12 +1,17 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
+import { getActualCountriesData } from '@/utils/getActualData';
 import { useAppSelector } from '@/store';
 import { CountryEmissions } from './CountryEmissions';
 import { AvailableDataModal } from './AvailableDataModal';
 import { SelectYear } from './SelectYear';
+import { CountrySearch } from './CountrySearch';
 
 export const TableCountriesEmissions = () => {
   const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
+  const searchCountryName = useAppSelector(
+    (state) => state.countriesInfo.searchCountryName
+  );
   const { data: countriesEmissions } = useSuspenseQuery({
     queryKey: ['countriesEmissions'],
     queryFn: getCountriesEmissionsData,
@@ -14,9 +19,15 @@ export const TableCountriesEmissions = () => {
 
   console.log(countriesEmissions);
 
+  const actualCountriesData = getActualCountriesData(
+    countriesEmissions,
+    searchCountryName
+  );
+
   return (
     <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto">
       <div className="flex items-center gap-4 text-gray-700">
+        <CountrySearch />
         <SelectYear />
         <AvailableDataModal />
       </div>
@@ -34,7 +45,7 @@ export const TableCountriesEmissions = () => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {Object.entries(countriesEmissions).map(([countryName, data]) => (
+          {actualCountriesData.map(([countryName, data]) => (
             <CountryEmissions
               key={countryName}
               countryName={countryName}

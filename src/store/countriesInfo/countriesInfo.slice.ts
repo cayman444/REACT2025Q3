@@ -4,14 +4,14 @@ import { COUNTRIES_INFO } from './countriesInfo.data';
 
 export interface countriesInfo {
   data: ICountryInfo[];
-  selectYear: number | null;
-  isFilteringYear: boolean;
+  isFilteringByYear: boolean;
+  selectYear?: number;
+  searchCountryName?: string;
 }
 
 const initialState: countriesInfo = {
   data: COUNTRIES_INFO,
-  selectYear: null,
-  isFilteringYear: false,
+  isFilteringByYear: false,
 };
 
 export const countriesInfo = createSlice({
@@ -19,6 +19,7 @@ export const countriesInfo = createSlice({
   initialState,
   reducers: {
     setCountryData: (state, { payload }: PayloadAction<CountrySelect>) => {
+      state.isFilteringByYear = false;
       const countryIndex = state.data.findIndex(
         (country) => country.title === payload.title
       );
@@ -26,11 +27,16 @@ export const countriesInfo = createSlice({
       state.data[countryIndex].isAvailable = payload.isAvailable;
     },
     setSelectYear: (state, { payload }: PayloadAction<number>) => {
-      state.isFilteringYear = true;
+      state.isFilteringByYear = true;
       state.selectYear = payload;
+    },
+    setSearchCountryName: (state, { payload }: PayloadAction<string>) => {
+      state.isFilteringByYear = false;
+      state.searchCountryName = payload;
     },
   },
 });
 
-export const { setCountryData, setSelectYear } = countriesInfo.actions;
+export const { setCountryData, setSelectYear, setSearchCountryName } =
+  countriesInfo.actions;
 export default countriesInfo.reducer;
