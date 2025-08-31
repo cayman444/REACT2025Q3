@@ -1,22 +1,22 @@
 import { useEffect, useState, type FC } from 'react';
-import { useAppSelector } from '@/store';
+import type { ICountryInfo } from '@/store/countriesInfo/countriesInfo.type';
 import type { CountryEmissionsData } from '@/types/countriesEmissionsTypes';
 
 interface CountryEmissionsProps {
   data: CountryEmissionsData;
   country: string;
   code?: string;
+  isFilteringByYear: boolean;
+  countriesInfo: ICountryInfo[];
 }
 
 export const CountryEmissions: FC<CountryEmissionsProps> = ({
   country,
   code,
   data: actualData,
+  isFilteringByYear,
+  countriesInfo,
 }) => {
-  const { data: countriesInfo, isFilteringByYear } = useAppSelector(
-    (state) => state.countriesInfo
-  );
-
   const [activeClass, setActiveClass] = useState(false);
 
   useEffect(() => {

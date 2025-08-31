@@ -14,13 +14,12 @@ export const TableCountriesEmissions = () => {
     searchCountryName,
     sorting,
     selectYear,
+    isFilteringByYear,
   } = useAppSelector((state) => state.countriesInfo);
   const { data: countriesEmissions } = useSuspenseQuery({
     queryKey: ['countriesEmissions'],
     queryFn: getCountriesEmissionsData,
   });
-
-  console.log(countriesEmissions);
 
   const actualCountriesData = getActualCountriesData({
     data: countriesEmissions,
@@ -52,7 +51,12 @@ export const TableCountriesEmissions = () => {
         </thead>
         <tbody className="bg-white">
           {actualCountriesData.map((data) => (
-            <CountryEmissions key={data.country} {...data} />
+            <CountryEmissions
+              key={data.country}
+              isFilteringByYear={isFilteringByYear}
+              countriesInfo={countriesInfo}
+              {...data}
+            />
           ))}
         </tbody>
       </table>
