@@ -24,7 +24,7 @@ export interface ICountriesInfo {
 
 export type CountrySelect = Omit<ICountryInfo, 'field'>;
 
-type DataTitles =
+export type DataTitles =
   | 'ISO'
   | 'Country'
   | 'Year'

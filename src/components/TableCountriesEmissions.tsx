@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getCountriesEmissionsData } from '@/services/countriesEmissionsApi';
 import { getActualCountriesData } from '@/utils/getActualData';
@@ -6,7 +7,7 @@ import { CountryEmissions } from './CountryEmissions';
 import { AvailableDataModal } from './AvailableDataModal';
 import { SelectYear } from './SelectYear';
 import { CountrySearch } from './CountrySearch';
-import CountriesSort from './CountriesSort';
+import { CountriesSort } from './CountriesSort';
 
 export const TableCountriesEmissions = () => {
   const {
@@ -21,12 +22,16 @@ export const TableCountriesEmissions = () => {
     queryFn: getCountriesEmissionsData,
   });
 
-  const actualCountriesData = getActualCountriesData({
-    data: countriesEmissions,
-    search: searchCountryName,
-    year: selectYear,
-    ...sorting,
-  });
+  const actualCountriesData = useMemo(
+    () =>
+      getActualCountriesData({
+        data: countriesEmissions,
+        search: searchCountryName,
+        year: selectYear,
+        ...sorting,
+      }),
+    [countriesEmissions, searchCountryName, selectYear, sorting]
+  );
 
   return (
     <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto">

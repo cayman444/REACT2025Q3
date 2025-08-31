@@ -43,7 +43,7 @@
 
 - **Commit Duration:** 3.8s
 - **Render Duration:** 152.3ms
-- **Interactions:** Selecting a year
+- **Interactions:** Adding/removing columns
 
 ### Screenshots
 
@@ -51,3 +51,57 @@
 ![](public/image-6.png)  
 **Ranked Chart:**  
 ![](public/image-7.png)
+
+## After optimization
+
+### Sorting
+
+- **Commit Duration:** 1.2s
+- **Render Duration:** 19.1ms
+- **Interactions:** Sorting
+
+### Screenshots
+
+**Flame Graph:**  
+![](public/image-8.png)  
+**Ranked Chart:**  
+![](public/image-9.png)
+
+### Searching a country
+
+- **Commit Duration:** 1.7s
+- **Render Duration:** 3.1ms
+- **Interactions:** Searching a country
+
+### Screenshots
+
+**Flame Graph:**  
+![](public/image-10.png)  
+**Ranked Chart:**  
+![](public/image-11.png)
+
+### Selecting a year
+
+- **Commit Duration:** 1.1s
+- **Render Duration:** 158.5ms
+- **Interactions:** Selecting a year
+
+### Screenshots
+
+**Flame Graph:**  
+![](public/image-12.png)  
+**Ranked Chart:**  
+![](public/image-13.png)
+
+### Adding/removing columns
+
+- **Commit Duration:** 1.4s
+- **Render Duration:** 191.6ms
+- **Interactions:** Adding/removing columns
+
+### Screenshots
+
+**Flame Graph:**  
+![](public/image-14.png)  
+**Ranked Chart:**  
+![](public/image-15.png)

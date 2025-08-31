@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { memo, useEffect, useState, type FC } from 'react';
 import type { ICountryInfo } from '@/store/countriesInfo/countriesInfo.type';
 import type { CountryEmissionsData } from '@/types/countriesEmissionsTypes';
 
@@ -10,7 +10,7 @@ interface CountryEmissionsProps {
   countriesInfo: ICountryInfo[];
 }
 
-export const CountryEmissions: FC<CountryEmissionsProps> = ({
+export const CountryEmissionsComponent: FC<CountryEmissionsProps> = ({
   country,
   code,
   data: actualData,
@@ -50,3 +50,5 @@ export const CountryEmissions: FC<CountryEmissionsProps> = ({
     </tr>
   );
 };
+
+export const CountryEmissions = memo(CountryEmissionsComponent);

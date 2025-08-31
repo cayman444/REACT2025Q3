@@ -1,8 +1,16 @@
+import { memo, useCallback, type ChangeEvent } from 'react';
 import { useAppDispatch } from '@/store';
 import { setSelectYear } from '@/store/countriesInfo';
 
-export const SelectYear = () => {
+const SelectYearComponent = () => {
   const dispatch = useAppDispatch();
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      dispatch(setSelectYear(+e.target.value));
+    },
+    [dispatch]
+  );
 
   return (
     <label className="flex items-center gap-2">
@@ -10,7 +18,7 @@ export const SelectYear = () => {
       <select
         name="year-select"
         defaultValue="2023"
-        onChange={(e) => dispatch(setSelectYear(+e.target.value))}
+        onChange={handleChange}
         className="border-2 rounded text-gray-700 border-gray-300 focus:border-blue-500 outline-0 px-2 py-1 transition-colors cursor-pointer"
       >
         <option value="2023">2023</option>
@@ -20,3 +28,5 @@ export const SelectYear = () => {
     </label>
   );
 };
+
+export const SelectYear = memo(SelectYearComponent);

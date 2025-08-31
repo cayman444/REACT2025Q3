@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { memo, useCallback, useState, type ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
+import type { DataTitles } from '@/store/countriesInfo/countriesInfo.type';
 import { setCountryData } from '@/store/countriesInfo';
 import { SettingsIcon } from './ui/SettingsIcon';
 import { Modal } from './ui/Modal';
 
-export const AvailableDataModal = () => {
+export const AvailableDataModalComponent = () => {
   const dispatch = useAppDispatch();
   const countriesInfo = useAppSelector((state) => state.countriesInfo.data);
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,18 @@ export const AvailableDataModal = () => {
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>, title: DataTitles) => {
+      dispatch(
+        setCountryData({
+          title,
+          isAvailable: e.currentTarget.checked,
+        })
+      );
+    },
+    [dispatch]
+  );
 
   return (
     <>
@@ -30,14 +43,7 @@ export const AvailableDataModal = () => {
                     <input
                       type="checkbox"
                       checked={isAvailable}
-                      onChange={(e) =>
-                        dispatch(
-                          setCountryData({
-                            title,
-                            isAvailable: e.currentTarget.checked,
-                          })
-                        )
-                      }
+                      onChange={(e) => handleChange(e, title)}
                     />
                   </label>
                 </li>
@@ -48,3 +54,5 @@ export const AvailableDataModal = () => {
     </>
   );
 };
+
+export const AvailableDataModal = memo(AvailableDataModalComponent);
